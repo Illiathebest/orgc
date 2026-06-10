@@ -51,3 +51,4 @@ ansible-playbook playbooks/site.yml --check --diff
 - Зміни — лише через Merge Request у `main` (захищена гілка); кожен MR проходить lint → dry-run.
 - Секрети — тільки `ansible-vault` (`group_vars/*/vault.yml`) або protected CI variables.
 - Нетривіальні технологічні рішення — ADR у документації проєкту.
+""  

@@ -1,0 +1,27 @@
+# --- Секрети у відкритому вигляді (НІКОЛИ не комітити) ---
+.env
+*.vault-pass
+vault-pass.txt
+
+# --- Ansible ---
+*.retry
+ansible/collections/
+.ansible/
+
+# --- Terraform / OpenTofu ---
+**/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfplan
+
+# --- Python / кеші ---
+__pycache__/
+.cache/
+*.pyc
+
+# --- IDE / ОС ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

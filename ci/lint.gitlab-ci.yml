@@ -1,0 +1,28 @@
+---
+# Стадія lint: статична перевірка YAML та Ansible-коду.
+# M0: інструменти ставляться через pip у базовий python-образ (з pip-кешем).
+# M1: переїде у власний образ iac-runner з GitLab Registry.
+
+.lint-base:
+  stage: lint
+  image: python:3.12-slim
+  interruptible: true
+  variables:
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+    PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  cache:
+    key: lint-pip-v1
+    paths:
+      - .cache/pip
+
+yamllint:
+  extends: .lint-base
+  script:
+    - pip install --quiet yamllint==1.37.1
+    - yamllint --strict .
+
+ansible-lint:
+  extends: .lint-base
+  script:
+    - pip install --quiet ansible-lint==25.5.0
+    - ansible-lint --strict --show-relpath

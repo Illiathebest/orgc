@@ -1,0 +1,17 @@
+---
+# Найсуворіший профіль ansible-lint — вимога ARCHITECTURE.md §2.6
+profile: production
+
+exclude_paths:
+  - .cache/
+  - .gitlab-ci.yml
+  - ci/
+  - bootstrap/
+  - terraform/
+
+kinds:
+  - playbook: ansible/playbooks/*.yml
+  - inventory: ansible/inventories/**/hosts.yml
+  - vars: ansible/inventories/**/group_vars/**/*.yml
+  - vars: ansible/inventories/**/host_vars/**/*.yml
+  - requirements: ansible/requirements.yml

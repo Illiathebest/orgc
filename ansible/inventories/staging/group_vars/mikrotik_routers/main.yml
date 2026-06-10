@@ -1,0 +1,7 @@
+---
+# MikroTik керується через RouterOS API (модулі community.routeros.api*):
+# модуль сам відкриває з'єднання з ansible_host, тому connection=local.
+# Значення vault_* — у зашифрованому vault.yml цієї ж групи.
+ansible_connection: local
+routeros_api_username: ansible-net
+routeros_api_password: "{{ vault_routeros_api_password }}"

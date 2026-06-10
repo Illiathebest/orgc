@@ -1,0 +1,5 @@
+---
+# Повна конвергенція staging-середовища.
+# M0: лише Linux-хости; network_cisco.yml / network_mikrotik.yml додаються у M3-M4.
+- name: Конвергенція Linux-серверів
+  ansible.builtin.import_playbook: linux.yml

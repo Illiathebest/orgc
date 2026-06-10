@@ -1,0 +1,13 @@
+---
+# Точка входу CI. Логіка стадій — у ci/*.yml (по файлу на стадію).
+# Пайплайн запускається для MR та для default-гілки (main).
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+stages:
+  - lint
+
+include:
+  - local: ci/lint.gitlab-ci.yml

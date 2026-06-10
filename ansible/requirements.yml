@@ -1,0 +1,12 @@
+---
+# Встановлення: ansible-galaxy collection install -r requirements.yml
+# Версії запінено на момент M0 (2026-06); оновлення — свідомим комітом.
+collections:
+  - name: cisco.ios
+    version: 11.4.1
+  - name: community.routeros
+    version: 3.20.0
+  - name: community.docker
+    version: 5.2.1
+  - name: ansible.posix
+    version: 2.2.0

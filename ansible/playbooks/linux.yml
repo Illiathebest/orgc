@@ -1,0 +1,18 @@
+---
+# Базовий плейбук Linux-хостів. У M3 сюди підключаються ролі
+# linux_base / docker_host / app_stack; зараз — перевірка керованості
+# (вона ж smoke-тест інвентаря та SSH-доступу з CI-раннера).
+- name: Перевірка керованості Linux-серверів
+  hosts: linux_servers
+  gather_facts: true
+  become: false
+  tasks:
+    - name: Перевірити доступність хоста через SSH
+      ansible.builtin.ping:
+
+    - name: Показати дистрибутив та версію ОС
+      ansible.builtin.debug:
+        msg: >-
+          {{ ansible_facts['distribution'] }}
+          {{ ansible_facts['distribution_version'] }}
+          ({{ ansible_facts['architecture'] }})

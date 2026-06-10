@@ -1,0 +1,61 @@
+---
+# ctrl-01: GitLab CE + GitLab Runner (M0, ADR-002).
+# Хост: VM 2 vCPU / 8 GB RAM на pve-a (ноутбук, 2 ядра) — тому агресивний
+# тюнінг споживання пам'яті/CPU у GITLAB_OMNIBUS_CONFIG.
+# У M2 цей compose розгортатиметься bootstrap-скриптом; зараз — вручну (runbook 00).
+
+name: ctrl-01
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:18.11.4-ce.0
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: "${GITLAB_HOST}"
+    shm_size: "256m"
+    mem_limit: "6g"
+    ports:
+      - "80:80"          # веб-інтерфейс та git over http
+      - "5050:5050"      # container registry (знадобиться для iac-runner у M1)
+      - "2222:22"        # git over ssh (22 на VM лишається для sshd хоста)
+    environment:
+      TZ: "${TZ}"
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${GITLAB_HOST}'
+        registry_external_url 'http://${GITLAB_HOST}:5050'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        gitlab_rails['time_zone'] = 'Europe/Kyiv'
+
+        # --- Тюнінг під 2 vCPU / 8 GB (ADR-001, M0 §3.4) ---
+        puma['worker_processes'] = 2
+        puma['per_worker_max_memory_mb'] = 1024
+        sidekiq['concurrency'] = 10
+        postgresql['shared_buffers'] = "256MB"
+        postgresql['max_worker_processes'] = 4
+        nginx['worker_processes'] = 2
+
+        # Вбудований моніторинг вимкнено: метрики збиратиме mon-01 ззовні
+        prometheus_monitoring['enable'] = false
+
+        # Невикористовувані компоненти
+        gitlab_kas['enable'] = false
+        gitlab_pages['enable'] = false
+    volumes:
+      - "${GITLAB_HOME}/config:/etc/gitlab"
+      - "${GITLAB_HOME}/logs:/var/log/gitlab"
+      - "${GITLAB_HOME}/data:/var/opt/gitlab"
+    healthcheck:
+      test: ["CMD", "/opt/gitlab/bin/gitlab-healthcheck", "--fail", "--max-time", "10"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 15m   # на 2 ядрах перший старт триває 10+ хвилин
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine-v18.11.3
+    container_name: gitlab-runner
+    restart: unless-stopped
+    mem_limit: "512m"
+    volumes:
+      - "${RUNNER_HOME}/config:/etc/gitlab-runner"
+      - "/var/run/docker.sock:/var/run/docker.sock"

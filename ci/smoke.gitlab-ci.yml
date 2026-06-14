@@ -1,0 +1,18 @@
+---
+# Стадія smoke: read-only перевірка живого RouterOS (RB750) з образу iac-runner.
+# Ручний запуск (when: manual) і ЛИШЕ на default-гілці — щоб protected-змінна
+# ROUTEROS_PASSWORD була доступна, і щоб доступ до залізного пристрою не
+# ініціювався з feature-гілок. Плейбук нічого не змінює (лише читання).
+# allow_failure: true — мережевий збій не валить увесь пайплайн main.
+
+smoke-routeros:
+  stage: smoke
+  image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
+  interruptible: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+  script:
+    - cd ansible
+    - ansible-playbook playbooks/smoke_routeros.yml

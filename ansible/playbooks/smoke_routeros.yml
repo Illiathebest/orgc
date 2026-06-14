@@ -1,0 +1,40 @@
+---
+# Read-only smoke-тест RouterOS (M1, крок 5).
+# Підключається до RB750 (RouterOS 6.48) через community.routeros.api,
+# читає факти й перелік інтерфейсів — НІЧОГО не змінює (лише запити print).
+# Запуск: вручну з iac-runner (CI job smoke-routeros) або локально:
+#   cd ansible && ansible-playbook playbooks/smoke_routeros.yml
+# Облікові дані: routeros_api_username (group_vars) + пароль з vault.yml.
+- name: Read-only smoke-перевірка RouterOS
+  hosts: mikrotik_routers
+  gather_facts: false
+  connection: local
+  module_defaults:
+    group/community.routeros.api:
+      hostname: "{{ ansible_host }}"
+      username: "{{ routeros_api_username }}"
+      password: "{{ routeros_api_password }}"
+      tls: false
+  tasks:
+    - name: Прочитати /system resource
+      community.routeros.api:
+        path: system resource
+      register: ros_resource
+
+    - name: Показати ключові факти пристрою
+      ansible.builtin.debug:
+        msg: >-
+          RouterOS {{ ros_resource.msg[0]['version'] }} ·
+          board {{ ros_resource.msg[0]['board-name'] }} ·
+          uptime {{ ros_resource.msg[0]['uptime'] }} ·
+          free-memory {{ ros_resource.msg[0]['free-memory'] }} ·
+          cpu-load {{ ros_resource.msg[0]['cpu-load'] }}
+
+    - name: Прочитати перелік інтерфейсів
+      community.routeros.api:
+        path: interface
+      register: ros_interfaces
+
+    - name: Показати перелік інтерфейсів
+      ansible.builtin.debug:
+        msg: "{{ ros_interfaces.msg | map(attribute='name') | list }}"

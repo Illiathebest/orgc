@@ -1,0 +1,14 @@
+---
+# Базові правила алертингу (M1 — демонстрація ланцюга Prometheus → Alertmanager).
+# Повний набір правил (host/network/drift) додається в M4.
+groups:
+  - name: basic
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ціль {{ $labels.instance }} недоступна"
+          description: "{{ $labels.job }} / {{ $labels.instance }} не відповідає понад 2 хвилини."

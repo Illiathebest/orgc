@@ -9,7 +9,9 @@ workflow:
 stages:
   - build      # збірка образу iac-runner (Kaniko) → Registry
   - lint       # yamllint + ansible-lint у образі iac-runner
+  - validate   # перевірка organization.yml проти JSON Schema (ADR-005)
 
 include:
   - local: ci/runner-image.gitlab-ci.yml
   - local: ci/lint.gitlab-ci.yml
+  - local: ci/validate.gitlab-ci.yml

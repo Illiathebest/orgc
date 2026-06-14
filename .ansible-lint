@@ -8,6 +8,9 @@ exclude_paths:
   - ci/
   - bootstrap/
   - terraform/
+  - examples/      # моделі organization.yml — валідуються JSON-схемою, не ansible-lint
+  - schema/
+  - docs/
 
 kinds:
   - playbook: ansible/playbooks/*.yml

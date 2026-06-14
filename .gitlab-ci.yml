@@ -7,7 +7,9 @@ workflow:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
-  - lint
+  - build      # збірка образу iac-runner (Kaniko) → Registry
+  - lint       # yamllint + ansible-lint у образі iac-runner
 
 include:
+  - local: ci/runner-image.gitlab-ci.yml
   - local: ci/lint.gitlab-ci.yml

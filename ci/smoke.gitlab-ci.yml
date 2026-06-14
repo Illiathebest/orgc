@@ -9,10 +9,15 @@ smoke-routeros:
   stage: smoke
   image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
   interruptible: true
+  variables:
+    # GitLab клонує репозиторій у world-writable каталог, і Ansible з міркувань
+    # безпеки ігнорує ansible.cfg у такому каталозі. Тому вказуємо конфіг явно
+    # (ANSIBLE_CONFIG) і передаємо інвентар прямо в команду (-i).
+    ANSIBLE_CONFIG: "${CI_PROJECT_DIR}/ansible/ansible.cfg"
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual
       allow_failure: true
   script:
     - cd ansible
-    - ansible-playbook playbooks/smoke_routeros.yml
+    - ansible-playbook -i inventories/staging/hosts.yml playbooks/smoke_routeros.yml

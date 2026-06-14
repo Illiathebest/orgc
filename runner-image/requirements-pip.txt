@@ -3,6 +3,10 @@
 # napalm тягнеться як залежність napalm-ros у сумісній для RouterOS v6 версії
 # (точну зафіксовану версію видно у `pip freeze` всередині зібраного образу).
 
+# --- setuptools: дає pkg_resources, який napalm імпортує під час старту
+#     (у python:3.12-slim setuptools більше не передвстановлений) ---
+setuptools==70.3.0
+
 # --- Ansible: рушій + лінтер ---
 ansible-core==2.18.1
 ansible-lint==25.5.0

@@ -1,0 +1,22 @@
+---
+# НАВМИСНО ЗЛАМАНИЙ приклад — негативний тест CI-стадії validate.
+# Це КОРЕКТНИЙ YAML, але він порушує схему одразу в кількох місцях.
+# Очікування: check-jsonschema відхиляє цей файл (job validate-negative —
+# зелений саме тому, що валідація тут МАЄ впасти). Порушення позначені нижче.
+organization: "GREENNET Lab"
+profile: XL                      # ❌ profile поза enum [S, M, L]
+
+sites:
+  - name: HQ_Site               # ❌ ідентифікатор не за патерном (велика літера, '_' на початку ок, але велика — ні)
+    networks:
+      - { vlan: 9999, name: mgmt, cidr: 192.168.10.0/24 }      # ❌ vlan > 4094
+      - { vlan: 20, name: users, cidr: 192.168.20.0/33 }       # ❌ некоректний CIDR (/33)
+    devices:
+      - { name: rb750, type: huawei, role: edge_router, mgmt_ip: 192.168.10.1 }   # ❌ type поза enum
+      - { name: sw-01, type: cisco_ios, role: access_switch }                     # ❌ відсутній обовʼязковий mgmt_ip
+    servers:
+      - { name: ctrl-01, role: docker_host, ip: 999.1.1.1 }    # ❌ role має бути масивом; ip некоректний
+
+modules:
+  network_fabric: true
+  unknown_module: true          # ❌ невідомий ключ (additionalProperties: false)

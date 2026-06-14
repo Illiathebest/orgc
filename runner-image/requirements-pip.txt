@@ -1,0 +1,26 @@
+# Python-тулінг образу iac-runner (M1 pin set, 2026-06).
+# Версії запінено для відтворюваності; оновлення — свідомим комітом.
+# napalm тягнеться як залежність napalm-ros у сумісній для RouterOS v6 версії
+# (точну зафіксовану версію видно у `pip freeze` всередині зібраного образу).
+
+# --- Ansible: рушій + лінтер ---
+ansible-core==2.18.1
+ansible-lint==25.5.0
+
+# --- Лінтери конфігурацій ---
+yamllint==1.37.1
+
+# --- Валідація моделі даних (ADR-005) ---
+check-jsonschema==0.37.2
+
+# --- Мережа: NAPALM-драйвер RouterOS (M3-M4 валідація) ---
+napalm-ros==1.2.6
+
+# --- Мережа: бібліотека RouterOS API (community.routeros.api) ---
+librouteros==3.4.1
+
+# --- Транспорт network_cli (Cisco IOS, SSH) ---
+paramiko==3.5.0
+
+# --- Фільтр json_query у плейбуках/шаблонах ---
+jmespath==1.0.1

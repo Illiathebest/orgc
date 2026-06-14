@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://greennet.ua/iac/organization.schema.json",
+  "title": "Модель організації (Infrastructure-in-a-Box)",
+  "description": "Декларативний опис організації (Organization-as-Data, CONCEPT §2). З цієї моделі платформа генерує інвентарі та конфігурації. Контракт валідується в CI (ADR-005).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["organization", "profile", "sites"],
+  "properties": {
+    "organization": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Назва організації",
+      "description": "Людська назва компанії-власника інфраструктури."
+    },
+    "profile": {
+      "title": "Профіль масштабування",
+      "description": "S — малий офіс (усе на одному вузлі); M — кілька сайтів; L — корпорація. Визначає топологію control plane (CONCEPT §4).",
+      "enum": ["S", "M", "L"]
+    },
+    "sites": {
+      "type": "array",
+      "minItems": 1,
+      "title": "Майданчики (сайти)",
+      "description": "Фізичні локації організації. Кожен сайт має власні мережі, пристрої та сервери.",
+      "items": { "$ref": "#/$defs/site" }
+    },
+    "policies": {
+      "title": "Політики безпеки",
+      "$ref": "#/$defs/policies"
+    },
+    "modules": {
+      "title": "Функціональні модулі",
+      "$ref": "#/$defs/modules"
+    }
+  },
+  "$defs": {
+    "ipv4": {
+      "type": "string",
+      "title": "IPv4-адреса",
+      "description": "Адреса у форматі a.b.c.d (кожен октет 0–255).",
+      "pattern": "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
+    },
+    "cidr": {
+      "type": "string",
+      "title": "Мережа у нотації CIDR",
+      "description": "Підмережа у форматі a.b.c.d/префікс (префікс 0–32).",
+      "pattern": "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])/(3[0-2]|[12]?[0-9])$"
+    },
+    "identifier": {
+      "type": "string",
+      "title": "Технічний ідентифікатор",
+      "description": "Малі латинські літери, цифри, дефіс та підкреслення; починається з літери.",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "networks"],
+      "properties": {
+        "name": {
+          "title": "Назва сайту",
+          "$ref": "#/$defs/identifier"
+        },
+        "networks": {
+          "type": "array",
+          "minItems": 1,
+          "title": "Мережі сайту (VLAN-сегменти)",
+          "items": { "$ref": "#/$defs/network" }
+        },
+        "devices": {
+          "type": "array",
+          "title": "Мережеві пристрої сайту",
+          "items": { "$ref": "#/$defs/device" }
+        },
+        "servers": {
+          "type": "array",
+          "title": "Сервери сайту",
+          "items": { "$ref": "#/$defs/server" }
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vlan", "name", "cidr"],
+      "properties": {
+        "vlan": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4094,
+          "title": "Номер VLAN",
+          "description": "Тег VLAN у діапазоні 1–4094."
+        },
+        "name": {
+          "title": "Назва сегмента",
+          "description": "Логічна роль сегмента, напр. mgmt, users, servers, guest.",
+          "$ref": "#/$defs/identifier"
+        },
+        "cidr": { "$ref": "#/$defs/cidr" },
+        "isolated": {
+          "type": "boolean",
+          "title": "Ізольований сегмент",
+          "description": "true — трафік сегмента ізольовано (типово для guest)."
+        }
+      }
+    },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "role", "mgmt_ip"],
+      "properties": {
+        "name": {
+          "title": "Імʼя пристрою",
+          "$ref": "#/$defs/identifier"
+        },
+        "type": {
+          "title": "Тип пристрою",
+          "description": "Платформа автоматизації: mikrotik (RouterOS) або cisco_ios.",
+          "enum": ["mikrotik", "cisco_ios"]
+        },
+        "role": {
+          "title": "Роль пристрою",
+          "description": "Призначення у топології.",
+          "enum": ["edge_router", "access_switch", "core_switch", "distribution_switch", "firewall"]
+        },
+        "mgmt_ip": {
+          "title": "Management-адреса",
+          "description": "IP керування (доступний лише з mgmt VLAN).",
+          "$ref": "#/$defs/ipv4"
+        }
+      }
+    },
+    "server": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "role", "ip"],
+      "properties": {
+        "name": {
+          "title": "Імʼя сервера",
+          "$ref": "#/$defs/identifier"
+        },
+        "role": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "title": "Ролі сервера",
+          "description": "Одна або кілька ролей навантаження.",
+          "items": {
+            "enum": ["docker_host", "monitoring", "siem", "identity", "app"]
+          }
+        },
+        "ip": {
+          "title": "IP-адреса сервера",
+          "$ref": "#/$defs/ipv4"
+        }
+      }
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Політики, що описують дозволений/заборонений трафік. За замовчуванням між VLAN діє default-deny — правила лише відкривають потрібне (CONCEPT §6).",
+      "properties": {
+        "inter_vlan": {
+          "type": "array",
+          "title": "Правила міжмережевого доступу",
+          "items": { "$ref": "#/$defs/inter_vlan_rule" }
+        }
+      }
+    },
+    "inter_vlan_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to", "action"],
+      "properties": {
+        "from": {
+          "type": "string",
+          "minLength": 1,
+          "title": "Джерело",
+          "description": "Назва мережі-джерела або 'any'."
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1,
+          "title": "Призначення",
+          "description": "Назва мережі-призначення або 'any'."
+        },
+        "ports": {
+          "type": "array",
+          "title": "TCP/UDP-порти",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 65535
+          }
+        },
+        "action": {
+          "title": "Дія",
+          "enum": ["allow", "deny"]
+        },
+        "except": {
+          "type": "string",
+          "title": "Виняток",
+          "description": "Напр. 'internet' — дозволити лише вихід в інтернет."
+        }
+      }
+    },
+    "modules": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Прапорці вмикання функціональних модулів L2 (CONCEPT §3). Кожен вмикається незалежно.",
+      "properties": {
+        "network_fabric": {
+          "type": "boolean",
+          "title": "Network Fabric",
+          "description": "VLAN, ACL/firewall, VPN; Cisco/MikroTik з коду."
+        },
+        "security_observability": {
+          "type": "boolean",
+          "title": "Security & Observability",
+          "description": "Prometheus/Grafana/Loki, логи, Wazuh SIEM, drift detection."
+        },
+        "server_services": {
+          "type": "boolean",
+          "title": "Server & Services",
+          "description": "Hardening ОС, Docker-платформа, типові сервіси."
+        },
+        "identity_access": {
+          "type": "boolean",
+          "title": "Identity & Access",
+          "description": "FreeIPA + Keycloak (Linux-first), адаптер Samba AD."
+        }
+      }
+    }
+  }
+}

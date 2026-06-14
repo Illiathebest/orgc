@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=../schema/organization.schema.json
+# Приклад моделі організації — профіль M (кілька сайтів).
+# Відповідає двовузловому стенду: HQ на pve-a і філія на pve-b,
+# зʼєднані WireGuard-тунелем (CONCEPT §4, hw-handoff §3).
+organization: "GREENNET Lab"
+profile: M
+
+sites:
+  - name: hq
+    networks:
+      - { vlan: 10, name: mgmt, cidr: 192.168.10.0/24 }
+      - { vlan: 20, name: users, cidr: 192.168.20.0/24 }
+      - { vlan: 30, name: servers, cidr: 192.168.30.0/24 }
+      - { vlan: 40, name: guest, cidr: 192.168.40.0/24, isolated: true }
+    devices:
+      - { name: rb750, type: mikrotik, role: edge_router, mgmt_ip: 192.168.10.1 }
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11 }
+
+  - name: branch
+    networks:
+      - { vlan: 110, name: mgmt, cidr: 192.168.110.0/24 }
+      - { vlan: 120, name: users, cidr: 192.168.120.0/24 }
+      - { vlan: 130, name: servers, cidr: 192.168.130.0/24 }
+    devices:
+      - { name: sw-branch-01, type: cisco_ios, role: access_switch, mgmt_ip: 192.168.110.2 }
+    servers:
+      - { name: app-branch-01, role: [docker_host, app], ip: 192.168.130.10 }
+
+policies:
+  inter_vlan:
+    - { from: users, to: servers, ports: [443, 22], action: allow }
+    - { from: guest, to: any, action: deny, except: internet }
+
+modules:
+  network_fabric: true
+  security_observability: true
+  server_services: true
+  identity_access: false

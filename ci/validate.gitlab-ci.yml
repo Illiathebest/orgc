@@ -1,0 +1,35 @@
+---
+# Стадія validate: перевірка моделі організації проти JSON Schema (ADR-005).
+# Виконується в образі iac-runner (check-jsonschema вже всередині).
+#
+# Два напрямки (DoD M1):
+#   validate          — коректні приклади МАЮТЬ проходити;
+#   validate-negative — навмисно зламаний приклад МАЄ бути відхилений
+#                       (job зелений саме тоді, коли валідація впала).
+
+.validate-base:
+  stage: validate
+  image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
+  interruptible: true
+  variables:
+    SCHEMA: schema/organization.schema.json
+
+validate:
+  extends: .validate-base
+  script:
+    - >
+      check-jsonschema --schemafile "${SCHEMA}"
+      examples/organization.s-profile.yml
+      examples/organization.m-profile.yml
+
+validate-negative:
+  extends: .validate-base
+  script:
+    - |
+      if check-jsonschema --schemafile "${SCHEMA}" examples/organization.broken.yml; then
+        echo "ПОМИЛКА: зламаний приклад пройшов валідацію, хоча мав бути відхилений."
+        exit 1
+      else
+        echo "OK: схема коректно відхилила зламаний приклад (негативний тест пройдено)."
+        exit 0
+      fi

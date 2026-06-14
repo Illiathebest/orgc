@@ -1,0 +1,50 @@
+---
+# Збірка образу iac-runner і публікація в GitLab Container Registry.
+#
+# Kaniko (без docker-in-docker): executor працює як звичайний job-образ і не
+# потребує привілейованого docker.sock — будує та пушить образ сам.
+# Registry на стенді — HTTP без TLS (M0: registry_external_url http://...:5050),
+# тому потрібен прапорець --insecure.
+#
+# Теги: <git short SHA> — завжди; latest — лише на default-гілці (main),
+# щоб незлита feature-гілка не перезаписувала робочий образ для lint/validate.
+#
+# Запуск: автоматично при зміні Dockerfile / requirements / цього файлу;
+# в інших випадках доступний кнопкою (manual), щоб перезібрати образ будь-коли.
+# Аутентифікація — вбудованими CI_REGISTRY_USER / CI_REGISTRY_PASSWORD
+# (gitlab-ci-token), окремих секретів не потрібно.
+
+build-iac-runner:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  variables:
+    IMAGE: "${CI_REGISTRY_IMAGE}/iac-runner"
+  script:
+    - mkdir -p /kaniko/.docker
+    - |
+      cat > /kaniko/.docker/config.json <<EOF
+      {"auths":{"${CI_REGISTRY}":{"username":"${CI_REGISTRY_USER}","password":"${CI_REGISTRY_PASSWORD}"}}}
+      EOF
+    - |
+      DESTINATIONS="--destination ${IMAGE}:${CI_COMMIT_SHORT_SHA}"
+      if [ "${CI_COMMIT_BRANCH}" = "${CI_DEFAULT_BRANCH}" ]; then
+        DESTINATIONS="${DESTINATIONS} --destination ${IMAGE}:latest"
+      fi
+      /kaniko/executor \
+        --context "${CI_PROJECT_DIR}" \
+        --dockerfile "${CI_PROJECT_DIR}/runner-image/Dockerfile" \
+        ${DESTINATIONS} \
+        --insecure \
+        --cache=false
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - runner-image/Dockerfile
+        - runner-image/requirements-pip.txt
+        - ansible/requirements.yml
+        - ci/runner-image.gitlab-ci.yml
+      when: on_success
+    - when: manual
+      allow_failure: true

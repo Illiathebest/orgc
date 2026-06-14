@@ -1,12 +1,21 @@
 ---
+# Колекції Ansible для образу iac-runner (M1).
 # Встановлення: ansible-galaxy collection install -r requirements.yml
-# Версії запінено на момент M0 (2026-06); оновлення — свідомим комітом.
+# Версії запінено (M1 pin set, 2026-06); оновлення — свідомим комітом.
 collections:
+  # Мережа — Cisco IOS (network_cli). Потребує ansible.netcommon >= 8.5.2.
   - name: cisco.ios
     version: 11.4.1
+  # Мережа — спільні плагіни network_cli / persistent connection
+  # (явно зафіксовано під вимогу cisco.ios 11.4.1).
+  - name: ansible.netcommon
+    version: 8.5.2
+  # Мережа — MikroTik RouterOS (HTTP/HTTPS API + network_cli). Ціль: RB750 v6.48.
   - name: community.routeros
     version: 3.20.0
+  # Linux/сервіси — керування Docker та контейнерами.
   - name: community.docker
     version: 5.2.1
+  # Linux — базові posix-модулі (sysctl, mount, authorized_key тощо).
   - name: ansible.posix
     version: 2.2.0

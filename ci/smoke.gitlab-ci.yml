@@ -4,16 +4,15 @@
 # ROUTEROS_PASSWORD була доступна, і щоб доступ до залізного пристрою не
 # ініціювався з feature-гілок. Плейбук нічого не змінює (лише читання).
 # allow_failure: true — мережевий збій не валить увесь пайплайн main.
+#
+# Інвентар передаємо явно через -i: GitLab клонує репо в world-writable каталог,
+# тож ansible.cfg там ігнорується (а отже не тягне vault_password_file, який у
+# M1 ще не потрібен — креди беремо зі змінної середовища ROUTEROS_PASSWORD).
 
 smoke-routeros:
   stage: smoke
   image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
   interruptible: true
-  variables:
-    # GitLab клонує репозиторій у world-writable каталог, і Ansible з міркувань
-    # безпеки ігнорує ansible.cfg у такому каталозі. Тому вказуємо конфіг явно
-    # (ANSIBLE_CONFIG) і передаємо інвентар прямо в команду (-i).
-    ANSIBLE_CONFIG: "${CI_PROJECT_DIR}/ansible/ansible.cfg"
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: manual

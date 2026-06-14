@@ -1,0 +1,13 @@
+---
+# Alertmanager (mon-01). M1 — мінімальна маршрутизація: усі алерти у приймач
+# "null" (нікуди не надсилаються, лише видно в UI :9093). Реальні приймачі
+# (email/telegram/webhook) і маршрути за severity — у M4.
+route:
+  receiver: "null"
+  group_by: ["alertname"]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+receivers:
+  - name: "null"

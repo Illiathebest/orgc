@@ -1,28 +1,23 @@
 ---
 # Стадія lint: статична перевірка YAML та Ansible-коду.
-# M0: інструменти ставляться через pip у базовий python-образ (з pip-кешем).
-# M1: переїде у власний образ iac-runner з GitLab Registry.
+# M1: виконується в образі iac-runner з Registry — інструменти вже всередині,
+# тому жодних `pip install` у job (відтворюваність + швидкість).
+#
+# Передумова: образ зібрано (ci/runner-image.gitlab-ci.yml) і лежить як :latest;
+# хост-раннер ctrl-01 тягне insecure-registry — 192.168.1.50:5050 додано в
+# insecure-registries файла /etc/docker/daemon.json.
 
 .lint-base:
   stage: lint
-  image: python:3.12-slim
+  image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
   interruptible: true
-  variables:
-    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-    PIP_DISABLE_PIP_VERSION_CHECK: "1"
-  cache:
-    key: lint-pip-v1
-    paths:
-      - .cache/pip
 
 yamllint:
   extends: .lint-base
   script:
-    - pip install --quiet yamllint==1.37.1
     - yamllint --strict .
 
 ansible-lint:
   extends: .lint-base
   script:
-    - pip install --quiet ansible-lint==25.5.0
     - ansible-lint --strict --show-relpath

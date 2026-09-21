@@ -3,20 +3,45 @@
 # Це КОРЕКТНИЙ YAML, але він порушує схему одразу в кількох місцях.
 # Очікування: check-jsonschema відхиляє цей файл (job validate-negative —
 # зелений саме тому, що валідація тут МАЄ впасти). Порушення позначені нижче.
+#
+# ❌ ПОРУШЕННЯ №1 (нове): відсутній обовʼязковий блок control_node верхнього
+#    рівня — без нього нема з чого починати перевірку досяжності управління.
 organization: "Навчальна лабораторія"
-profile: XL                      # ❌ profile поза enum [S, M, L]
+profile: L                       # ❌ №2: profile поза enum [S, M] — 'L' прибрано зі схеми
 
 sites:
-  - name: HQ_Site               # ❌ ідентифікатор не за патерном (велика літера, '_' на початку ок, але велика — ні)
+  - name: HQ_Site                # ❌ №3: назва сайту не за патерном identifier (велика літера)
+    allow_overlap: yes-please    # ❌ №4: allow_overlap має бути булевим
+    uplinks:
+      - { name: isp-main, kind: secondary }                   # ❌ №5: kind поза enum [primary, backup]
     networks:
-      - { vlan: 9999, name: mgmt, cidr: 192.168.10.0/24 }      # ❌ vlan > 4094
-      - { vlan: 20, name: users, cidr: 192.168.20.0/33 }       # ❌ некоректний CIDR (/33)
+      # ❌ №6: vlan > 4094
+      - { vlan: 9999, name: mgmt, role: mgmt, cidr: 192.168.10.0/24 }
+      # ❌ №7: некоректний CIDR (/33)
+      - { vlan: 20, name: users, role: users, cidr: 192.168.20.0/33 }
+      # ❌ №8 (нове): network.role поза enum [mgmt, users, servers, guest]
+      - { vlan: 30, name: servers, role: backup, cidr: 192.168.30.0/24 }
+      # ❌ №9: відсутня обовʼязкова network.role
+      - { vlan: 40, name: guest, cidr: 192.168.40.0/24, isolated: true }
+      # ❌ №10: межа dhcp_pool не є коректною IPv4-адресою
+      - vlan: 50
+        name: lab
+        role: users
+        cidr: 192.168.50.0/24
+        gateway: 192.168.50.1
+        dhcp_pool: { from: 192.168.50.100, to: 192.168.50.300 }
     devices:
-      - { name: rb750, type: huawei, role: edge_router, mgmt_ip: 192.168.10.1 }   # ❌ type поза enum
-      - { name: sw-01, type: cisco_ios, role: access_switch }                     # ❌ відсутній обовʼязковий mgmt_ip
+      # ❌ №11: type поза enum [mikrotik, arista_eos, cisco_ios]
+      - { name: rb750, type: huawei, os_version: "6.48", role: edge_router, mgmt_ip: 192.168.10.1 }
+      # ❌ №12: відсутній обовʼязковий mgmt_ip
+      - { name: sw-01, type: arista_eos, role: access_switch }
     servers:
-      - { name: ctrl-01, role: docker_host, ip: 999.1.1.1 }    # ❌ role має бути масивом; ip некоректний
+      # ❌ №13: role має бути масивом; ip некоректний
+      - { name: ctrl-01, role: docker_host, ip: 999.1.1.1 }
+      # ❌ №14: 'siem' прибрано з enum ролей сервера
+      - { name: sec-01, role: [siem], ip: 192.168.30.20 }
 
 modules:
   network_fabric: true
-  unknown_module: true          # ❌ невідомий ключ (additionalProperties: false)
+  identity_access: true          # ❌ №15: модуль прибрано зі схеми (additionalProperties: false)
+  unknown_module: true           # ❌ №16: невідомий ключ (additionalProperties: false)

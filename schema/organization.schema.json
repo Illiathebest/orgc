@@ -2,10 +2,10 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orgc:organization-schema",
   "title": "Модель організації (Infrastructure-in-a-Box)",
-  "description": "Декларативний опис організації (Organization-as-Data, CONCEPT §2). З цієї моделі платформа генерує інвентарі та конфігурації. Контракт валідується в CI (ADR-005).",
+  "description": "Декларативний опис організації (Organization-as-Data). З цієї моделі компілятор orgc генерує інвентарі та конфігурації. Схема — frontend компілятора; семантику перевіряють інваріанти E001-E008/W001-W003 (ADR-005).",
   "type": "object",
   "additionalProperties": false,
-  "required": ["organization", "profile", "sites"],
+  "required": ["organization", "profile", "sites", "control_node"],
   "properties": {
     "organization": {
       "type": "string",
@@ -15,8 +15,8 @@
     },
     "profile": {
       "title": "Профіль масштабування",
-      "description": "S — малий офіс (усе на одному вузлі); M — кілька сайтів; L — корпорація. Визначає топологію control plane (CONCEPT §4).",
-      "enum": ["S", "M", "L"]
+      "description": "S — малий офіс (усе на одному вузлі); M — кілька сайтів. Визначає топологію control plane.",
+      "enum": ["S", "M"]
     },
     "sites": {
       "type": "array",
@@ -24,6 +24,11 @@
       "title": "Майданчики (сайти)",
       "description": "Фізичні локації організації. Кожен сайт має власні мережі, пристрої та сервери.",
       "items": { "$ref": "#/$defs/site" }
+    },
+    "control_node": {
+      "title": "Вузол керування",
+      "description": "Вузол, з якого застосовуються конфігурації. Початкова вершина для перевірки досяжності управління (E006).",
+      "$ref": "#/$defs/control_node"
     },
     "policies": {
       "title": "Політики безпеки",
@@ -53,6 +58,27 @@
       "description": "Малі латинські літери, цифри, дефіс та підкреслення; починається з літери.",
       "pattern": "^[a-z][a-z0-9_-]*$"
     },
+    "control_node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["site", "network", "ip"],
+      "properties": {
+        "site": {
+          "title": "Сайт вузла керування",
+          "description": "Назва сайту, у якому розміщено вузол керування (E003).",
+          "$ref": "#/$defs/identifier"
+        },
+        "network": {
+          "title": "Мережа вузла керування",
+          "description": "Назва мережі того самого сайту, до якої підключено вузол керування (E003).",
+          "$ref": "#/$defs/identifier"
+        },
+        "ip": {
+          "title": "IP-адреса вузла керування",
+          "$ref": "#/$defs/ipv4"
+        }
+      }
+    },
     "site": {
       "type": "object",
       "additionalProperties": false,
@@ -62,11 +88,22 @@
           "title": "Назва сайту",
           "$ref": "#/$defs/identifier"
         },
+        "allow_overlap": {
+          "type": "boolean",
+          "title": "Дозволити перетин префіксів",
+          "description": "true — свідомо знімає перевірку неперетину CIDR у межах цього сайту (E001)."
+        },
         "networks": {
           "type": "array",
           "minItems": 1,
           "title": "Мережі сайту (VLAN-сегменти)",
           "items": { "$ref": "#/$defs/network" }
+        },
+        "uplinks": {
+          "type": "array",
+          "title": "Зовнішні канали сайту",
+          "description": "Канали до провайдерів. Сайт профілю M без каналу kind: backup дає попередження (W003).",
+          "items": { "$ref": "#/$defs/uplink" }
         },
         "devices": {
           "type": "array",
@@ -80,28 +117,74 @@
         }
       }
     },
+    "uplink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind"],
+      "properties": {
+        "name": {
+          "title": "Назва каналу",
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "title": "Тип каналу",
+          "description": "primary — основний канал; backup — резервний.",
+          "enum": ["primary", "backup"]
+        }
+      }
+    },
     "network": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["vlan", "name", "cidr"],
+      "required": ["vlan", "name", "cidr", "role"],
       "properties": {
         "vlan": {
           "type": "integer",
           "minimum": 1,
           "maximum": 4094,
           "title": "Номер VLAN",
-          "description": "Тег VLAN у діапазоні 1–4094."
+          "description": "Тег VLAN у діапазоні 1–4094 (унікальний у межах сайту, E002)."
         },
         "name": {
           "title": "Назва сегмента",
-          "description": "Логічна роль сегмента, напр. mgmt, users, servers, guest.",
+          "description": "Технічна назва сегмента, унікальна в межах сайту; на неї посилаються політики (E003).",
           "$ref": "#/$defs/identifier"
         },
+        "role": {
+          "title": "Роль сегмента",
+          "description": "Призначення сегмента: mgmt — мережа керування (ціль перевірки E006), users, servers, guest (W001).",
+          "enum": ["mgmt", "users", "servers", "guest"]
+        },
         "cidr": { "$ref": "#/$defs/cidr" },
+        "gateway": {
+          "title": "Шлюз сегмента",
+          "description": "IP шлюза за замовчуванням. Має належати cidr і лежати поза dhcp_pool (E007).",
+          "$ref": "#/$defs/ipv4"
+        },
+        "dhcp_pool": {
+          "title": "Пул DHCP",
+          "$ref": "#/$defs/dhcp_pool"
+        },
         "isolated": {
           "type": "boolean",
           "title": "Ізольований сегмент",
           "description": "true — трафік сегмента ізольовано (типово для guest)."
+        }
+      }
+    },
+    "dhcp_pool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "description": "Діапазон видачі DHCP. Обидві межі мають належати cidr сегмента (E007).",
+      "properties": {
+        "from": {
+          "title": "Початок діапазону",
+          "$ref": "#/$defs/ipv4"
+        },
+        "to": {
+          "title": "Кінець діапазону",
+          "$ref": "#/$defs/ipv4"
         }
       }
     },
@@ -116,8 +199,14 @@
         },
         "type": {
           "title": "Тип пристрою",
-          "description": "Платформа автоматизації: mikrotik (RouterOS) або cisco_ios.",
-          "enum": ["mikrotik", "cisco_ios"]
+          "description": "Цільова платформа бекенда: mikrotik (RouterOS), arista_eos або cisco_ios.",
+          "enum": ["mikrotik", "arista_eos", "cisco_ios"]
+        },
+        "os_version": {
+          "type": "string",
+          "minLength": 1,
+          "title": "Версія ОС пристрою",
+          "description": "Напр. '6.48' для RouterOS. Визначає набір підтримуваних можливостей платформи (W002)."
         },
         "role": {
           "title": "Роль пристрою",
@@ -126,7 +215,7 @@
         },
         "mgmt_ip": {
           "title": "Management-адреса",
-          "description": "IP керування (доступний лише з mgmt VLAN).",
+          "description": "IP керування; має належати мережі з роллю mgmt (E004).",
           "$ref": "#/$defs/ipv4"
         }
       }
@@ -147,7 +236,7 @@
           "title": "Ролі сервера",
           "description": "Одна або кілька ролей навантаження.",
           "items": {
-            "enum": ["docker_host", "monitoring", "siem", "identity", "app"]
+            "enum": ["docker_host", "monitoring", "app"]
           }
         },
         "ip": {
@@ -159,7 +248,7 @@
     "policies": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Політики, що описують дозволений/заборонений трафік. За замовчуванням між VLAN діє default-deny — правила лише відкривають потрібне (CONCEPT §6).",
+      "description": "Політики, що описують дозволений/заборонений трафік. За замовчуванням між VLAN діє default-deny — правила лише відкривають потрібне (E005).",
       "properties": {
         "inter_vlan": {
           "type": "array",
@@ -208,27 +297,17 @@
     "modules": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Прапорці вмикання функціональних модулів L2 (CONCEPT §3). Кожен вмикається незалежно.",
+      "description": "Прапорці вмикання функціональних модулів. Кожен вмикається незалежно.",
       "properties": {
         "network_fabric": {
           "type": "boolean",
           "title": "Network Fabric",
-          "description": "VLAN, ACL/firewall, VPN; Cisco/MikroTik з коду."
+          "description": "VLAN, ACL/firewall, VPN; MikroTik RouterOS та Arista EOS з коду."
         },
         "security_observability": {
           "type": "boolean",
           "title": "Security & Observability",
-          "description": "Prometheus/Grafana/Loki, логи, Wazuh SIEM, drift detection."
-        },
-        "server_services": {
-          "type": "boolean",
-          "title": "Server & Services",
-          "description": "Hardening ОС, Docker-платформа, типові сервіси."
-        },
-        "identity_access": {
-          "type": "boolean",
-          "title": "Identity & Access",
-          "description": "FreeIPA + Keycloak (Linux-first), адаптер Samba AD."
+          "description": "Prometheus/Grafana/Loki, збір метрик і логів."
         }
       }
     }

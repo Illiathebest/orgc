@@ -2,40 +2,92 @@
 # yaml-language-server: $schema=../schema/organization.schema.json
 # Приклад моделі організації — профіль M (кілька сайтів).
 # Відповідає двовузловому стенду: HQ на pve-a і філія на pve-b,
-# зʼєднані WireGuard-тунелем (CONCEPT §4, hw-handoff §3).
+# зʼєднані WireGuard-тунелем (hw-handoff §3).
 organization: "Навчальна лабораторія"
 profile: M
 
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
 sites:
   - name: hq
+    uplinks:
+      - { name: isp-main, kind: primary }
+      - { name: lte-backup, kind: backup }
     networks:
-      - { vlan: 10, name: mgmt, cidr: 192.168.10.0/24 }
-      - { vlan: 20, name: users, cidr: 192.168.20.0/24 }
-      - { vlan: 30, name: servers, cidr: 192.168.30.0/24 }
-      - { vlan: 40, name: guest, cidr: 192.168.40.0/24, isolated: true }
+      - vlan: 10
+        name: mgmt
+        role: mgmt
+        cidr: 192.168.10.0/24
+        gateway: 192.168.10.1
+      - vlan: 20
+        name: users
+        role: users
+        cidr: 192.168.20.0/24
+        gateway: 192.168.20.1
+        dhcp_pool: { from: 192.168.20.100, to: 192.168.20.200 }
+      - vlan: 30
+        name: servers
+        role: servers
+        cidr: 192.168.30.0/24
+        gateway: 192.168.30.1
+      - vlan: 40
+        name: guest
+        role: guest
+        cidr: 192.168.40.0/24
+        gateway: 192.168.40.1
+        dhcp_pool: { from: 192.168.40.100, to: 192.168.40.200 }
+        isolated: true
     devices:
-      - { name: rb750, type: mikrotik, role: edge_router, mgmt_ip: 192.168.10.1 }
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.10.1
     servers:
       - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10 }
       - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11 }
 
   - name: branch
+    uplinks:
+      - { name: isp-branch, kind: primary }
+      - { name: lte-branch, kind: backup }
     networks:
-      - { vlan: 110, name: mgmt, cidr: 192.168.110.0/24 }
-      - { vlan: 120, name: users, cidr: 192.168.120.0/24 }
-      - { vlan: 130, name: servers, cidr: 192.168.130.0/24 }
+      - vlan: 110
+        name: mgmt-branch
+        role: mgmt
+        cidr: 192.168.110.0/24
+        gateway: 192.168.110.1
+      - vlan: 120
+        name: users-branch
+        role: users
+        cidr: 192.168.120.0/24
+        gateway: 192.168.120.1
+        dhcp_pool: { from: 192.168.120.100, to: 192.168.120.200 }
+      - vlan: 130
+        name: servers-branch
+        role: servers
+        cidr: 192.168.130.0/24
+        gateway: 192.168.130.1
     devices:
-      - { name: sw-branch-01, type: cisco_ios, role: access_switch, mgmt_ip: 192.168.110.2 }
+      - name: sw-branch-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.110.2
     servers:
       - { name: app-branch-01, role: [docker_host, app], ip: 192.168.130.10 }
 
 policies:
   inter_vlan:
+    - { from: servers, to: mgmt, ports: [22], action: allow }
+    - { from: servers, to: mgmt-branch, ports: [22], action: allow }
     - { from: users, to: servers, ports: [443, 22], action: allow }
+    - { from: users-branch, to: servers-branch, ports: [443, 22], action: allow }
     - { from: guest, to: any, action: deny, except: internet }
 
 modules:
   network_fabric: true
   security_observability: true
-  server_services: true
-  identity_access: false

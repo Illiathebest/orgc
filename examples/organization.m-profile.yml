@@ -80,14 +80,18 @@ sites:
     servers:
       - { name: app-branch-01, role: [docker_host, app], ip: 192.168.130.10 }
 
+# Між сегментами діє default-deny: усе, чого нема нижче, заборонено.
+# Зокрема guest не має жодного правила до внутрішніх сегментів —
+# саме відсутність правила і є забороною, окремий deny не потрібен.
+# Імена сегментів унікальні в межах усієї моделі, тому мережі філії
+# названо mgmt-branch/users-branch/servers-branch — посилання в правилі
+# йде голим імʼям, без указання сайту.
 policies:
   inter_vlan:
     - { from: servers, to: mgmt, ports: [22], action: allow }
     - { from: servers, to: mgmt-branch, ports: [22], action: allow }
     - { from: users, to: servers, ports: [443, 22], action: allow }
     - { from: users-branch, to: servers-branch, ports: [443, 22], action: allow }
-    - { from: guest, to: any, action: deny, except: internet }
-
-modules:
-  network_fabric: true
-  security_observability: true
+    - { from: users, to: internet, action: allow }
+    - { from: users-branch, to: internet, action: allow }
+    - { from: guest, to: internet, action: allow }

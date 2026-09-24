@@ -4,8 +4,8 @@
 # Очікування: check-jsonschema відхиляє цей файл (job validate-negative —
 # зелений саме тому, що валідація тут МАЄ впасти). Порушення позначені нижче.
 #
-# ❌ ПОРУШЕННЯ №1 (нове): відсутній обовʼязковий блок control_node верхнього
-#    рівня — без нього нема з чого починати перевірку досяжності управління.
+# ❌ №1: відсутній обовʼязковий блок control_node верхнього рівня —
+#    без нього нема з чого починати перевірку досяжності управління (E006).
 organization: "Навчальна лабораторія"
 profile: L                       # ❌ №2: profile поза enum [S, M] — 'L' прибрано зі схеми
 
@@ -19,7 +19,7 @@ sites:
       - { vlan: 9999, name: mgmt, role: mgmt, cidr: 192.168.10.0/24 }
       # ❌ №7: некоректний CIDR (/33)
       - { vlan: 20, name: users, role: users, cidr: 192.168.20.0/33 }
-      # ❌ №8 (нове): network.role поза enum [mgmt, users, servers, guest]
+      # ❌ №8: network.role поза enum [mgmt, users, servers, guest]
       - { vlan: 30, name: servers, role: backup, cidr: 192.168.30.0/24 }
       # ❌ №9: відсутня обовʼязкова network.role
       - { vlan: 40, name: guest, cidr: 192.168.40.0/24, isolated: true }
@@ -31,17 +31,29 @@ sites:
         gateway: 192.168.50.1
         dhcp_pool: { from: 192.168.50.100, to: 192.168.50.300 }
     devices:
-      # ❌ №11: type поза enum [mikrotik, arista_eos, cisco_ios]
+      # ❌ №11: type поза enum [mikrotik, arista_eos]
       - { name: rb750, type: huawei, os_version: "6.48", role: edge_router, mgmt_ip: 192.168.10.1 }
-      # ❌ №12: відсутній обовʼязковий mgmt_ip
+      # ❌ №12: 'cisco_ios' прибрано з enum — бекенда під цю платформу немає
+      - { name: sw-cisco-01, type: cisco_ios, role: access_switch, mgmt_ip: 192.168.10.3 }
+      # ❌ №13: відсутній обовʼязковий mgmt_ip
       - { name: sw-01, type: arista_eos, role: access_switch }
     servers:
-      # ❌ №13: role має бути масивом; ip некоректний
+      # ❌ №14: role має бути масивом; ip некоректний
       - { name: ctrl-01, role: docker_host, ip: 999.1.1.1 }
-      # ❌ №14: 'siem' прибрано з enum ролей сервера
+      # ❌ №15: 'siem' прибрано з enum ролей сервера
       - { name: sec-01, role: [siem], ip: 192.168.30.20 }
 
+policies:
+  inter_vlan:
+    # ❌ №16: action: deny — діє default-deny, правила лише відкривають
+    - { from: guest, to: servers, action: deny }
+    # ❌ №17: невідоме імʼя сегмента. Схема ловить лише порушення патерну
+    #    identifier; синтаксично правильне, але неіснуюче імʼя — робота E003.
+    - { from: Warehouse, to: servers, ports: [443], action: allow }
+    # ❌ №18: поле except прибрано зі схеми (additionalProperties: false)
+    - { from: users, to: any, action: allow, except: internet }
+
+# ❌ №19: невідомий ключ верхнього рівня (additionalProperties: false);
+#    блок modules прибрано зі схеми цілком.
 modules:
   network_fabric: true
-  identity_access: true          # ❌ №15: модуль прибрано зі схеми (additionalProperties: false)
-  unknown_module: true           # ❌ №16: невідомий ключ (additionalProperties: false)

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orgc:organization-schema",
-  "title": "Модель організації (Infrastructure-in-a-Box)",
+  "title": "Модель організації",
   "description": "Декларативний опис організації (Organization-as-Data). З цієї моделі компілятор orgc генерує інвентарі та конфігурації. Схема — frontend компілятора; семантику перевіряють інваріанти E001-E008/W001-W003 (ADR-005).",
   "type": "object",
   "additionalProperties": false,
@@ -33,10 +33,6 @@
     "policies": {
       "title": "Політики безпеки",
       "$ref": "#/$defs/policies"
-    },
-    "modules": {
-      "title": "Функціональні модулі",
-      "$ref": "#/$defs/modules"
     }
   },
   "$defs": {
@@ -147,7 +143,7 @@
         },
         "name": {
           "title": "Назва сегмента",
-          "description": "Технічна назва сегмента, унікальна в межах сайту; на неї посилаються політики (E003).",
+          "description": "Технічна назва сегмента, унікальна в межах усієї моделі, а не лише сайту: політики посилаються на сегмент голим імʼям, без указання сайту, тож однакові імена на різних сайтах зробили б посилання неоднозначним (E003). Імена any та internet зарезервовані.",
           "$ref": "#/$defs/identifier"
         },
         "role": {
@@ -199,8 +195,8 @@
         },
         "type": {
           "title": "Тип пристрою",
-          "description": "Цільова платформа бекенда: mikrotik (RouterOS), arista_eos або cisco_ios.",
-          "enum": ["mikrotik", "arista_eos", "cisco_ios"]
+          "description": "Цільова платформа бекенда: mikrotik (RouterOS) або arista_eos.",
+          "enum": ["mikrotik", "arista_eos"]
         },
         "os_version": {
           "type": "string",
@@ -248,7 +244,7 @@
     "policies": {
       "type": "object",
       "additionalProperties": false,
-      "description": "Політики, що описують дозволений/заборонений трафік. За замовчуванням між VLAN діє default-deny — правила лише відкривають потрібне (E005).",
+      "description": "Політики міжмережевого доступу. Між сегментами діє default-deny: відсутність правила означає заборону, тому правило може лише відкрити потік. Замкненість default-deny перевіряє E005.",
       "properties": {
         "inter_vlan": {
           "type": "array",
@@ -257,22 +253,23 @@
         }
       }
     },
+    "segment_ref": {
+      "title": "Посилання на сегмент",
+      "description": "Імʼя мережі з будь-якого сайту — імена унікальні в межах усієї моделі, тому сайт не вказують (E003). Два імені зарезервовано і не можуть належати мережі: any — усі сегменти моделі; internet — зовнішній світ поза моделлю.",
+      "$ref": "#/$defs/identifier"
+    },
     "inter_vlan_rule": {
       "type": "object",
       "additionalProperties": false,
       "required": ["from", "to", "action"],
       "properties": {
         "from": {
-          "type": "string",
-          "minLength": 1,
           "title": "Джерело",
-          "description": "Назва мережі-джерела або 'any'."
+          "$ref": "#/$defs/segment_ref"
         },
         "to": {
-          "type": "string",
-          "minLength": 1,
           "title": "Призначення",
-          "description": "Назва мережі-призначення або 'any'."
+          "$ref": "#/$defs/segment_ref"
         },
         "ports": {
           "type": "array",
@@ -285,29 +282,8 @@
         },
         "action": {
           "title": "Дія",
-          "enum": ["allow", "deny"]
-        },
-        "except": {
-          "type": "string",
-          "title": "Виняток",
-          "description": "Напр. 'internet' — дозволити лише вихід в інтернет."
-        }
-      }
-    },
-    "modules": {
-      "type": "object",
-      "additionalProperties": false,
-      "description": "Прапорці вмикання функціональних модулів. Кожен вмикається незалежно.",
-      "properties": {
-        "network_fabric": {
-          "type": "boolean",
-          "title": "Network Fabric",
-          "description": "VLAN, ACL/firewall, VPN; MikroTik RouterOS та Arista EOS з коду."
-        },
-        "security_observability": {
-          "type": "boolean",
-          "title": "Security & Observability",
-          "description": "Prometheus/Grafana/Loki, збір метрик і логів."
+          "description": "Лише allow: заборона виражається відсутністю правила, а не окремим deny (E005).",
+          "enum": ["allow"]
         }
       }
     }

@@ -17,3 +17,4 @@
 | [ADR-003](ADR-003-network-emulation.md) | Емуляція мережевого обладнання | Proposed |
 | [ADR-004](ADR-004-observability-siem.md) | Стек моніторингу та SIEM | Proposed |
 | [ADR-005](ADR-005-data-model-validation.md) | Спосіб валідації моделі даних `organization.yml` | Accepted — JSON Schema 2020-12 |
+| [ADR-006](ADR-006-go-dependencies-schema-embedding.md) | Залежності компілятора `orgc` і розміщення схеми для `go:embed` | Accepted — `goccy/go-yaml` + `santhosh-tekuri/jsonschema/v6`, схема в `orgc/schema/` |

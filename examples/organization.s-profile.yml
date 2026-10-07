@@ -52,9 +52,14 @@ sites:
 # Між сегментами діє default-deny: усе, чого нема нижче, заборонено.
 # Зокрема guest не має жодного правила до внутрішніх сегментів —
 # саме відсутність правила і є забороною, окремий deny не потрібен.
+#
+# 8728 у servers → mgmt — порт RouterOS API, яким Ansible застосовує
+# конфігурацію на MikroTik. Без нього E006 падає: вузол керування
+# ctrl-01 не дістався б до rb750, і згенерований конфіг відрізав би
+# керування сам від себе.
 policies:
   inter_vlan:
-    - { from: servers, to: mgmt, ports: [22], action: allow }
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
     - { from: users, to: servers, ports: [443, 22], action: allow }
     - { from: users, to: internet, action: allow }
     - { from: guest, to: internet, action: allow }

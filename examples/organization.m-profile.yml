@@ -72,6 +72,13 @@ sites:
         cidr: 192.168.130.0/24
         gateway: 192.168.130.1
     devices:
+      # Рівно один edge_router/firewall на сайт — L3-шлюз усіх його мереж.
+      # Без нього шлюзи .1 у мережах філії не належать жодному пристрою (E003).
+      - name: rb-branch
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.110.1
       - name: sw-branch-01
         type: arista_eos
         os_version: "4.29.2F"
@@ -86,10 +93,14 @@ sites:
 # Імена сегментів унікальні в межах усієї моделі, тому мережі філії
 # названо mgmt-branch/users-branch/servers-branch — посилання в правилі
 # йде голим імʼям, без указання сайту.
+#
+# Порти керування: 8728 — RouterOS API (rb750, rb-branch), 22 — SSH
+# для arista.eos через network_cli (sw-branch-01). Обидва сайти мають
+# mgmt-мережу з пристроями обох платформ, тому в правилі обидва порти.
 policies:
   inter_vlan:
-    - { from: servers, to: mgmt, ports: [22], action: allow }
-    - { from: servers, to: mgmt-branch, ports: [22], action: allow }
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
+    - { from: servers, to: mgmt-branch, ports: [22, 8728], action: allow }
     - { from: users, to: servers, ports: [443, 22], action: allow }
     - { from: users-branch, to: servers-branch, ports: [443, 22], action: allow }
     - { from: users, to: internet, action: allow }

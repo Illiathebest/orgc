@@ -30,30 +30,39 @@ sites:
         cidr: 192.168.50.0/24
         gateway: 192.168.50.1
         dhcp_pool: { from: 192.168.50.100, to: 192.168.50.300 }
+      # ❌ №11: імʼя 'any' зарезервовано за посиланням на сегмент
+      #    і мережі належати не може
+      - { vlan: 60, name: any, role: users, cidr: 192.168.60.0/24 }
     devices:
-      # ❌ №11: type поза enum [mikrotik, arista_eos]
+      # ❌ №12: type поза enum [mikrotik, arista_eos]
       - { name: rb750, type: huawei, os_version: "6.48", role: edge_router, mgmt_ip: 192.168.10.1 }
-      # ❌ №12: 'cisco_ios' прибрано з enum — бекенда під цю платформу немає
-      - { name: sw-cisco-01, type: cisco_ios, role: access_switch, mgmt_ip: 192.168.10.3 }
-      # ❌ №13: відсутній обовʼязковий mgmt_ip
+      # ❌ №13: 'cisco_ios' прибрано з enum — бекенда під цю платформу немає
+      - { name: sw-cisco-01, type: cisco_ios, os_version: "15.2", role: access_switch, mgmt_ip: 192.168.10.3 }
+      # ❌ №14: відсутні обовʼязкові mgmt_ip і os_version
       - { name: sw-01, type: arista_eos, role: access_switch }
     servers:
-      # ❌ №14: role має бути масивом; ip некоректний
+      # ❌ №15: role має бути масивом; ip некоректний
       - { name: ctrl-01, role: docker_host, ip: 999.1.1.1 }
-      # ❌ №15: 'siem' прибрано з enum ролей сервера
+      # ❌ №16: 'siem' прибрано з enum ролей сервера
       - { name: sec-01, role: [siem], ip: 192.168.30.20 }
 
 policies:
   inter_vlan:
-    # ❌ №16: action: deny — діє default-deny, правила лише відкривають
+    # ❌ №17: action: deny — діє default-deny, правила лише відкривають
     - { from: guest, to: servers, action: deny }
-    # ❌ №17: невідоме імʼя сегмента. Схема ловить лише порушення патерну
+    # ❌ №18: невідоме імʼя сегмента. Схема ловить лише порушення патерну
     #    identifier; синтаксично правильне, але неіснуюче імʼя — робота E003.
     - { from: Warehouse, to: servers, ports: [443], action: allow }
-    # ❌ №18: поле except прибрано зі схеми (additionalProperties: false)
+    # ❌ №19: поле except прибрано зі схеми (additionalProperties: false)
     - { from: users, to: any, action: allow, except: internet }
+    # ❌ №20: дублікат у ports (uniqueItems) — канонічна форма потрібна
+    #    для детермінованого рендеру
+    - { from: users, to: servers, ports: [443, 443], action: allow }
+    # ❌ №21: proto без ports (dependentRequired) — протокол без портів
+    #    бекенду нічого не каже
+    - { from: users, to: servers, proto: udp, action: allow }
 
-# ❌ №19: невідомий ключ верхнього рівня (additionalProperties: false);
+# ❌ №22: невідомий ключ верхнього рівня (additionalProperties: false);
 #    блок modules прибрано зі схеми цілком.
 modules:
   network_fabric: true

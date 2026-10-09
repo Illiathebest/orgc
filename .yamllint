@@ -20,3 +20,6 @@ ignore: |
   .cache/
   .terraform/
   ansible/collections/
+  # Навмисно нерозбірний YAML — негативний приклад для коду S001.
+  # Решта фікстур у testdata/ є коректним YAML і лінтується як звичайно.
+  orgc/testdata/broken/s001-bad-yaml.yml

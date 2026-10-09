@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Джерело пароля Ansible Vault (ARCHITECTURE.md §2.4):
+# Джерело пароля Ansible Vault:
 #   1. CI:      protected variable ANSIBLE_VAULT_PASSWORD (GitLab CI/CD settings)
 #   2. локально: файл ~/.config/iac-infra/vault-pass (chmod 600, поза репозиторієм)
 set -euo pipefail

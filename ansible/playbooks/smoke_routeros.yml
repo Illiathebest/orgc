@@ -1,5 +1,5 @@
 ---
-# Read-only smoke-тест RouterOS (M1, крок 5).
+# Read-only smoke-тест RouterOS (M1).
 # Підключається до RB750 (RouterOS 6.48) через community.routeros.api,
 # читає факти й перелік інтерфейсів — НІЧОГО не змінює (лише запити print).
 # Запуск: вручну з iac-runner (CI job smoke-routeros) або локально:

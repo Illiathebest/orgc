@@ -16,7 +16,7 @@
 | Користувач автоматизації на VM | `ansible-svc` |
 
 Потрібно: USB-флешка ≥4 ГБ; [ISO Proxmox VE](https://www.proxmox.com/en/downloads/proxmox-virtual-environment/iso);
-Rufus (режим **DD**) або balenaEtcher; SSH-ключ на робочому ПК
+Rufus (режим DD) або balenaEtcher; SSH-ключ на робочому ПК
 (`ssh-keygen -t ed25519 -C "illia@lab"`, якщо ще немає). Дані на ноутбуці буде знищено.
 
 ⚠️ Якщо шлюз не 192.168.1.1 — виправ його тут, у `bootstrap/ctrl-01/.env` та в команді
@@ -65,7 +65,7 @@ iface nic0 inet manual
     post-up /usr/sbin/ethtool -s nic0 wol g
 ```
 
-У **BIOS/UEFI** увімкнути «Wake on LAN / Resume by LAN / Power On by PCI-E» (на цьому
+У BIOS/UEFI увімкнути «Wake on LAN / Resume by LAN / Power On by PCI-E» (на цьому
 залізі опція знайдена — WoL працює навіть із повного вимкнення S5). Запиши MAC:
 `ip -br link show nic0`.
 
@@ -85,7 +85,7 @@ pveum aclmod /storage -user terraform@pve -role PVEDatastoreUser
 pveum user token add terraform@pve tofu --privsep 0
 ```
 
-Виведений `value` токена показується **один раз** — збережи у менеджері паролів.
+Виведений `value` токена показується один раз, збережи у менеджері паролів.
 Згодом він стане protected CI variable, у Git не потрапляє ніколи.
 
 **✅ Контрольна точка 1:** GUI доступний, репозиторії оновлені, кришка не присипляє,

@@ -63,6 +63,23 @@ const (
 	SOther Code = "S099"
 )
 
+// Invariant codes, defined in docs/data-model.md. An invariant always builds
+// a concrete message, so these codes need no titles.
+const (
+	E001 Code = "E001" // CIDR overlap
+	E002 Code = "E002" // identifier uniqueness
+	E003 Code = "E003" // reference integrity
+	E004 Code = "E004" // mgmt_ip in a mgmt network of its own site
+	E005 Code = "E005" // default-deny preserved
+	E006 Code = "E006" // management reachability
+	E007 Code = "E007" // address plan consistency
+	E008 Code = "E008" // prefix capacity
+	W001 Code = "W001" // guest network not isolated
+	W002 Code = "W002" // platform lacks a capability or the OS version
+	W003 Code = "W003" // profile M site without a backup uplink
+	W004 Code = "W004" // mgmt network open beyond the control node
+)
+
 // titles give each code a short Ukrainian name. A Diagnostic normally carries
 // a concrete Message; the title is the fallback when it has none, so that a
 // diagnostic is never printed as a bare code.

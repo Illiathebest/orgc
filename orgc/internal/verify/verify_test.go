@@ -9,7 +9,7 @@ import (
 	"orgc/internal/ir"
 )
 
-func model() *ir.Model {
+func positionsModel() *ir.Model {
 	return &ir.Model{
 		File: "organization.yml",
 		Positions: map[string]diag.Pos{
@@ -30,7 +30,7 @@ func emit(code diag.Code, paths ...string) Check {
 }
 
 func TestReportLocatesThroughIR(t *testing.T) {
-	d := report(model(), "E001", diag.Error, "sites[0].networks[1].cidr", "перетин")
+	d := report(positionsModel(), "E001", diag.Error, "sites[0].networks[1].cidr", "перетин")
 	want := diag.Diagnostic{
 		Code: "E001", Severity: diag.Error, Message: "перетин",
 		File: "organization.yml", Line: 11, Column: 57, Path: "sites[0].networks[1].cidr",
@@ -41,7 +41,7 @@ func TestReportLocatesThroughIR(t *testing.T) {
 
 	// A path the file never had keeps its path but no line, which is how
 	// the formatter recognises an unknown position.
-	if d := report(model(), "E001", diag.Error, "nowhere", "x"); d.Line != 0 || d.Path != "nowhere" {
+	if d := report(positionsModel(), "E001", diag.Error, "nowhere", "x"); d.Line != 0 || d.Path != "nowhere" {
 		t.Errorf("невідомий шлях: %+v", d)
 	}
 }
@@ -49,7 +49,7 @@ func TestReportLocatesThroughIR(t *testing.T) {
 // Output order is the file's, not the registry's: a later check reporting
 // an earlier line must come first.
 func TestRunSortsAcrossChecks(t *testing.T) {
-	ds, err := Run(model(), nil, []Check{
+	ds, err := Run(positionsModel(), nil, []Check{
 		emit("W001", "sites[0].networks[1].cidr"),
 		emit("E001", "sites[0].networks[0].cidr"),
 	})
@@ -65,14 +65,14 @@ func TestRunRejectsForeignCode(t *testing.T) {
 	bad := emit("E002", "sites[0].networks[0].cidr")
 	bad.Code = "E001"
 
-	_, err := Run(model(), nil, []Check{bad})
+	_, err := Run(positionsModel(), nil, []Check{bad})
 	if err == nil || !strings.Contains(err.Error(), "E002") {
 		t.Errorf("err = %v, want відмову з назвою чужого коду", err)
 	}
 }
 
 func TestRunWithNoChecks(t *testing.T) {
-	ds, err := Run(model(), nil, Checks())
+	ds, err := Run(positionsModel(), nil, nil)
 	if err != nil || len(ds) != 0 {
 		t.Errorf("ds = %v, err = %v", ds, err)
 	}

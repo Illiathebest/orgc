@@ -42,7 +42,10 @@ type Check struct {
 //
 // Entries are added as the invariants are implemented.
 func Checks() []Check {
-	return []Check{}
+	return []Check{
+		{Code: diag.E002, Run: checkE002},
+		{Code: diag.E003, Run: checkE003},
+	}
 }
 
 // Run applies the checks to the model and returns their findings sorted.

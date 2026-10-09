@@ -18,7 +18,7 @@ import (
 //     outside that network's pool; the control node ip lies in the control
 //     node's network;
 //   - static addresses and gateways do not collide, except that the mgmt_ip
-//     of a site's L3 gateway may equal the gateway of its mgmt network, and
+//     of a site's L3 gateway may equal the gateway of a network it carries, and
 //     the control node may be one of the servers.
 //
 // Two cases belong to other codes and are skipped: whether a device mgmt_ip
@@ -134,11 +134,11 @@ func checkE007(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 
 // permitted lists the collisions model v2 allows.
 func permitted(gatewayOf *ir.Network, firstControl, firstServer bool, s static, n *ir.Network) bool {
-	// The site's L3 gateway is reached on the gateway address of its mgmt
-	// network (rb750 at 192.168.10.1 in the examples). Any device in the
-	// gateway role qualifies: whether the site has exactly one is E003's
-	// question, not this one.
-	if gatewayOf != nil && s.device != nil && n.Role == ir.RoleMgmt && s.device.Role.RoutesL3() {
+	// The site's L3 gateway holds the gateway address of every network of
+	// its site, so its mgmt_ip may be one of them (rb750 at 192.168.10.1 in
+	// the examples). Whether that network is a mgmt one is E004's question,
+	// and whether the site has exactly one gateway is E003's.
+	if gatewayOf != nil && s.device != nil && s.device.Role.RoutesL3() {
 		return true
 	}
 	// The control node may be one of the servers (ctrl-01 in the examples).

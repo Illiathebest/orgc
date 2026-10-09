@@ -100,6 +100,11 @@ var expected = map[string]struct {
 	"e003-unknown-control-network.yml":      {diag.E003, 9},
 	"e003-unknown-control-site.yml":         {diag.E003, 8},
 	"e003-unknown-rule-segment.yml":         {diag.E003, 26},
+	"e004-mgmt-ip-in-servers-network.yml":   {diag.E004, 22},
+	"e004-mgmt-of-other-site.yml":           {diag.E004, 27},
+	"e004-no-mgmt-network.yml":              {diag.E004, 22},
+	"e005-any-to-any.yml":                   {diag.E005, 27},
+	"e005-from-internet.yml":                {diag.E005, 27},
 	"e007-control-node-outside-network.yml": {diag.E007, 10},
 	"e007-gateway-in-pool.yml":              {diag.E007, 16},
 	"e007-gateway-outside-cidr.yml":         {diag.E007, 16},
@@ -112,6 +117,10 @@ var expected = map[string]struct {
 	"e007-static-network-address.yml":       {diag.E007, 24},
 	"e008-prefix-too-small.yml":             {diag.E008, 17},
 	"e008-slash31-with-gateway.yml":         {diag.E008, 17},
+	"w001-guest-not-isolated.yml":           {diag.W001, 17},
+	"w001-guest-to-servers.yml":             {diag.W001, 28},
+	"w003-no-backup-uplink.yml":             {diag.W003, 13},
+	"w004-mgmt-open-to-users.yml":           {diag.W004, 28},
 }
 
 func invariantFixtures(t *testing.T) []string {
@@ -149,6 +158,9 @@ func TestInvariantFixturesMatchTable(t *testing.T) {
 			if d.Code != want.code || d.Line != want.line {
 				t.Errorf("отримано %s у рядку %d, want %s у рядку %d\n  %s",
 					d.Code, d.Line, want.code, want.line, d)
+			}
+			if d.Severity != want.code.DefaultSeverity() {
+				t.Errorf("рівень %v, want %v: %s", d.Severity, want.code.DefaultSeverity(), d)
 			}
 			if d.Path == "" || d.Column == 0 {
 				t.Errorf("діагностика без шляху чи колонки: %s", d)

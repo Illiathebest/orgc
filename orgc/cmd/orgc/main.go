@@ -13,8 +13,13 @@ import (
 	"io"
 	"os"
 
+	"orgc/internal/backend"
+	"orgc/internal/backend/aristaeos"
+	"orgc/internal/backend/routeros"
 	"orgc/internal/diag"
+	"orgc/internal/lower"
 	"orgc/internal/model"
+	"orgc/internal/verify"
 )
 
 // Exit codes form part of the CLI contract: CI distinguishes "the model is
@@ -39,8 +44,8 @@ const usage = `orgc — компілятор декларативної моде
   -h, --help    показати цю довідку
 
 Коди виходу:
-  0    модель коректна
-  1    у моделі знайдено помилки
+  0    модель коректна; попередження код виходу не змінюють
+  1    у моделі знайдено помилки (зокрема W002 рівня помилки)
   2    помилка виклику: невідома команда, немає файлу, файл не читається
 
 orgc нічого не застосовує — лише генерує текст. Застосування виконує
@@ -90,7 +95,7 @@ func runVerify(args []string, stdout, stderr io.Writer) int {
 		return code
 	}
 
-	_, ds, err := model.Load(path)
+	ds, err := verifyModel(path)
 	if err != nil {
 		fmt.Fprintf(stderr, "orgc: %v\n", err)
 		return exitInvoked
@@ -104,12 +109,48 @@ func runVerify(args []string, stdout, stderr io.Writer) int {
 	}
 	fmt.Fprintln(stdout, diag.Summary(ds))
 
-	// Invariants E001-E008 and W001-W004 are still to come, so for now the
-	// structural layer alone decides the verdict.
+	// Warnings alone leave the model valid; an error of any code fails it,
+	// W002 raised to error level included (docs/adr/ADR-008, decision 4).
 	if diag.HasErrors(ds) {
 		return exitModel
 	}
 	return exitOK
+}
+
+// invariants is the registry verify runs. A variable so that tests can put
+// checks with known findings in it; the program itself never reassigns it.
+var invariants = verify.Checks
+
+// platforms is the set of platforms orgc is built with. It is assembled here,
+// outside the core, so that the core never imports a vendor package.
+func platforms() (*backend.Registry, error) {
+	return backend.NewRegistry(routeros.Platform{}, aristaeos.Platform{})
+}
+
+// verifyModel runs the pipeline up to verification: schema, lowering,
+// invariants. A model with structural errors stops after the schema — it
+// has no definite meaning for the invariants to check.
+//
+// The error means orgc itself failed, never that the model is wrong.
+func verifyModel(path string) ([]diag.Diagnostic, error) {
+	doc, ds, err := model.Load(path)
+	if err != nil || doc == nil {
+		return ds, err
+	}
+
+	m, err := lower.Lower(doc)
+	if err != nil {
+		return nil, err
+	}
+	reg, err := platforms()
+	if err != nil {
+		return nil, err
+	}
+	found, err := verify.Run(m, reg, invariants())
+	if err != nil {
+		return nil, err
+	}
+	return append(ds, found...), nil
 }
 
 func runRender(args []string, stdout, stderr io.Writer) int {

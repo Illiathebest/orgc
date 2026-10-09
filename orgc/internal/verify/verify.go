@@ -1,0 +1,80 @@
+// Package verify implements the invariants E001-E008 and W001-W004 over the
+// intermediate representation. E006, reachability of management, is the core
+// check of the work.
+//
+// The contract is fixed by docs/adr/ADR-008, decision 3:
+//
+//   - An invariant is a pure function of the IR and the platforms. It reads
+//     no files, changes nothing, and knows nothing of other invariants.
+//   - The registry runs them in a fixed order. Output order does not depend
+//     on it — the result is sorted — but the computation is reproducible
+//     step by step, and E1 can time each check on its own.
+//   - No cascades. An invariant skips an element whose prerequisite is
+//     already broken and reported under another code, so that each defect
+//     yields exactly one code; E2 relies on that.
+//   - Invariants never see a model with structural errors: the caller stops
+//     before lowering.
+package verify
+
+import (
+	"fmt"
+
+	"orgc/internal/backend"
+	"orgc/internal/diag"
+	"orgc/internal/ir"
+)
+
+// Check is one invariant.
+type Check struct {
+	// Code is the only code Run may emit. Run enforces it: a check that
+	// reported under someone else's code would break "one defect, one
+	// code" in a way no fixture would notice.
+	Code diag.Code
+	Run  func(m *ir.Model, p backend.Platforms) []diag.Diagnostic
+}
+
+// Checks returns the registry in run order. The order is that of ADR-008:
+// identifiers and references first, since everything else relies on them;
+// then the address plan, roles and policies, platforms; E006 once both
+// addresses and platforms are known; warnings last.
+//
+//	E002 E003 E001 E007 E008 E004 E005 W002 E006 W001 W003 W004
+//
+// Entries are added as the invariants are implemented (plan steps 2.8-2.12).
+func Checks() []Check {
+	return []Check{}
+}
+
+// Run applies the checks to the model and returns their findings sorted.
+//
+// The error is never about the model: it means a check broke its contract,
+// which is a defect of orgc, the same class as a failure of Load or Lower.
+func Run(m *ir.Model, p backend.Platforms, checks []Check) ([]diag.Diagnostic, error) {
+	var out []diag.Diagnostic
+	for _, c := range checks {
+		for _, d := range c.Run(m, p) {
+			if d.Code != c.Code {
+				return nil, fmt.Errorf("перевірка %s видала діагностику з чужим кодом %s", c.Code, d.Code)
+			}
+			out = append(out, d)
+		}
+	}
+	diag.Sort(out)
+	return out, nil
+}
+
+// report builds a diagnostic about the value at path, located through the
+// IR's position index. Every invariant reports through it, so none can
+// forget the file name or the line.
+func report(m *ir.Model, code diag.Code, sev diag.Severity, path, msg string) diag.Diagnostic {
+	pos := m.At(path)
+	return diag.Diagnostic{
+		Code:     code,
+		Severity: sev,
+		Message:  msg,
+		File:     m.File,
+		Line:     pos.Line,
+		Column:   pos.Column,
+		Path:     path,
+	}
+}

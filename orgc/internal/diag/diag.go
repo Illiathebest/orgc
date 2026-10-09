@@ -97,6 +97,16 @@ func (c Code) DefaultSeverity() Severity {
 	return Error
 }
 
+// Pos is a place in the source file. Line and Column are 1-based; the zero
+// Pos means the position is unknown.
+type Pos struct {
+	Line   int
+	Column int
+}
+
+// Known reports whether the position points somewhere in the file.
+func (p Pos) Known() bool { return p.Line > 0 }
+
 // Diagnostic is one finding about the model.
 type Diagnostic struct {
 	Code     Code

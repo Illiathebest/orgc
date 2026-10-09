@@ -63,25 +63,28 @@ func TestValidCorpusLoadsClean(t *testing.T) {
 
 	for _, f := range files {
 		t.Run(filepath.Base(f), func(t *testing.T) {
-			org, ds, err := Load(f)
+			doc, ds, err := Load(f)
 			if err != nil {
 				t.Fatalf("err = %v", err)
 			}
 			if len(ds) != 0 {
 				t.Fatalf("діагностик %d, want 0:\n%s", len(ds), render(t, ds))
 			}
-			if org == nil {
-				t.Fatal("org = nil для коректної моделі")
+			if doc == nil {
+				t.Fatal("doc = nil для коректної моделі")
 			}
-			if org.Organization == "" || len(org.Sites) == 0 || org.ControlNode.IP == "" {
-				t.Errorf("модель розібралася порожньою: %+v", org)
+			if doc.Org.Organization == "" || len(doc.Org.Sites) == 0 || doc.Org.ControlNode.IP == "" {
+				t.Errorf("модель розібралася порожньою: %+v", doc.Org)
 			}
 		})
 	}
 }
 
 func TestBrokenCorpusMatchesTable(t *testing.T) {
-	files, err := filepath.Glob(testdata("broken", "*.yml"))
+	// Only s*.yml are structural fixtures. e*.yml and w*.yml break an
+	// invariant and must pass the schema; TestSemanticFixturesAreStructurallyClean
+	// holds them to that.
+	files, err := filepath.Glob(testdata("broken", "s*.yml"))
 	if err != nil || len(files) == 0 {
 		t.Fatalf("у testdata/broken немає моделей: %v", err)
 	}
@@ -101,12 +104,12 @@ func TestBrokenCorpusMatchesTable(t *testing.T) {
 				t.Fatalf("файл є, а очікування для нього немає — додайте запис у expected")
 			}
 
-			org, ds, err := Load(f)
+			doc, ds, err := Load(f)
 			if err != nil {
 				t.Fatalf("err = %v", err)
 			}
-			if org != nil {
-				t.Error("org != nil для зламаної моделі")
+			if doc != nil {
+				t.Error("doc != nil для зламаної моделі")
 			}
 			if len(ds) != 1 {
 				t.Fatalf("діагностик %d, want 1 — у файлі має бути рівно один дефект:\n%s",
@@ -133,6 +136,33 @@ func TestBrokenCorpusMatchesTable(t *testing.T) {
 	}
 }
 
+// A fixture for an invariant must fail that invariant and nothing else. If
+// it also broke the schema, the pipeline would stop at the structural layer
+// and the invariant would never run — the negative test would stay green
+// while proving nothing.
+func TestSemanticFixturesAreStructurallyClean(t *testing.T) {
+	var files []string
+	for _, pattern := range []string{"e*.yml", "w*.yml"} {
+		m, err := filepath.Glob(testdata("broken", pattern))
+		if err != nil {
+			t.Fatal(err)
+		}
+		files = append(files, m...)
+	}
+
+	for _, f := range files {
+		t.Run(filepath.Base(f), func(t *testing.T) {
+			doc, ds, err := Load(f)
+			if err != nil {
+				t.Fatalf("err = %v", err)
+			}
+			if len(ds) != 0 || doc == nil {
+				t.Fatalf("семантичний приклад не проходить схему:\n%s", render(t, ds))
+			}
+		})
+	}
+}
+
 // The file name carries the code, so the name must not drift from what the
 // file actually produces: a reader picks fixtures by name.
 func TestBrokenFileNamesMatchTheirCodes(t *testing.T) {
@@ -151,12 +181,12 @@ func TestBrokenFileNamesMatchTheirCodes(t *testing.T) {
 func TestAggregateCoversEveryStructuralCode(t *testing.T) {
 	path := testdata("broken", aggregateName)
 
-	org, ds, err := Load(path)
+	doc, ds, err := Load(path)
 	if err != nil {
 		t.Fatalf("err = %v", err)
 	}
-	if org != nil {
-		t.Error("org != nil, хоча зведена модель має помилки")
+	if doc != nil {
+		t.Error("doc != nil, хоча зведена модель має помилки")
 	}
 	if !diag.HasErrors(ds) {
 		t.Fatal("зведена модель не дала жодної помилки")

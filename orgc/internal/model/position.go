@@ -4,6 +4,8 @@ import (
 	"strconv"
 
 	"github.com/goccy/go-yaml/ast"
+
+	"orgc/internal/diag"
 )
 
 // position is a place in the source file. A zero position means "unknown".
@@ -132,3 +134,85 @@ func posOf(n ast.Node) position {
 	}
 	return position{line: tok.Position.Line, column: tok.Position.Column}
 }
+
+// Positions maps a readable path of the model — the same form diagnostics
+// use, e.g. "sites[0].networks[2].cidr" — to where that value sits in the
+// source.
+//
+// It exists so that positions outlive Load. The schema layer resolves a
+// position the moment it reports a finding; invariants run later, over the
+// intermediate representation, and would otherwise be left with a path and
+// no line (docs/adr/ADR-008, decision 1).
+//
+// It is only ever read by key, never iterated, so being a map does not put
+// the byte-identical output at risk.
+type Positions map[string]diag.Pos
+
+// At returns the position recorded for the path, or the zero Pos when there
+// is none: the document root, or a value reached only through an alias.
+func (p Positions) At(path string) diag.Pos { return p[path] }
+
+// indexPositions walks the document once and records the position of every
+// mapping, sequence and scalar by its readable path. The root itself is left
+// out on purpose: a finding about the document as a whole carries no line
+// (see describe).
+func indexPositions(root ast.Node) Positions {
+	idx := Positions{}
+	var walk func(n ast.Node, path string)
+	walk = func(n ast.Node, path string) {
+		n = unwrap(n)
+		if n == nil {
+			return
+		}
+
+		if m, ok := mappingOf(n); ok {
+			if path != "" && len(m) > 0 {
+				// A mapping is located by its first key. goccy places a
+				// one-pair mapping on its colon and a flow mapping on the
+				// brace; the key is where a reader looks in both cases.
+				idx[path] = toPos(posOf(m[0].Key))
+			}
+			for _, v := range m {
+				if v.Key == nil || v.Key.GetToken() == nil {
+					continue
+				}
+				key := v.Key.GetToken().Value
+				child := key
+				if path != "" {
+					child = path + "." + key
+				}
+				walk(v.Value, child)
+			}
+			return
+		}
+
+		if path != "" {
+			idx[path] = toPos(posOf(n))
+		}
+		if s, ok := n.(*ast.SequenceNode); ok {
+			for i, v := range s.Values {
+				walk(v, path+"["+strconv.Itoa(i)+"]")
+			}
+		}
+	}
+	walk(root, "")
+	return idx
+}
+
+// unwrap looks through an anchor or a tag to the value it decorates. An
+// alias is left as is: its position is the alias, and the values behind it
+// belong to the anchored node elsewhere in the file.
+func unwrap(n ast.Node) ast.Node {
+	for {
+		switch t := n.(type) {
+		case *ast.AnchorNode:
+			n = t.Value
+		case *ast.TagNode:
+			n = t.Value
+		default:
+			return n
+		}
+	}
+}
+
+func toPos(p position) diag.Pos { return diag.Pos{Line: p.line, Column: p.column} }

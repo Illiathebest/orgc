@@ -30,30 +30,30 @@ sites:
 `
 
 func TestLoadBytesAcceptsValidModel(t *testing.T) {
-	org, ds, err := LoadBytes("organization.yml", []byte(minimal))
+	doc, ds, err := LoadBytes("organization.yml", []byte(minimal))
 	if err != nil {
 		t.Fatalf("err = %v, want nil", err)
 	}
 	if len(ds) != 0 {
 		t.Fatalf("діагностик %d, want 0:\n%s", len(ds), render(t, ds))
 	}
-	if org == nil {
-		t.Fatal("org = nil для коректної моделі")
+	if doc == nil {
+		t.Fatal("doc = nil для коректної моделі")
 	}
 
-	if org.Profile != "S" {
-		t.Errorf("Profile = %q, want %q", org.Profile, "S")
+	if doc.Org.Profile != "S" {
+		t.Errorf("Profile = %q, want %q", doc.Org.Profile, "S")
 	}
-	if org.ControlNode.IP != "192.168.30.10" {
-		t.Errorf("ControlNode.IP = %q", org.ControlNode.IP)
+	if doc.Org.ControlNode.IP != "192.168.30.10" {
+		t.Errorf("ControlNode.IP = %q", doc.Org.ControlNode.IP)
 	}
-	if len(org.Sites) != 1 || org.Sites[0].Name != "hq" {
-		t.Fatalf("Sites = %+v", org.Sites)
+	if len(doc.Org.Sites) != 1 || doc.Org.Sites[0].Name != "hq" {
+		t.Fatalf("Sites = %+v", doc.Org.Sites)
 	}
-	if got := org.Sites[0].Networks[0].VLAN; got != 30 {
+	if got := doc.Org.Sites[0].Networks[0].VLAN; got != 30 {
 		t.Errorf("VLAN = %d, want 30", got)
 	}
-	if got := org.Sites[0].Devices[0].OSVersion; got != "6.48" {
+	if got := doc.Org.Sites[0].Devices[0].OSVersion; got != "6.48" {
 		t.Errorf("OSVersion = %q, want %q", got, "6.48")
 	}
 }
@@ -206,12 +206,12 @@ func TestLoadBytesOnEmptyFile(t *testing.T) {
 }
 
 func TestLoadMissingFileIsAnError(t *testing.T) {
-	org, ds, err := Load(filepath.Join(t.TempDir(), "absent.yml"))
+	doc, ds, err := Load(filepath.Join(t.TempDir(), "absent.yml"))
 	if err == nil {
 		t.Fatal("err = nil для відсутнього файлу")
 	}
-	if org != nil || ds != nil {
-		t.Errorf("org = %v, ds = %v; очікувалося nil, nil", org, ds)
+	if doc != nil || ds != nil {
+		t.Errorf("doc = %v, ds = %v; очікувалося nil, nil", doc, ds)
 	}
 }
 

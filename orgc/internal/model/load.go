@@ -19,6 +19,18 @@ import (
 	"orgc/schema"
 )
 
+// Document is a model that passed the schema, together with what the later
+// stages need to point back into the file.
+type Document struct {
+	// File is the name diagnostics are reported against.
+	File string
+
+	Org *Organization
+
+	// Positions locates every value of the document by readable path.
+	Positions Positions
+}
+
 // Load reads organization.yml, checks it against the embedded schema and
 // decodes it.
 //
@@ -29,8 +41,8 @@ import (
 //     orgc was invoked wrongly or is itself broken, not that the model is.
 //   - diagnostics describe the model. They may contain warnings only, in
 //     which case the model is still valid.
-//   - org is non-nil exactly when the diagnostics hold no errors.
-func Load(path string) (org *Organization, diagnostics []diag.Diagnostic, err error) {
+//   - doc is non-nil exactly when the diagnostics hold no errors.
+func Load(path string) (doc *Document, diagnostics []diag.Diagnostic, err error) {
 	src, err := os.ReadFile(path)
 	if err != nil {
 		return nil, nil, err
@@ -40,7 +52,7 @@ func Load(path string) (org *Organization, diagnostics []diag.Diagnostic, err er
 
 // LoadBytes is Load for a file already in memory. name is used in
 // diagnostics only.
-func LoadBytes(name string, src []byte) (*Organization, []diag.Diagnostic, error) {
+func LoadBytes(name string, src []byte) (*Document, []diag.Diagnostic, error) {
 	file, err := parser.ParseBytes(src, 0)
 	if err != nil {
 		return nil, []diag.Diagnostic{syntaxDiagnostic(name, err)}, nil
@@ -83,7 +95,11 @@ func LoadBytes(name string, src []byte) (*Organization, []diag.Diagnostic, error
 		// orgc, not in the model.
 		return nil, nil, fmt.Errorf("модель пройшла схему, але не розбирається у структури: %w", err)
 	}
-	return &org, nil, nil
+	return &Document{
+		File:      name,
+		Org:       &org,
+		Positions: indexPositions(file.Docs[0].Body),
+	}, nil, nil
 }
 
 // goccyPosition matches the "[line:column]" prefix goccy puts on a syntax

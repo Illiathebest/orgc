@@ -237,7 +237,7 @@ git add .
 git update-index --chmod=+x scripts/vault-pass.sh   # Windows не зберігає біт виконання
 git commit -m "M0: каркас репозиторію, compose ctrl-01, lint-пайплайн"
 git remote add origin http://192.168.1.50/root/iac-infra.git
-git push -u origin main      # логін root, пароль = PAT з кроку 4.1
+git push -u origin main      # логін root, пароль = PAT з розділу 4.1
 ```
 
 Перевір: **Settings → Repository → Branch rules** — `main` захищена (Maintainers only,

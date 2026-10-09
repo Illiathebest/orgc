@@ -64,4 +64,4 @@ ansible-playbook -i ansible/inventories/staging/hosts.yml ansible/playbooks/smok
 
 ## Поточний фокус
 
-Наступний етап — **M2 (Provisioning):** Terraform-модуль `proxmox-vm`, state у GitLab, підключення pve-b. План: `docs/milestones/M2-provisioning.md`.
+План етапу M2 (Terraform-модуль `proxmox-vm`, state у GitLab, підключення pve-b) знято з роботи разом із Terraform; документ — `docs/archive/M2-provisioning.md`.

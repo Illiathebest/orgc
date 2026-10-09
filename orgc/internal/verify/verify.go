@@ -50,6 +50,7 @@ func Checks() []Check {
 		{Code: diag.E008, Run: checkE008},
 		{Code: diag.E004, Run: checkE004},
 		{Code: diag.E005, Run: checkE005},
+		{Code: diag.W002, Run: checkW002},
 		{Code: diag.W001, Run: checkW001},
 		{Code: diag.W003, Run: checkW003},
 		{Code: diag.W004, Run: checkW004},

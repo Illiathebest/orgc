@@ -47,15 +47,40 @@ func (p Platform) ManagementPorts(v string) []ir.PortSpec {
 	return []ir.PortSpec{{Proto: ir.TCP, Port: 22}}
 }
 
-// Capabilities are deliberately conservative. EOS routes between VLANs, but
-// its ACLs are stateless, so it cannot enforce the model's stateful rules as
-// written. DHCP server, NAT and client isolation depend on the release and
-// the hardware, and are left out until confirmed against the EOS manual and
-// cEOS: until then W002 warns where it perhaps need not,
-// rather than staying silent where it should not.
+// Capabilities follow the EOS User Manual and Arista's feature notes:
+//
+//   - L3Gateway: routing between VLAN interfaces;
+//   - DHCPServer: the built-in DHCPv4 server appeared in EOS 4.22.1;
+//   - ClientIsolation: private VLANs with an isolated secondary VLAN, whose
+//     hosts cannot reach each other by bridging.
+//
+// Two are absent on purpose. EOS ACLs are stateless, so the model's
+// stateful rules cannot be enforced as written (no StatefulFilter). NAT
+// depends on the hardware platform and is not available on cEOS, the
+// emulated target of the lab.
 func (p Platform) Capabilities(v string) backend.CapSet {
 	if ok, _ := p.CheckVersion(v); !ok {
 		return 0
 	}
-	return backend.Caps(backend.L3Gateway)
+	caps := backend.Caps(backend.L3Gateway, backend.ClientIsolation)
+	if atLeast(v, 4, 22, 1) {
+		caps |= backend.Caps(backend.DHCPServer)
+	}
+	return caps
+}
+
+// atLeast compares the numeric part of an accepted version with a release.
+func atLeast(v string, major, minor, patch int) bool {
+	m := version.FindStringSubmatch(v)
+	got := [3]int{}
+	for i := range got {
+		got[i], _ = strconv.Atoi(m[i+1])
+	}
+	want := [3]int{major, minor, patch}
+	for i := range got {
+		if got[i] != want[i] {
+			return got[i] > want[i]
+		}
+	}
+	return true
 }

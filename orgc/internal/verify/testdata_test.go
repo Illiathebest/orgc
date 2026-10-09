@@ -119,8 +119,16 @@ var expected = map[string]struct {
 	"e008-slash31-with-gateway.yml":         {diag.E008, 17},
 	"w001-guest-not-isolated.yml":           {diag.W001, 17},
 	"w001-guest-to-servers.yml":             {diag.W001, 28},
+	"w002-capability-missing.yml":           {diag.W002, 19},
+	"w002-version-out-of-range.yml":         {diag.W002, 20},
 	"w003-no-backup-uplink.yml":             {diag.W003, 13},
 	"w004-mgmt-open-to-users.yml":           {diag.W004, 28},
+}
+
+// raisedToError lists fixtures whose code is a warning by default but is
+// reported at error level: W002 for an OS version the backend cannot render.
+var raisedToError = map[string]bool{
+	"w002-version-out-of-range.yml": true,
 }
 
 func invariantFixtures(t *testing.T) []string {
@@ -159,8 +167,12 @@ func TestInvariantFixturesMatchTable(t *testing.T) {
 				t.Errorf("отримано %s у рядку %d, want %s у рядку %d\n  %s",
 					d.Code, d.Line, want.code, want.line, d)
 			}
-			if d.Severity != want.code.DefaultSeverity() {
-				t.Errorf("рівень %v, want %v: %s", d.Severity, want.code.DefaultSeverity(), d)
+			wantSev := want.code.DefaultSeverity()
+			if raisedToError[name] {
+				wantSev = diag.Error
+			}
+			if d.Severity != wantSev {
+				t.Errorf("рівень %v, want %v: %s", d.Severity, wantSev, d)
 			}
 			if d.Path == "" || d.Column == 0 {
 				t.Errorf("діагностика без шляху чи колонки: %s", d)

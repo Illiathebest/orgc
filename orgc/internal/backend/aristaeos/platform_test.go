@@ -54,6 +54,17 @@ func TestCapabilities(t *testing.T) {
 	if caps.Has(backend.StatefulFilter) {
 		t.Error("ACL в EOS не зберігають стан — StatefulFilter бути не може")
 	}
+	if !caps.Has(backend.DHCPServer) || !caps.Has(backend.ClientIsolation) {
+		t.Errorf("EOS 4.29.2F має DHCP-сервер і private VLAN: %v", caps)
+	}
+	if caps.Has(backend.NAT) {
+		t.Error("NAT на cEOS недоступний")
+	}
+	for v, want := range map[string]bool{"4.22.0F": false, "4.22.1F": true, "4.21.9M": false, "4.30.1M": true} {
+		if got := (Platform{}).Capabilities(v).Has(backend.DHCPServer); got != want {
+			t.Errorf("DHCPServer у %s = %v, want %v", v, got, want)
+		}
+	}
 	if c := (Platform{}).Capabilities("5.0.0F"); c != 0 {
 		t.Errorf("Capabilities(5.0.0F) = %v, want порожньо", c)
 	}

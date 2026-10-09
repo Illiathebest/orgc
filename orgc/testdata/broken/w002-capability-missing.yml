@@ -1,0 +1,26 @@
+---
+# Негативний приклад W002: шлюз сайту на Arista EOS не має фільтрації зі станом, якої вимагають правила.
+# Рівно одне порушення — решта моделі коректна.
+organization: "Навчальна лабораторія"
+profile: S
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    networks:
+      - { vlan: 10, name: mgmt, role: mgmt, cidr: 192.168.10.0/24, gateway: 192.168.10.1 }
+      - { vlan: 30, name: servers, role: servers, cidr: 192.168.30.0/24, gateway: 192.168.30.1 }
+    devices:
+      - name: eos-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: edge_router
+        mgmt_ip: 192.168.10.1
+
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }

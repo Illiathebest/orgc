@@ -62,7 +62,7 @@
 
 ## Додаток А — базовий образ `iac-runner`: `python:3.12-slim` проти `ubuntu` / `alpine`
 
-`docs/archive/M1-core.md` §1 фіксує базу `python:3.12-slim` і відсилає обґрунтування сюди (увесь тулінг — Python: ansible-core, NAPALM, лінтери, `check-jsonschema`).
+План етапу M1 фіксував базу `python:3.12-slim`, а обґрунтування наведено тут (увесь тулінг — Python: ansible-core, NAPALM, лінтери, `check-jsonschema`).
 
 | Критерій | `python:3.12-slim` (Debian, glibc) | `ubuntu:24.04` | `alpine` (musl) |
 |---|---|---|---|

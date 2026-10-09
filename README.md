@@ -136,4 +136,3 @@ lint → verify. Секрети зберігаються тільки в `ansibl
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — конвеєр, компоненти, формалізація E006
 - [docs/data-model.md](docs/data-model.md) — модель даних `organization.yml` та інваріанти
 - [docs/adr/](docs/adr/) — рішення щодо вибору технологій
-- [docs/archive/](docs/archive/) — архівні плани етапів M0–M2

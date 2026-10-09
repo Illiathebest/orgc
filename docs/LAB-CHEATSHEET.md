@@ -1,16 +1,16 @@
 # Стенд — шпаргалка (стан на 2026-06-15, після M1)
 
-> Що є і як з ним взаємодіяти після паузи. Деталі — у `docs/milestones/*-report.md`.
+> Що є на стенді і як з ним працювати. Деталі — у `docs/milestones/*-report.md`.
 
 ## Що де живе
 
 | Об'єкт | Адреса / доступ | Що це |
 |---|---|---|
-| **pve-a** (ноут, HQ) | Proxmox web: `https://192.168.1.40:8006` | Гіпервізор HQ. Open-bench, тільки дротовий Ethernet. |
-| ├ **ctrl-01** (VM, 8 ГБ) | GitLab: `http://192.168.1.50` · SSH: `ssh -p 2222` · Registry: `192.168.1.50:5050` | Docker + GitLab CE + Runner. |
-| └ **mon-01** (VM, 3 ГБ) | Grafana: `http://192.168.1.51:3000` · Prometheus: `:9090` | Prometheus + Alertmanager + Grafana + Loki + node-exporter. |
-| **pve-b** (ПК) | — | VMware встановлено, nested Proxmox ще НЕ піднято (буде в M2). |
-| **RB750** (MikroTik) | `192.168.1.220` · RouterOS 6.48 · WinBox/SSH | Реальна мережева ціль. Read-only user `ansible-ro`. |
+| pve-a (ноут, HQ) | Proxmox web: `https://192.168.1.40:8006` | Гіпервізор HQ. Open-bench, тільки дротовий Ethernet. |
+| ├ ctrl-01 (VM, 8 ГБ) | GitLab: `http://192.168.1.50` · SSH: `ssh -p 2222` · Registry: `192.168.1.50:5050` | Docker + GitLab CE + Runner. |
+| └ mon-01 (VM, 3 ГБ) | Grafana: `http://192.168.1.51:3000` · Prometheus: `:9090` | Prometheus + Alertmanager + Grafana + Loki + node-exporter. |
+| pve-b (ПК) | — | VMware встановлено, nested Proxmox ще НЕ піднято (буде в M2). |
+| RB750 (MikroTik) | `192.168.1.220` · RouterOS 6.48 · WinBox/SSH | Реальна мережева ціль. Read-only user `ansible-ro`. |
 | Домашній роутер | `192.168.1.1`, LAN `192.168.1.0/24` | Gateway + DHCP. |
 | Репозиторій | `iac-infra` у GitLab | Каркас, `main` захищена. |
 
@@ -31,17 +31,17 @@
 
 ## Увімкнути / вимкнути
 
-- **pve-a з вимкненого:** коротко замкнути power-on пади на матплаті → далі WoL (`tools/wake-pve-a.bat`). Тримати на AC (батарея = UPS).
-- **VM на pve-a:** через Proxmox web або `qm start <VMID>` / `qm stop <VMID>` по SSH.
-- **pve-b:** вмикати ПК → VMware → запустити VM з Proxmox лише на час експериментів.
+- pve-a з вимкненого: коротко замкнути power-on пади на матплаті, далі WoL (`tools/wake-pve-a.bat`). Тримати на AC (батарея = UPS).
+- VM на pve-a: через Proxmox web або `qm start <VMID>` / `qm stop <VMID>` по SSH.
+- pve-b: вмикати ПК → VMware → запустити VM з Proxmox лише на час експериментів.
 
 ## Робочий цикл (як вносити зміни)
 
 1. `git checkout -b <feature>` → правки в `iac-infra`.
 2. `git push` → відкрити Merge Request у GitLab.
-3. CI сам ганяє **lint** (yamllint, ansible-lint) + **validate** (`organization.yml` проти JSON Schema). Мають бути зелені.
+3. CI сам ганяє lint (yamllint, ansible-lint) + validate (`organization.yml` проти JSON Schema). Мають бути зелені.
 4. Review → merge у `main`.
-5. Ручні дії (напр. мережевий smoke) — **manual job** у пайплайні на `main`.
+5. Ручні дії (напр. мережевий smoke) — manual job у пайплайні на `main`.
 
 ## Часті команди (з ctrl-01 / iac-runner)
 
@@ -57,10 +57,10 @@ ansible-playbook -i ansible/inventories/staging/hosts.yml ansible/playbooks/smok
 
 ## Пастки (з M1, щоб не наступити знову)
 
-- GitLab Registry **без TLS** → Docker/Kaniko з `--insecure` / `insecure-registries`.
-- Диск pve-a лише 128 ГБ, **thin-pool over-commit** → періодично `lvs` / `df -h`.
+- GitLab Registry без TLS → Docker/Kaniko з `--insecure` / `insecure-registries`.
+- Диск pve-a лише 128 ГБ, thin-pool over-commit → періодично `lvs` / `df -h`.
 - Секрети — у GitLab CI variables (masked+protected), напр. `ROUTEROS_PASSWORD`. НЕ в репозиторії.
-- Тулінг MikroTik — під **RouterOS v6** (RB750 має 32 МБ RAM, v7 не тягне).
+- Тулінг MikroTik — під RouterOS v6 (RB750 має 32 МБ RAM, v7 не тягне).
 
 ## Поточний фокус
 

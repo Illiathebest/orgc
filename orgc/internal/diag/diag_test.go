@@ -56,7 +56,7 @@ func TestEveryStructuralCodeHasTitle(t *testing.T) {
 	codes := []Code{
 		SYAMLSyntax, SRequiredMissing, SUnknownField, STypeMismatch,
 		SNotInEnum, SFormatMismatch, SOutOfRange, SArrayConstraint,
-		SFieldDependency, SValueForbidden,
+		SFieldDependency, SValueForbidden, SOther,
 	}
 	seen := make(map[string]Code, len(codes))
 	for _, c := range codes {

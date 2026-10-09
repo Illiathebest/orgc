@@ -12,6 +12,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"orgc/internal/diag"
+	"orgc/internal/model"
 )
 
 // Exit codes form part of the CLI contract: CI distinguishes "the model is
@@ -87,11 +90,26 @@ func runVerify(args []string, stdout, stderr io.Writer) int {
 		return code
 	}
 
-	// Structural validation lands in internal/model (plan step 13); the
-	// invariants follow in internal/verify. Until then the command must not
-	// report success it has not established.
-	fmt.Fprintf(stderr, "orgc: перевірку моделі ще не реалізовано (%s читається, але не аналізується)\n", path)
-	return exitInvoked
+	_, ds, err := model.Load(path)
+	if err != nil {
+		fmt.Fprintf(stderr, "orgc: %v\n", err)
+		return exitInvoked
+	}
+
+	// Findings go to stdout: they are the output of the command, not a
+	// complaint about how it was called. Render sorts them itself.
+	if err := diag.Render(stdout, ds); err != nil {
+		fmt.Fprintf(stderr, "orgc: не вдалося вивести діагностики: %v\n", err)
+		return exitInvoked
+	}
+	fmt.Fprintln(stdout, diag.Summary(ds))
+
+	// Invariants E001-E008 and W001-W004 are still to come, so for now the
+	// structural layer alone decides the verdict.
+	if diag.HasErrors(ds) {
+		return exitModel
+	}
+	return exitOK
 }
 
 func runRender(args []string, stdout, stderr io.Writer) int {

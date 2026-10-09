@@ -1,0 +1,99 @@
+// Package model parses organization.yml into Go structures and validates it
+// against the embedded JSON Schema, binding every finding to a line and
+// column in the source file.
+//
+// The structures mirror the document, not the semantics: enumerated values
+// stay plain strings here. Turning "mgmt" into a typed role, and a CIDR
+// string into a prefix, is the job of the intermediate representation —
+// this package only answers whether the file says what the schema allows.
+package model
+
+// Organization is a whole organization.yml.
+type Organization struct {
+	Organization string      `yaml:"organization"`
+	Profile      string      `yaml:"profile"`
+	Sites        []Site      `yaml:"sites"`
+	ControlNode  ControlNode `yaml:"control_node"`
+	Policies     *Policies   `yaml:"policies,omitempty"`
+}
+
+// ControlNode is the node configurations are applied from — the starting
+// point of the management-reachability check (E006).
+type ControlNode struct {
+	Site    string `yaml:"site"`
+	Network string `yaml:"network"`
+	IP      string `yaml:"ip"`
+}
+
+// Site is one physical location.
+type Site struct {
+	Name string `yaml:"name"`
+
+	// AllowOverlap permits this site's prefixes to overlap with those of
+	// other sites. It never permits an overlap inside the site itself.
+	AllowOverlap bool `yaml:"allow_overlap,omitempty"`
+
+	Networks []Network `yaml:"networks"`
+	Uplinks  []Uplink  `yaml:"uplinks,omitempty"`
+	Devices  []Device  `yaml:"devices,omitempty"`
+	Servers  []Server  `yaml:"servers,omitempty"`
+}
+
+// Network is one VLAN segment. Name is unique across the whole model, not
+// just the site: policies refer to a segment by bare name.
+type Network struct {
+	VLAN     int       `yaml:"vlan"`
+	Name     string    `yaml:"name"`
+	Role     string    `yaml:"role"`
+	CIDR     string    `yaml:"cidr"`
+	Gateway  string    `yaml:"gateway,omitempty"`
+	DHCPPool *DHCPPool `yaml:"dhcp_pool,omitempty"`
+
+	// Isolated forbids traffic between hosts of this very network.
+	// Isolation between segments already comes from default-deny.
+	Isolated bool `yaml:"isolated,omitempty"`
+}
+
+// DHCPPool is the address range handed out by DHCP.
+type DHCPPool struct {
+	From string `yaml:"from"`
+	To   string `yaml:"to"`
+}
+
+// Uplink is an external link of a site. It carries no addressing: model v2
+// records only that the link exists.
+type Uplink struct {
+	Name string `yaml:"name"`
+	Kind string `yaml:"kind"`
+}
+
+// Device is a network device.
+type Device struct {
+	Name      string `yaml:"name"`
+	Type      string `yaml:"type"`
+	OSVersion string `yaml:"os_version"`
+	Role      string `yaml:"role"`
+	MgmtIP    string `yaml:"mgmt_ip"`
+}
+
+// Server is a workload host.
+type Server struct {
+	Name string   `yaml:"name"`
+	Role []string `yaml:"role"`
+	IP   string   `yaml:"ip"`
+}
+
+// Policies describes permitted traffic. Absence of a rule is a denial.
+type Policies struct {
+	InterVLAN []Rule `yaml:"inter_vlan,omitempty"`
+}
+
+// Rule opens one flow. Rules are stateful and non-transitive, and their
+// order carries no meaning.
+type Rule struct {
+	From   string `yaml:"from"`
+	To     string `yaml:"to"`
+	Ports  []int  `yaml:"ports,omitempty"`
+	Proto  string `yaml:"proto,omitempty"`
+	Action string `yaml:"action"`
+}

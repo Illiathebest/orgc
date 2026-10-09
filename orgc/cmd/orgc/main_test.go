@@ -11,8 +11,15 @@ import (
 // The exit codes are a contract CI depends on: a wrong model and a wrong
 // invocation must never collapse into the same signal.
 func TestRunExitCodes(t *testing.T) {
-	model := filepath.Join(t.TempDir(), "organization.yml")
-	if err := os.WriteFile(model, []byte("organization: test\n"), 0o644); err != nil {
+	dir := t.TempDir()
+
+	model := filepath.Join(dir, "organization.yml")
+	if err := os.WriteFile(model, []byte(validModel), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	broken := filepath.Join(dir, "broken.yml")
+	if err := os.WriteFile(broken, []byte("organization: test\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -32,10 +39,12 @@ func TestRunExitCodes(t *testing.T) {
 		{"verify directory", []string{"verify", t.TempDir()}, exitInvoked},
 		{"render without file", []string{"render"}, exitInvoked},
 
-		// Until internal/model lands (plan step 13) a readable file still
-		// yields a non-zero code: verify must not report success it has
-		// not established. This expectation changes when step 13 does.
-		{"verify readable file, not implemented", []string{"verify", model}, exitInvoked},
+		// The point of the two codes: a model that is wrong and a command
+		// that was called wrong must never look the same to CI.
+		{"verify valid model", []string{"verify", model}, exitOK},
+		{"verify broken model", []string{"verify", broken}, exitModel},
+
+		// render is still a stub (plan step beyond 15).
 		{"render readable file, not implemented", []string{"render", model}, exitInvoked},
 	}
 
@@ -76,5 +85,58 @@ func TestBadInvocationKeepsStdoutClean(t *testing.T) {
 	}
 	if !strings.Contains(stderr.String(), "bogus") {
 		t.Errorf("stderr does not name the unknown command: %s", stderr.String())
+	}
+}
+
+// validModel is the smallest document the schema accepts.
+const validModel = `organization: "Навчальна лабораторія"
+profile: S
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+sites:
+  - name: hq
+    networks:
+      - { vlan: 30, name: servers, role: servers, cidr: 192.168.30.0/24 }
+`
+
+// verify writes its findings to stdout, so that a caller can pipe them;
+// stderr stays for complaints about how orgc itself was called.
+func TestVerifyWritesFindingsToStdout(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "broken.yml")
+	if err := os.WriteFile(path, []byte("organization: test\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	var stdout, stderr bytes.Buffer
+	if got := run([]string{"verify", path}, &stdout, &stderr); got != exitModel {
+		t.Fatalf("код виходу = %d, want %d\nstderr: %s", got, exitModel, stderr.String())
+	}
+	if stderr.Len() != 0 {
+		t.Errorf("stderr не порожній: %s", stderr.String())
+	}
+	out := stdout.String()
+	if !strings.Contains(out, "S002") {
+		t.Errorf("у виводі немає коду структурної помилки:\n%s", out)
+	}
+	if !strings.Contains(out, "Знайдено") {
+		t.Errorf("у виводі немає підсумку:\n%s", out)
+	}
+}
+
+func TestVerifyValidModelSaysOK(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "organization.yml")
+	if err := os.WriteFile(path, []byte(validModel), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	var stdout, stderr bytes.Buffer
+	if got := run([]string{"verify", path}, &stdout, &stderr); got != exitOK {
+		t.Fatalf("код виходу = %d, want %d\nstdout: %s\nstderr: %s",
+			got, exitOK, stdout.String(), stderr.String())
+	}
+	if !strings.Contains(stdout.String(), "OK") {
+		t.Errorf("вивід не містить OK:\n%s", stdout.String())
 	}
 }

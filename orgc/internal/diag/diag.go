@@ -54,6 +54,13 @@ const (
 	SArrayConstraint Code = "S008" // array constraint violated (duplicates, length)
 	SFieldDependency Code = "S009" // a field requires another field
 	SValueForbidden  Code = "S010" // value explicitly disallowed (reserved name)
+
+	// SOther is the safety net for a validator finding this package has no
+	// Ukrainian wording for. It should never reach an administrator: a test
+	// asserts that the whole broken-model corpus produces no S099. If one
+	// appears, the mapping in internal/model has a gap — the code exists so
+	// that the gap is reported with a position instead of silently dropped.
+	SOther Code = "S099"
 )
 
 // titles give each code a short Ukrainian name. A Diagnostic normally carries
@@ -70,6 +77,7 @@ var titles = map[Code]string{
 	SArrayConstraint: "порушено обмеження списку",
 	SFieldDependency: "поле потребує іншого поля",
 	SValueForbidden:  "значення заборонено",
+	SOther:           "структурна помилка моделі",
 }
 
 // Title returns the Ukrainian name of the defect class, or an empty string

@@ -157,7 +157,7 @@ func checkE008(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 			continue
 		}
 		out = append(out, report(m, diag.E008, diag.Error, n.Path+".cidr", fmt.Sprintf(
-			"префікс /%d має %d адрес для хостів, а мережі %q потрібно %d (DHCP-пул: %d, шлюз і статичні адреси: %d)",
+			"адрес для хостів у префіксі /%d: %d, а мережі %q потрібно %d (DHCP-пул: %d, шлюз і статичні адреси: %d)",
 			n.Prefix.Bits(), have, n.Name, need, poolSize(n.Pool), need-poolSize(n.Pool))))
 	}
 	return out

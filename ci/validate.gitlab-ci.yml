@@ -3,7 +3,9 @@
 # Виконується в образі iac-runner (check-jsonschema вже всередині).
 #
 # Два напрямки (DoD M1):
-#   validate          — коректні приклади МАЮТЬ проходити;
+#   validate          — коректні приклади МАЮТЬ проходити; серед них і
+#                       organization.invariants-broken.yml: його дефекти
+#                       семантичні, схема їх не бачить, їх ловить orgc verify;
 #   validate-negative — навмисно зламаний приклад МАЄ бути відхилений
 #                       (job зелений саме тоді, коли валідація впала).
 
@@ -21,6 +23,7 @@ validate:
       check-jsonschema --schemafile "${SCHEMA}"
       examples/organization.s-profile.yml
       examples/organization.m-profile.yml
+      examples/organization.invariants-broken.yml
 
 validate-negative:
   extends: .validate-base

@@ -1,0 +1,110 @@
+---
+# yaml-language-server: $schema=../orgc/schema/organization.schema.json
+# Зведений семантично зламаний приклад. Модель проходить JSON Schema
+# (check-jsonschema у CI), але порушує кожен інваріант E001–E008 і
+# W001–W004 рівно одним незалежним дефектом. `orgc verify` має назвати
+# саме ці дванадцять кодів, кожен один раз.
+organization: "Навчальна лабораторія"
+profile: M
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    uplinks:
+      # W003: сайт профілю M без резервного каналу.
+      - { name: isp-main, kind: primary }
+    networks:
+      - { vlan: 10, name: mgmt, role: mgmt, cidr: 192.168.10.0/24, gateway: 192.168.10.1 }
+      - vlan: 20
+        name: users
+        role: users
+        cidr: 192.168.20.0/24
+        gateway: 192.168.20.1
+        dhcp_pool: { from: 192.168.20.100, to: 192.168.20.200 }
+      - { vlan: 30, name: servers, role: servers, cidr: 192.168.30.0/24, gateway: 192.168.30.1 }
+      # W001: guest-мережа без isolated: true.
+      - vlan: 40
+        name: guest
+        role: guest
+        cidr: 192.168.40.0/24
+        gateway: 192.168.40.1
+        dhcp_pool: { from: 192.168.40.100, to: 192.168.40.200 }
+      # E001: префікс перетинається з servers того самого сайту.
+      - { vlan: 50, name: lab, role: users, cidr: 192.168.30.128/25 }
+      # E002: VLAN 20 уже має мережа users.
+      - { vlan: 20, name: printers, role: users, cidr: 192.168.60.0/24 }
+      # E008: /30 має дві адреси для хостів, а пулу потрібно дев'ять.
+      - vlan: 70
+        name: tiny
+        role: users
+        cidr: 192.168.70.0/30
+        gateway: 192.168.70.1
+        dhcp_pool: { from: 192.168.70.2, to: 192.168.70.10 }
+      # E007: шлюз лежить поза мережею.
+      - { vlan: 80, name: dmz, role: servers, cidr: 192.168.80.0/24, gateway: 192.168.81.1 }
+    devices:
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.10.1
+      # E004: mgmt_ip лежить у мережі users, а не в mgmt.
+      - name: sw-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.20.5
+      # W002 (рівень помилки): RouterOS 7 поза діапазоном бекенда.
+      - name: sw-02
+        type: mikrotik
+        os_version: "7.15"
+        role: access_switch
+        mgmt_ip: 192.168.10.3
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11 }
+
+  - name: branch
+    uplinks:
+      - { name: isp-branch, kind: primary }
+      - { name: lte-branch, kind: backup }
+    networks:
+      - { vlan: 110, name: mgmt-branch, role: mgmt, cidr: 192.168.110.0/24, gateway: 192.168.110.1 }
+      - vlan: 120
+        name: users-branch
+        role: users
+        cidr: 192.168.120.0/24
+        gateway: 192.168.120.1
+        dhcp_pool: { from: 192.168.120.100, to: 192.168.120.200 }
+    devices:
+      - name: rb-branch
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.110.1
+      - name: sw-branch-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.110.2
+
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
+    # E006: до філії відкрито лише SSH; Arista це влаштовує, а rb-branch
+    # керується через RouterOS API (TCP 8728) і стане недосяжним.
+    - { from: servers, to: mgmt-branch, ports: [22], action: allow }
+    - { from: users, to: servers, ports: [443], action: allow }
+    # E003: мережі srvers у моделі немає.
+    - { from: users, to: srvers, ports: [8443], action: allow }
+    # W004: mgmt відкрито мережі users, а не лише мережі вузла керування.
+    - { from: users, to: mgmt, ports: [161], proto: udp, action: allow }
+    - { from: users, to: internet, action: allow }
+    - { from: users-branch, to: internet, action: allow }
+    - { from: guest, to: internet, action: allow }
+    # E005: any → any скасовує default-deny.
+    - { from: any, to: any, ports: [443], action: allow }

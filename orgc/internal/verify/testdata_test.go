@@ -3,6 +3,7 @@ package verify
 import (
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -222,4 +223,19 @@ func render(ds []diag.Diagnostic) string {
 	var b strings.Builder
 	_ = diag.Render(&b, ds)
 	return b.String()
+}
+
+// The invariant → test table in testdata/README.md is documentation a
+// reader trusts; it must name every fixture with the line it reports.
+func TestReadmeTableMatchesFixtures(t *testing.T) {
+	readme, err := os.ReadFile(testdata("README.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for name, want := range expected {
+		cell := "`" + name + "`:" + strconv.Itoa(want.line)
+		if !strings.Contains(string(readme), cell) {
+			t.Errorf("у таблиці testdata/README.md немає %s", cell)
+		}
+	}
 }

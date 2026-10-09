@@ -230,6 +230,7 @@ func TestTestdataMatchesExamples(t *testing.T) {
 		{"valid", "s-profile.yml", "organization.s-profile.yml"},
 		{"valid", "m-profile.yml", "organization.m-profile.yml"},
 		{"broken", aggregateName, "organization.broken.yml"},
+		{"broken", "invariants-aggregate.yml", "organization.invariants-broken.yml"},
 	}
 
 	for _, p := range pairs {

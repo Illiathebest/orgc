@@ -45,6 +45,9 @@ func Checks() []Check {
 	return []Check{
 		{Code: diag.E002, Run: checkE002},
 		{Code: diag.E003, Run: checkE003},
+		{Code: diag.E001, Run: checkE001},
+		{Code: diag.E007, Run: checkE007},
+		{Code: diag.E008, Run: checkE008},
 	}
 }
 

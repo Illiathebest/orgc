@@ -1,0 +1,31 @@
+---
+# Негативний приклад E001: правило зʼєднує мережі, перетин яких дозволено allow_overlap.
+# Рівно одне порушення — решта моделі коректна.
+organization: "Навчальна лабораторія"
+profile: S
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    networks:
+      - { vlan: 10, name: mgmt, role: mgmt, cidr: 192.168.10.0/24, gateway: 192.168.10.1 }
+      - { vlan: 30, name: servers, role: servers, cidr: 192.168.30.0/24, gateway: 192.168.30.1 }
+    devices:
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.10.1
+  - name: branch
+    allow_overlap: true
+    networks:
+      - { vlan: 40, name: lab, role: users, cidr: 192.168.30.0/24 }
+
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
+    - { from: lab, to: servers, ports: [443], action: allow }

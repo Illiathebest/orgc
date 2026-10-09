@@ -19,4 +19,4 @@ sites:
         type: mikrotik
         os_version: "6.48"
         role: access_switch
-        mgmt_ip: 192.168.10.1
+        mgmt_ip: 192.168.10.2

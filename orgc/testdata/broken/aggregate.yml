@@ -1,0 +1,68 @@
+---
+# НАВМИСНО ЗЛАМАНИЙ приклад — негативний тест CI-стадії validate.
+# Це КОРЕКТНИЙ YAML, але він порушує схему одразу в кількох місцях.
+# Очікування: check-jsonschema відхиляє цей файл (job validate-negative —
+# зелений саме тому, що валідація тут МАЄ впасти). Порушення позначені нижче.
+#
+# ❌ №1: відсутній обовʼязковий блок control_node верхнього рівня —
+#    без нього нема з чого починати перевірку досяжності управління (E006).
+organization: "Навчальна лабораторія"
+profile: L                       # ❌ №2: profile поза enum [S, M] — 'L' прибрано зі схеми
+
+sites:
+  - name: HQ_Site                # ❌ №3: назва сайту не за патерном identifier (велика літера)
+    allow_overlap: yes-please    # ❌ №4: allow_overlap має бути булевим
+    uplinks:
+      - { name: isp-main, kind: secondary }                   # ❌ №5: kind поза enum [primary, backup]
+    networks:
+      # ❌ №6: vlan > 4094
+      - { vlan: 9999, name: mgmt, role: mgmt, cidr: 192.168.10.0/24 }
+      # ❌ №7: некоректний CIDR (/33)
+      - { vlan: 20, name: users, role: users, cidr: 192.168.20.0/33 }
+      # ❌ №8: network.role поза enum [mgmt, users, servers, guest]
+      - { vlan: 30, name: servers, role: backup, cidr: 192.168.30.0/24 }
+      # ❌ №9: відсутня обовʼязкова network.role
+      - { vlan: 40, name: guest, cidr: 192.168.40.0/24, isolated: true }
+      # ❌ №10: межа dhcp_pool не є коректною IPv4-адресою
+      - vlan: 50
+        name: lab
+        role: users
+        cidr: 192.168.50.0/24
+        gateway: 192.168.50.1
+        dhcp_pool: { from: 192.168.50.100, to: 192.168.50.300 }
+      # ❌ №11: імʼя 'any' зарезервовано за посиланням на сегмент
+      #    і мережі належати не може
+      - { vlan: 60, name: any, role: users, cidr: 192.168.60.0/24 }
+    devices:
+      # ❌ №12: type поза enum [mikrotik, arista_eos]
+      - { name: rb750, type: huawei, os_version: "6.48", role: edge_router, mgmt_ip: 192.168.10.1 }
+      # ❌ №13: 'cisco_ios' прибрано з enum — бекенда під цю платформу немає
+      - { name: sw-cisco-01, type: cisco_ios, os_version: "15.2", role: access_switch, mgmt_ip: 192.168.10.3 }
+      # ❌ №14: відсутні обовʼязкові mgmt_ip і os_version
+      - { name: sw-01, type: arista_eos, role: access_switch }
+    servers:
+      # ❌ №15: role має бути масивом; ip некоректний
+      - { name: ctrl-01, role: docker_host, ip: 999.1.1.1 }
+      # ❌ №16: 'siem' прибрано з enum ролей сервера
+      - { name: sec-01, role: [siem], ip: 192.168.30.20 }
+
+policies:
+  inter_vlan:
+    # ❌ №17: action: deny — діє default-deny, правила лише відкривають
+    - { from: guest, to: servers, action: deny }
+    # ❌ №18: невідоме імʼя сегмента. Схема ловить лише порушення патерну
+    #    identifier; синтаксично правильне, але неіснуюче імʼя — робота E003.
+    - { from: Warehouse, to: servers, ports: [443], action: allow }
+    # ❌ №19: поле except прибрано зі схеми (additionalProperties: false)
+    - { from: users, to: any, action: allow, except: internet }
+    # ❌ №20: дублікат у ports (uniqueItems) — канонічна форма потрібна
+    #    для детермінованого рендеру
+    - { from: users, to: servers, ports: [443, 443], action: allow }
+    # ❌ №21: proto без ports (dependentRequired) — протокол без портів
+    #    бекенду нічого не каже
+    - { from: users, to: servers, proto: udp, action: allow }
+
+# ❌ №22: невідомий ключ верхнього рівня (additionalProperties: false);
+#    блок modules прибрано зі схеми цілком.
+modules:
+  network_fabric: true

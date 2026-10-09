@@ -1,5 +1,5 @@
 ---
-# Найсуворіший профіль ansible-lint — вимога ARCHITECTURE.md §2.6
+# Найсуворіший профіль ansible-lint
 profile: production
 
 exclude_paths:

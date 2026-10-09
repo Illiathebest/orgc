@@ -40,7 +40,7 @@ type Check struct {
 //
 //	E002 E003 E001 E007 E008 E004 E005 W002 E006 W001 W003 W004
 //
-// Entries are added as the invariants are implemented (plan steps 2.8-2.12).
+// Entries are added as the invariants are implemented.
 func Checks() []Check {
 	return []Check{}
 }

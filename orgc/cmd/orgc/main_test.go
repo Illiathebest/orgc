@@ -44,7 +44,7 @@ func TestRunExitCodes(t *testing.T) {
 		{"verify valid model", []string{"verify", model}, exitOK},
 		{"verify broken model", []string{"verify", broken}, exitModel},
 
-		// render is still a stub (plan step beyond 15).
+		// render is still a stub: no backend generates output yet.
 		{"render readable file, not implemented", []string{"render", model}, exitInvoked},
 	}
 

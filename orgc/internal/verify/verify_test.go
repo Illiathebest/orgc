@@ -79,7 +79,8 @@ func TestRunWithNoChecks(t *testing.T) {
 }
 
 // Every registered check is unique and carries an invariant code. The
-// registry is empty until step 2.8; this guards it as it fills.
+// registry is empty until the invariants are implemented; this guards it
+// as it fills.
 func TestRegistryCodesAreUniqueInvariants(t *testing.T) {
 	seen := map[diag.Code]bool{}
 	for _, c := range Checks() {

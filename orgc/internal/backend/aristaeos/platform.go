@@ -51,7 +51,7 @@ func (p Platform) ManagementPorts(v string) []ir.PortSpec {
 // its ACLs are stateless, so it cannot enforce the model's stateful rules as
 // written. DHCP server, NAT and client isolation depend on the release and
 // the hardware, and are left out until confirmed against the EOS manual and
-// cEOS (plan step 2.11): until then W002 warns where it perhaps need not,
+// cEOS: until then W002 warns where it perhaps need not,
 // rather than staying silent where it should not.
 func (p Platform) Capabilities(v string) backend.CapSet {
 	if ok, _ := p.CheckVersion(v); !ok {

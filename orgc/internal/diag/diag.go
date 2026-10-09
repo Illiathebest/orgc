@@ -42,7 +42,7 @@ type Code string
 // Structural codes. They are grouped by what the administrator has to do
 // about them, not by JSON Schema keyword: a single "the value is not allowed
 // here" class is more useful than nine keyword-shaped ones. The mapping from
-// validator keywords to these codes lives in internal/model (plan step 13).
+// validator keywords to these codes lives in internal/model.
 const (
 	SYAMLSyntax      Code = "S001" // the file is not valid YAML
 	SRequiredMissing Code = "S002" // a required field is absent

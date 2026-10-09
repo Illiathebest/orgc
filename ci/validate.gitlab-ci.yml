@@ -12,7 +12,7 @@
   image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
   interruptible: true
   variables:
-    SCHEMA: schema/organization.schema.json
+    SCHEMA: orgc/schema/organization.schema.json
 
 validate:
   extends: .validate-base

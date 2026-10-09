@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=../schema/organization.schema.json
+# yaml-language-server: $schema=../orgc/schema/organization.schema.json
 # Приклад моделі організації — профіль M (кілька сайтів).
 # Відповідає двовузловому стенду: HQ на pve-a і філія на pve-b,
 # зʼєднані WireGuard-тунелем (hw-handoff §3).

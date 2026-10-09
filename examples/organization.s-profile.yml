@@ -1,8 +1,8 @@
 ---
-# yaml-language-server: $schema=../schema/organization.schema.json
+# yaml-language-server: $schema=../orgc/schema/organization.schema.json
 # Приклад моделі організації — профіль S (малий офіс, один вузол).
 # Відповідає лабораторному стенду: HQ на pve-a (RB750 + ctrl-01 + mon-01).
-# Валідується схемою schema/organization.schema.json (CI-стадія validate).
+# Валідується схемою orgc/schema/organization.schema.json (стадія validate).
 organization: "Навчальна лабораторія"
 profile: S
 

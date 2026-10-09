@@ -47,7 +47,7 @@
 
 ```bash
 # перевірити модель даних
-check-jsonschema --schemafile schema/organization.schema.json examples/organization.s-profile.yml
+check-jsonschema --schemafile orgc/schema/organization.schema.json examples/organization.s-profile.yml
 
 # read-only факти з живого RB750 (нічого не змінює)
 ansible-playbook -i ansible/inventories/staging/hosts.yml ansible/playbooks/smoke_routeros.yml

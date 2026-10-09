@@ -9,7 +9,9 @@ exclude_paths:
   - bootstrap/
   - terraform/
   - examples/      # моделі organization.yml — валідуються JSON-схемою, не ansible-lint
-  - schema/
+  - orgc/          # модуль Go: схема, код і тестові моделі. Серед них є
+                   # навмисно нерозбірний YAML (негативний приклад для S001),
+                   # на якому ansible-lint дає load-failure.
   - docs/
 
 kinds:

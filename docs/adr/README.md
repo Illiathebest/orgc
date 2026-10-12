@@ -18,3 +18,4 @@
 | [ADR-006](ADR-006-go-dependencies-schema-embedding.md) | Залежності компілятора `orgc` і розміщення схеми для `go:embed` | Accepted — `goccy/go-yaml` + `santhosh-tekuri/jsonschema/v6`, схема в `orgc/schema/` |
 | [ADR-007](ADR-007-module-path-and-schema-id.md) | Шлях модуля Go та ідентифікатор схеми | Accepted — модуль `orgc`, `$id` `urn:orgc:organization-schema` |
 | [ADR-008](ADR-008-ir-and-verify-contract.md) | Проміжне представлення і контракт перевірок `verify` | Accepted — IR з індексом позицій, інваріант — функція над IR, лише W → 0, можливості через `backend.Platform`, E006 на графі мереж і шлюзів |
+| [ADR-009](ADR-009-render-interface-and-output.md) | Інтерфейс рендеру і контракт виходу `orgc render` | Accepted — `Platform.Render` + генератори рівня моделі, каталог виходу належить `orgc`, порти за конвенцією платформи, еталон інвентаря — модель поточного стенда |

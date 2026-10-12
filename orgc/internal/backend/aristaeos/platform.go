@@ -8,6 +8,7 @@ package aristaeos
 import (
 	"regexp"
 	"strconv"
+	"strings"
 
 	"orgc/internal/backend"
 	"orgc/internal/ir"
@@ -110,4 +111,20 @@ func (Platform) AnsibleVars() []backend.Var {
 		{Name: "ansible_become", Value: "true"},
 		{Name: "ansible_become_method", Value: "ansible.netcommon.enable"},
 	}
+}
+
+// LabKind is the containerlab kind of cEOS.
+func (Platform) LabKind() string { return "arista_ceos" }
+
+// LabImage names the cEOS image imported for the version.
+func (Platform) LabImage(version string) string { return "ceos:" + version }
+
+// LabInterface maps EthernetN onto ethN and EthernetN/M onto ethN_M, the
+// names cEOS gives its data interfaces.
+func (Platform) LabInterface(port string) (string, bool) {
+	n, ok := strings.CutPrefix(port, "Ethernet")
+	if !ok || !portName.MatchString(port) {
+		return "", false
+	}
+	return "eth" + strings.ReplaceAll(n, "/", "_"), true
 }

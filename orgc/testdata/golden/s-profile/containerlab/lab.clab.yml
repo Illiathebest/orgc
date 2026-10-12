@@ -1,0 +1,25 @@
+# Згенеровано orgc з s-profile.yml. Не редагувати вручну.
+---
+name: lab
+topology:
+  nodes:
+    rb750:
+      kind: mikrotik_ros
+      image: vrnetlab/mikrotik_routeros:6.48
+      startup-config: ../configs/hq/rb750.rsc
+    core-01:
+      kind: arista_ceos
+      image: ceos:4.29.2F
+      startup-config: ../configs/hq/core-01.cfg
+    acc-01:
+      kind: arista_ceos
+      image: ceos:4.29.2F
+      startup-config: ../configs/hq/acc-01.cfg
+    acc-02:
+      kind: arista_ceos
+      image: ceos:4.29.2F
+      startup-config: ../configs/hq/acc-02.cfg
+  links:
+    - endpoints: ["rb750:eth1", "core-01:eth1"]
+    - endpoints: ["core-01:eth2", "acc-01:eth1"]
+    - endpoints: ["core-01:eth3", "acc-02:eth1"]

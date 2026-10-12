@@ -39,3 +39,14 @@ type AnsibleTarget interface {
 	AnsibleGroup() string
 	AnsibleVars() []Var
 }
+
+// LabNode is what a platform tells the containerlab generator about its
+// devices: the node kind, the image for an OS version, and how a port of
+// the model maps onto an interface of the emulated node. ok is false for a
+// port the emulated node does not expose as a data interface — on vrnetlab
+// RouterOS, ether1 is taken by containerlab's management network.
+type LabNode interface {
+	LabKind() string
+	LabImage(version string) string
+	LabInterface(port string) (name string, ok bool)
+}

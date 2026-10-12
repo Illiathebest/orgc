@@ -7,6 +7,7 @@ package routeros
 import (
 	"regexp"
 	"strconv"
+	"strings"
 
 	"orgc/internal/backend"
 	"orgc/internal/ir"
@@ -96,4 +97,24 @@ func (Platform) AnsibleVars() []backend.Var {
 		{Name: "routeros_api_username", Value: "ansible-ro"},
 		{Name: "routeros_api_password", Value: "{{ lookup('ansible.builtin.env', 'ROUTEROS_PASSWORD') }}"},
 	}
+}
+
+// LabKind is the containerlab kind of RouterOS: CHR in a vrnetlab image.
+func (Platform) LabKind() string { return "mikrotik_ros" }
+
+// LabImage names the vrnetlab image built for the version.
+func (Platform) LabImage(version string) string { return "vrnetlab/mikrotik_routeros:" + version }
+
+// LabInterface maps etherN onto vrnetlab's eth(N-1): the image keeps ether1
+// for containerlab's management network, data ports start at ether2 = eth1.
+func (Platform) LabInterface(port string) (string, bool) {
+	n, ok := strings.CutPrefix(port, "ether")
+	if !ok {
+		return "", false
+	}
+	i, err := strconv.Atoi(n)
+	if err != nil || i < 2 {
+		return "", false
+	}
+	return "eth" + strconv.Itoa(i-1), true
 }

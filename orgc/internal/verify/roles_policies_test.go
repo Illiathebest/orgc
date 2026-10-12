@@ -35,8 +35,8 @@ func TestE004(t *testing.T) {
 	})
 	t.Run("кожен пристрій сайту без mgmt-мережі — окрема діагностика", func(t *testing.T) {
 		m := variant(t, mprofile(), "name: mgmt-branch\n        role: mgmt", "name: mgmt-branch\n        role: users")
-		if ds := runChecks(t, m, e004); codes(ds) != "E004 E004" {
-			t.Errorf("у філії два пристрої, отримано:\n%s", render(ds))
+		if ds := runChecks(t, m, e004); codes(ds) != "E004 E004 E004" {
+			t.Errorf("у філії три пристрої, отримано:\n%s", render(ds))
 		}
 	})
 }
@@ -107,7 +107,7 @@ func TestW003(t *testing.T) {
 		}
 	})
 	t.Run("лише сайт без backup", func(t *testing.T) {
-		m := variant(t, mprofile(), "{ name: lte-branch, kind: backup }", "{ name: lte-branch, kind: primary }")
+		m := variant(t, mprofile(), "{ name: lte-branch, kind: backup,", "{ name: lte-branch, kind: primary,")
 		ds := runChecks(t, m, w003)
 		if codes(ds) != "W003" || !strings.Contains(ds[0].Message, `"branch"`) {
 			t.Errorf("отримано:\n%s", render(ds))

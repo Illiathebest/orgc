@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=../orgc/schema/organization.schema.json
+# Модель поточного лабораторного стенда: усе в одній плоскій мережі
+# 192.168.1.0/24 за домашнім роутером. Домашній роутер не є пристроєм
+# моделі, тому мережа не має gateway, а rb750 — єдиний мережевий пристрій.
+# Зʼєднань сайт не описує: топологія — зірка за конвенцією платформи.
+# З цієї моделі orgc генерує ansible/inventories/staging/.
+organization: "Навчальна лабораторія"
+profile: S
+
+control_node:
+  site: lab
+  network: lan
+  ip: 192.168.1.50
+
+sites:
+  - name: lab
+    networks:
+      - vlan: 1
+        name: lan
+        role: mgmt
+        cidr: 192.168.1.0/24
+    devices:
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.1.220
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.1.50 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.1.51 }

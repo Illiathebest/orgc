@@ -1,8 +1,13 @@
 ---
 # yaml-language-server: $schema=../orgc/schema/organization.schema.json
 # Приклад моделі організації — профіль M (кілька сайтів).
-# Відповідає двовузловому стенду: HQ на pve-a і філія на pve-b,
-# зʼєднані WireGuard-тунелем (docs/reports/hardware-2026-06-14.md §3).
+# HQ — ієрархія Access–Distribution–Core:
+#   rb750 → core-01 → dist-01 → acc-01, acc-02
+#                   → dist-02 → acc-03
+# Філія — Access–Core: rb-branch → core-br-01 → sw-branch-01.
+# Сайти зʼєднані WireGuard-тунелем між L3-шлюзами
+# (docs/reports/hardware-2026-06-14.md §3); модель міжсайтових зʼєднань
+# не описує і вважає шлюзи повнозвʼязними.
 organization: "Навчальна лабораторія"
 profile: M
 
@@ -14,8 +19,8 @@ control_node:
 sites:
   - name: hq
     uplinks:
-      - { name: isp-main, kind: primary }
-      - { name: lte-backup, kind: backup }
+      - { name: isp-main, kind: primary, port: rb750:ether1 }
+      - { name: lte-backup, kind: backup, port: rb750:ether4 }
     networks:
       - vlan: 10
         name: mgmt
@@ -46,14 +51,59 @@ sites:
         os_version: "6.48"
         role: edge_router
         mgmt_ip: 192.168.10.1
+      - name: core-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: core_switch
+        mgmt_ip: 192.168.10.2
+      - name: dist-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: distribution_switch
+        mgmt_ip: 192.168.10.3
+      - name: dist-02
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: distribution_switch
+        mgmt_ip: 192.168.10.4
+      - name: acc-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.5
+      - name: acc-02
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.6
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4, Ethernet5], network: users }
+      - name: acc-03
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.7
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4], network: users }
+          - { ports: [Ethernet6], network: guest }
     servers:
-      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10 }
-      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11 }
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10, port: acc-01:Ethernet5 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11, port: acc-01:Ethernet6 }
+    # Без vlans зʼєднання несе всі мережі сайту. Від distribution до access
+    # VLAN обрізано до потрібних; mgmt є на кожному trunk, інакше
+    # комутатор за ним втратить керування (E006).
+    links:
+      - { a: rb750:ether2, b: core-01:Ethernet1 }
+      - { a: core-01:Ethernet2, b: dist-01:Ethernet1 }
+      - { a: core-01:Ethernet3, b: dist-02:Ethernet1 }
+      - { a: dist-01:Ethernet2, b: acc-01:Ethernet1, vlans: [mgmt, servers] }
+      - { a: dist-01:Ethernet3, b: acc-02:Ethernet1, vlans: [mgmt, users] }
+      - { a: dist-02:Ethernet2, b: acc-03:Ethernet1, vlans: [mgmt, users, guest] }
 
   - name: branch
     uplinks:
-      - { name: isp-branch, kind: primary }
-      - { name: lte-branch, kind: backup }
+      - { name: isp-branch, kind: primary, port: rb-branch:ether1 }
+      - { name: lte-branch, kind: backup, port: rb-branch:ether4 }
     networks:
       - vlan: 110
         name: mgmt-branch
@@ -73,19 +123,28 @@ sites:
         gateway: 192.168.130.1
     devices:
       # Рівно один edge_router/firewall на сайт — L3-шлюз усіх його мереж.
-      # Без нього шлюзи .1 у мережах філії не належать жодному пристрою (E003).
       - name: rb-branch
         type: mikrotik
         os_version: "6.48"
         role: edge_router
         mgmt_ip: 192.168.110.1
+      - name: core-br-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: core_switch
+        mgmt_ip: 192.168.110.3
       - name: sw-branch-01
         type: arista_eos
         os_version: "4.29.2F"
         role: access_switch
         mgmt_ip: 192.168.110.2
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4], network: users-branch }
     servers:
-      - { name: app-branch-01, role: [docker_host, app], ip: 192.168.130.10 }
+      - { name: app-branch-01, role: [docker_host, app], ip: 192.168.130.10, port: sw-branch-01:Ethernet5 }
+    links:
+      - { a: rb-branch:ether2, b: core-br-01:Ethernet1 }
+      - { a: core-br-01:Ethernet2, b: sw-branch-01:Ethernet1 }
 
 # Між сегментами діє default-deny: усе, чого нема нижче, заборонено.
 # Зокрема guest не має жодного правила до внутрішніх сегментів —
@@ -95,7 +154,7 @@ sites:
 # йде голим імʼям, без указання сайту.
 #
 # Порти керування: 8728 — RouterOS API (rb750, rb-branch), 22 — SSH
-# для arista.eos через network_cli (sw-branch-01). Обидва сайти мають
+# для arista.eos через network_cli (комутатори). Обидва сайти мають
 # mgmt-мережу з пристроями обох платформ, тому в правилі обидва порти.
 policies:
   inter_vlan:

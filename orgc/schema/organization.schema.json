@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:orgc:organization-schema",
   "title": "Модель організації",
-  "description": "Декларативний опис організації (Organization-as-Data). З цієї моделі компілятор orgc генерує інвентарі та конфігурації. Схема — frontend компілятора; семантику перевіряють інваріанти E001-E008/W001-W003 (ADR-005).",
+  "description": "Декларативний опис організації (Organization-as-Data). З цієї моделі компілятор orgc генерує інвентарі та конфігурації. Схема — frontend компілятора; семантику перевіряють інваріанти E001-E010/W001-W005 (ADR-005, ADR-008).",
   "type": "object",
   "additionalProperties": false,
   "required": ["organization", "profile", "sites", "control_node"],
@@ -53,6 +53,54 @@
       "title": "Технічний ідентифікатор",
       "description": "Малі латинські літери, цифри, дефіс та підкреслення; починається з літери.",
       "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "port_name": {
+      "type": "string",
+      "title": "Імʼя порту пристрою",
+      "description": "Імʼя інтерфейсу платформи: ether2, sfp1 для RouterOS, Ethernet1 чи Ethernet1/1 для Arista EOS. Чи припустиме імʼя для платформи пристрою, перевіряє orgc (W002).",
+      "pattern": "^[A-Za-z][A-Za-z0-9/._-]*$"
+    },
+    "port_ref": {
+      "type": "string",
+      "title": "Порт пристрою",
+      "description": "Пристрій і порт через двокрапку: rb750:ether2, core-01:Ethernet1.",
+      "pattern": "^[a-z][a-z0-9_-]*:[A-Za-z][A-Za-z0-9/._-]*$"
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["a", "b"],
+      "properties": {
+        "a": { "title": "Перший кінець зʼєднання", "$ref": "#/$defs/port_ref" },
+        "b": { "title": "Другий кінець зʼєднання", "$ref": "#/$defs/port_ref" },
+        "vlans": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "title": "Мережі на trunk",
+          "description": "Імена мереж того самого сайту, дозволені на цьому зʼєднанні. Без поля зʼєднання несе всі мережі сайту. Усі мережі на trunk теговані.",
+          "items": { "$ref": "#/$defs/identifier" }
+        }
+      }
+    },
+    "access_ports": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ports", "network"],
+      "properties": {
+        "ports": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "title": "Порти",
+          "items": { "$ref": "#/$defs/port_name" }
+        },
+        "network": {
+          "title": "Мережа порту",
+          "description": "Мережа того самого сайту; порти стають нетегованими портами її VLAN.",
+          "$ref": "#/$defs/identifier"
+        }
+      }
     },
     "control_node": {
       "type": "object",
@@ -110,6 +158,12 @@
           "type": "array",
           "title": "Сервери сайту",
           "items": { "$ref": "#/$defs/server" }
+        },
+        "links": {
+          "type": "array",
+          "title": "Зʼєднання між пристроями сайту",
+          "description": "Кабелі між портами пристроїв; кінець зʼєднання — trunk-порт. Сайт без links будується зіркою від L3-шлюзу за конвенцією платформи. Сайт із links описує топологію повністю: вона має бути деревом з коренем у L3-шлюзі (E010), до якого має шлях кожен пристрій (E009).",
+          "items": { "$ref": "#/$defs/link" }
         }
       }
     },
@@ -126,6 +180,11 @@
           "title": "Тип каналу",
           "description": "primary — основний канал; backup — резервний.",
           "enum": ["primary", "backup"]
+        },
+        "port": {
+          "title": "Порт каналу",
+          "description": "Порт L3-шлюзу сайту, яким канал виходить до провайдера. Без поля — порт за конвенцією платформи.",
+          "$ref": "#/$defs/port_ref"
         }
       }
     },
@@ -214,6 +273,12 @@
           "title": "Management-адреса",
           "description": "IP керування; має належати мережі з роллю mgmt (E004).",
           "$ref": "#/$defs/ipv4"
+        },
+        "access_ports": {
+          "type": "array",
+          "title": "Access-порти",
+          "description": "Порти для хостів, яких модель не описує поіменно (робочі місця, гості), з мережею цих портів.",
+          "items": { "$ref": "#/$defs/access_ports" }
         }
       }
     },
@@ -239,6 +304,11 @@
         "ip": {
           "title": "IP-адреса сервера",
           "$ref": "#/$defs/ipv4"
+        },
+        "port": {
+          "title": "Порт підключення",
+          "description": "Access-порт пристрою, до якого підключено сервер; VLAN порту — мережа адреси сервера.",
+          "$ref": "#/$defs/port_ref"
         }
       }
     },

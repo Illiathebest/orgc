@@ -1,7 +1,8 @@
 ---
 # yaml-language-server: $schema=../orgc/schema/organization.schema.json
-# Приклад моделі організації — профіль S (малий офіс, один вузол).
-# Відповідає лабораторному стенду: HQ на pve-a (RB750 + ctrl-01 + mon-01).
+# Приклад моделі організації — профіль S (малий офіс, один сайт).
+# Топологія Access–Core: rb750 (L3-шлюз) → core-01 → acc-01, acc-02.
+# Комутатори — Arista EOS (у лабораторії емулюються cEOS).
 # Валідується схемою orgc/schema/organization.schema.json (стадія validate).
 organization: "Навчальна лабораторія"
 profile: S
@@ -14,7 +15,7 @@ control_node:
 sites:
   - name: hq
     uplinks:
-      - { name: isp-main, kind: primary }
+      - { name: isp-main, kind: primary, port: rb750:ether1 }
     networks:
       - vlan: 10
         name: mgmt
@@ -45,18 +46,43 @@ sites:
         os_version: "6.48"
         role: edge_router
         mgmt_ip: 192.168.10.1
+      - name: core-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: core_switch
+        mgmt_ip: 192.168.10.2
+      - name: acc-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.3
+      - name: acc-02
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.4
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4, Ethernet5], network: users }
+          - { ports: [Ethernet6], network: guest }
     servers:
-      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10 }
-      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11 }
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10, port: acc-01:Ethernet5 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11, port: acc-01:Ethernet6 }
+    # Кінці зʼєднань — trunk-порти. Без vlans зʼєднання несе всі мережі
+    # сайту; до acc-01 доходять лише ті, що там потрібні (mgmt —
+    # обовʼязково, інакше комутатор втратить керування, E006).
+    links:
+      - { a: rb750:ether2, b: core-01:Ethernet1 }
+      - { a: core-01:Ethernet2, b: acc-01:Ethernet1, vlans: [mgmt, servers] }
+      - { a: core-01:Ethernet3, b: acc-02:Ethernet1 }
 
 # Між сегментами діє default-deny: усе, чого нема нижче, заборонено.
 # Зокрема guest не має жодного правила до внутрішніх сегментів —
 # саме відсутність правила і є забороною, окремий deny не потрібен.
 #
-# 8728 у servers → mgmt — порт RouterOS API, яким Ansible застосовує
-# конфігурацію на MikroTik. Без нього E006 падає: вузол керування
-# ctrl-01 не дістався б до rb750, і згенерований конфіг відрізав би
-# керування сам від себе.
+# servers → mgmt відкриває обидва порти керування: 8728 — RouterOS API,
+# яким Ansible застосовує конфігурацію на MikroTik, 22 — SSH для Arista
+# EOS (network_cli). Без 8728 E006 падає: ctrl-01 не дістався б до rb750,
+# і згенерований конфіг відрізав би керування сам від себе.
 policies:
   inter_vlan:
     - { from: servers, to: mgmt, ports: [22, 8728], action: allow }

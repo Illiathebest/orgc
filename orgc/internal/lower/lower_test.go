@@ -302,7 +302,7 @@ func TestUnresolvedReferencesAndGateways(t *testing.T) {
 
 	t.Run("два L3-шлюзи", func(t *testing.T) {
 		m := lower(t, loadVariant(t, mprofile,
-			"        role: access_switch\n", "        role: firewall\n"))
+			"        role: core_switch\n        mgmt_ip: 192.168.110.3\n", "        role: firewall\n        mgmt_ip: 192.168.110.3\n"))
 		s := m.Sites[1]
 		if s.Gateway != nil || len(s.GatewayCandidates) != 2 {
 			t.Errorf("Gateway = %v, кандидатів %d — шлюз має лишитися невизначеним", s.Gateway, len(s.GatewayCandidates))

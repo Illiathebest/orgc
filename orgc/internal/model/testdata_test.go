@@ -229,6 +229,7 @@ func TestTestdataMatchesExamples(t *testing.T) {
 	pairs := []struct{ dir, name, example string }{
 		{"valid", "s-profile.yml", "organization.s-profile.yml"},
 		{"valid", "m-profile.yml", "organization.m-profile.yml"},
+		{"valid", "lab.yml", "organization.lab.yml"},
 		{"broken", aggregateName, "organization.broken.yml"},
 		{"broken", "invariants-aggregate.yml", "organization.invariants-broken.yml"},
 	}

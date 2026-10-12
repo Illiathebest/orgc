@@ -56,13 +56,13 @@ func TestE006(t *testing.T) {
 			t.Errorf("отримано:\n%s", render(ds))
 		}
 	})
-	t.Run("профіль M без правила до філії — E006 на обидва пристрої філії", func(t *testing.T) {
+	t.Run("профіль M без правила до філії — E006 на кожен пристрій філії", func(t *testing.T) {
 		m := variant(t, mprofile(), "    - { from: servers, to: mgmt-branch, ports: [22, 8728], action: allow }\n", "")
 		ds := runChecks(t, m, Checks())
-		if codes(ds) != "E006 E006" {
+		if codes(ds) != "E006 E006 E006" {
 			t.Fatalf("отримано:\n%s", render(ds))
 		}
-		for i, name := range []string{"rb-branch", "sw-branch-01"} {
+		for i, name := range []string{"rb-branch", "core-br-01", "sw-branch-01"} {
 			if !strings.Contains(ds[i].Message, name) {
 				t.Errorf("діагностика %d не про %s: %s", i, name, ds[i])
 			}
@@ -71,7 +71,10 @@ func TestE006(t *testing.T) {
 	t.Run("порт залежить від платформи: Arista у філії потребує 22", func(t *testing.T) {
 		m := variant(t, mprofile(), "{ from: servers, to: mgmt-branch, ports: [22, 8728],", "{ from: servers, to: mgmt-branch, ports: [8728],")
 		ds := runChecks(t, m, e006)
-		if codes(ds) != "E006" || !strings.Contains(ds[0].Message, "sw-branch-01") || !strings.Contains(ds[0].Message, "tcp/22") {
+		// Both branch switches are Arista; the router, on the RouterOS API,
+		// is still reachable on 8728.
+		if codes(ds) != "E006 E006" || !strings.Contains(ds[0].Message, "core-br-01") ||
+			!strings.Contains(ds[1].Message, "sw-branch-01") || !strings.Contains(ds[1].Message, "tcp/22") {
 			t.Errorf("отримано:\n%s", render(ds))
 		}
 	})

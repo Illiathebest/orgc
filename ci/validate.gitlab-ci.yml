@@ -23,6 +23,7 @@ validate:
       check-jsonschema --schemafile "${SCHEMA}"
       examples/organization.s-profile.yml
       examples/organization.m-profile.yml
+      examples/organization.lab.yml
       examples/organization.invariants-broken.yml
 
 validate-negative:

@@ -69,3 +69,16 @@ func TestCapabilities(t *testing.T) {
 		t.Errorf("Capabilities(5.0.0F) = %v, want порожньо", c)
 	}
 }
+
+// Management1 is the out-of-band port: it never carries trunk or access
+// VLANs, so the model may not name it.
+func TestCheckPort(t *testing.T) {
+	for name, want := range map[string]bool{
+		"Ethernet1": true, "Ethernet48": true, "Ethernet1/1": true, "Ethernet49/4": true,
+		"Management1": false, "Ethernet0": false, "ethernet1": false, "Et1": false, "Ethernet1/0": false, "ether1": false,
+	} {
+		if ok, expected := (Platform{}).CheckPort(name); ok != want || expected == "" {
+			t.Errorf("CheckPort(%q) = %v, %q; want %v", name, ok, expected, want)
+		}
+	}
+}

@@ -14,7 +14,9 @@ import (
 //   - whether the os_version is supported at all. If not, the device cannot
 //     be rendered, and W002 is raised to error level;
 //   - whether the platform has every capability the model requires of the
-//     device. A missing one is a warning.
+//     device. A missing one is a warning;
+//   - whether every port the model names on the device is a valid port
+//     name for the platform. An invalid one cannot be rendered: error.
 //
 // The platform says what it has; what the model requires is decided here,
 // from the IR, so that the core owns the vocabulary and no vendor knowledge
@@ -51,6 +53,7 @@ func checkW002(m *ir.Model, ps backend.Platforms) []diag.Diagnostic {
 			"платформа %s %s не підтримує того, що модель вимагає від L3-шлюзу сайту %q: %s",
 			d.Type, d.OSVersion, d.Site.Name, strings.Join(names, ", "))))
 	}
+	out = append(out, portNames(m, ps)...)
 	return out
 }
 

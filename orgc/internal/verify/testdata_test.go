@@ -95,6 +95,17 @@ var expected = map[string]struct {
 	"e002-duplicate-uplink.yml":             {diag.E002, 16},
 	"e002-duplicate-vlan.yml":               {diag.E002, 16},
 	"e002-host-name-clash.yml":              {diag.E002, 24},
+	"e002-port-used-twice.yml":              {diag.E002, 67},
+	"e003-access-network-unknown.yml":       {diag.E003, 64},
+	"e003-link-unknown-device.yml":          {diag.E003, 74},
+	"e003-link-unknown-vlan.yml":            {diag.E003, 73},
+	"e003-uplink-port-not-gateway.yml":      {diag.E003, 16},
+	"e006-mgmt-pruned.yml":                  {diag.E006, 94},
+	"e009-device-not-connected.yml":         {diag.E009, 57},
+	"e009-vlan-not-delivered.yml":           {diag.E009, 64},
+	"e010-loop.yml":                         {diag.E010, 75},
+	"w002-port-name.yml":                    {diag.W002, 66},
+	"w005-access-feeds-access.yml":          {diag.W005, 74},
 	"e003-control-network-other-site.yml":   {diag.E003, 9},
 	"e003-no-l3-gateway.yml":                {diag.E003, 15},
 	"e003-two-l3-gateways.yml":              {diag.E003, 26},
@@ -133,6 +144,7 @@ var expected = map[string]struct {
 // reported at error level: W002 for an OS version the backend cannot render.
 var raisedToError = map[string]bool{
 	"w002-version-out-of-range.yml": true,
+	"w002-port-name.yml":            true,
 }
 
 func invariantFixtures(t *testing.T) []string {

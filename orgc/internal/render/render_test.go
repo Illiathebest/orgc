@@ -21,6 +21,7 @@ func (platform) CheckVersion(string) (bool, string)                { return true
 func (platform) ManagementPorts(string) []ir.PortSpec              { return nil }
 func (platform) Capabilities(string) backend.CapSet                { return 0 }
 func (p platform) Render(_ *ir.Model, d *ir.Device) []backend.File { return p.files(d) }
+func (platform) CheckPort(string) (bool, string)                   { return true, "" }
 
 type generator struct {
 	name  string

@@ -1,9 +1,9 @@
 ---
 # yaml-language-server: $schema=../orgc/schema/organization.schema.json
 # Зведений семантично зламаний приклад. Модель проходить JSON Schema
-# (check-jsonschema у CI), але порушує кожен інваріант E001–E008 і
-# W001–W004 рівно одним незалежним дефектом. `orgc verify` має назвати
-# саме ці дванадцять кодів, кожен один раз.
+# (check-jsonschema у CI), але порушує кожен інваріант E001–E010 і
+# W001–W005 рівно одним незалежним дефектом. `orgc verify` має назвати
+# саме ці пʼятнадцять кодів, кожен один раз.
 organization: "Навчальна лабораторія"
 profile: M
 
@@ -91,6 +91,49 @@ sites:
         os_version: "4.29.2F"
         role: access_switch
         mgmt_ip: 192.168.110.2
+      - name: core-br-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: core_switch
+        mgmt_ip: 192.168.110.3
+      # E009: комутатора немає в жодному зʼєднанні — L2-шляху до шлюзу немає.
+      - name: acc-br-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.110.4
+    links:
+      - { a: rb-branch:ether2, b: sw-branch-01:Ethernet1 }
+      # W005: core-комутатор підключено через access-комутатор.
+      - { a: sw-branch-01:Ethernet2, b: core-br-01:Ethernet1 }
+
+  - name: dc
+    uplinks:
+      - { name: isp-dc, kind: primary }
+      - { name: lte-dc, kind: backup }
+    networks:
+      - { vlan: 210, name: mgmt-dc, role: mgmt, cidr: 192.168.210.0/24, gateway: 192.168.210.1 }
+    devices:
+      - name: rb-dc
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.210.1
+      - name: sw-dc-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.210.2
+      - name: sw-dc-02
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.210.3
+    links:
+      - { a: rb-dc:ether2, b: sw-dc-01:Ethernet1 }
+      - { a: rb-dc:ether3, b: sw-dc-02:Ethernet1 }
+      # E010: зʼєднання між комутаторами замикає петлю.
+      - { a: sw-dc-01:Ethernet2, b: sw-dc-02:Ethernet2 }
 
 policies:
   inter_vlan:

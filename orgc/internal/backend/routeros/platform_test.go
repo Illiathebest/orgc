@@ -69,3 +69,14 @@ func TestCapabilities(t *testing.T) {
 		t.Errorf("Capabilities(7.15) = %v, want порожньо", c)
 	}
 }
+
+func TestCheckPort(t *testing.T) {
+	for name, want := range map[string]bool{
+		"ether1": true, "ether13": true, "sfp1": true, "sfp-sfpplus1": true,
+		"ether0": false, "Ethernet1": false, "eth1": false, "bridge": false, "wlan1": false, "": false,
+	} {
+		if ok, expected := (Platform{}).CheckPort(name); ok != want || expected == "" {
+			t.Errorf("CheckPort(%q) = %v, %q; want %v", name, ok, expected, want)
+		}
+	}
+}

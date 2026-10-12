@@ -88,3 +88,13 @@ func atLeast(v string, major, minor, patch int) bool {
 // Render produces the device configuration. Generation is not implemented
 // yet; until it is, a device contributes no files.
 func (Platform) Render(*ir.Model, *ir.Device) []backend.File { return nil }
+
+// port matches EOS front-panel interfaces: Ethernet<N>, or Ethernet<N>/<M>
+// on modular and breakout ports. Management1 does not match: it is the
+// out-of-band management port and carries neither trunk nor access VLANs.
+var port = regexp.MustCompile(`^Ethernet[1-9][0-9]*(/[1-9][0-9]*)?$`)
+
+// CheckPort accepts Ethernet<N> and Ethernet<N>/<M>.
+func (Platform) CheckPort(name string) (bool, string) {
+	return port.MatchString(name), "Ethernet<N> чи Ethernet<N>/<M> (Management1 — лише порт керування)"
+}

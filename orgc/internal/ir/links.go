@@ -101,9 +101,9 @@ type L2Tree struct {
 
 	Extra []ExtraLink
 
-	// Incomplete is set when some link has an end that did not resolve.
-	// The tree is built from the resolved links, but checks that need the
-	// whole topology skip the site: E003 explains it.
+	// Incomplete is set when some link has an end or a VLAN name that did
+	// not resolve. The tree is built from what resolved, but checks that
+	// need the whole topology skip the site: E003 explains it.
 	Incomplete bool
 
 	// carried holds, per reached device, the networks every link on its
@@ -194,6 +194,11 @@ func BuildL2(s *Site) *L2Tree {
 	seen := map[pair]bool{}
 	adj := map[*Device][]*Link{}
 	for _, l := range s.Links {
+		for _, v := range l.VLANs {
+			if v.Net == nil {
+				t.Incomplete = true
+			}
+		}
 		if !l.Resolved() {
 			t.Incomplete = true
 			continue

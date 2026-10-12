@@ -32,8 +32,8 @@ func (s Severity) String() string {
 //
 // Three prefixes are in use and they do not overlap:
 //
-//	E  — invariant violations (E001-E008), the scientific core;
-//	W  — invariant warnings (W001-W004);
+//	E  — invariant violations (E001-E010), the scientific core;
+//	W  — invariant warnings (W001-W005);
 //	S  — structural defects, i.e. what the JSON Schema catches before any
 //	     invariant runs. E and W were already taken by the invariants, so
 //	     structural codes needed a prefix of their own.
@@ -74,10 +74,13 @@ const (
 	E006 Code = "E006" // management reachability
 	E007 Code = "E007" // address plan consistency
 	E008 Code = "E008" // prefix capacity
+	E009 Code = "E009" // L2 connectivity of a site with links
+	E010 Code = "E010" // a site's links form a tree rooted at the gateway
 	W001 Code = "W001" // guest network not isolated
 	W002 Code = "W002" // platform lacks a capability or the OS version
 	W003 Code = "W003" // profile M site without a backup uplink
 	W004 Code = "W004" // mgmt network open beyond the control node
+	W005 Code = "W005" // role levels grow along the tree from the gateway
 )
 
 // titles give each code a short Ukrainian name. A Diagnostic normally carries

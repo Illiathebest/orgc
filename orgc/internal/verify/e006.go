@@ -17,7 +17,9 @@ import (
 //
 //  1. permitted: N_c = N_m, or a rule with from ∈ {N_c, any}, to ∈ {N_m,
 //     any} admits a port of P(d);
-//  2. routed: N_m is reachable from N_c in the topology graph.
+//  2. routed: N_m is reachable from N_c in the topology graph;
+//  3. carried: in a site that describes its links, every link on the path
+//     of the site's L2 tree from the gateway down to d allows N_m.
 //
 // The graph has networks and site L3 gateways as vertices. A network with a
 // gateway address is attached to the gateway of its site; a network without
@@ -41,6 +43,7 @@ func checkE006(m *ir.Model, ps backend.Platforms) []diag.Diagnostic {
 		return nil
 	}
 	reach := reachable(m, nc)
+	controlNodeCut := controlNodeNotDelivered(m)
 
 	var out []diag.Diagnostic
 	for _, d := range m.Devices {
@@ -68,6 +71,18 @@ func checkE006(m *ir.Model, ps backend.Platforms) []diag.Diagnostic {
 				"пристрій %q недосяжний для керування: немає L3-шляху від мережі вузла керування %q до mgmt-мережі %q (%s)",
 				d.Name, nc.Name, nm.Name, whyUnrouted(nc, nm))))
 			continue
+		}
+
+		if t := d.Site.L2; t != nil {
+			if !whole(d.Site) || !t.Reached(d) || controlNodeCut {
+				continue // E003, E010 or E009
+			}
+			if b := t.Blocking(d, nm); b != nil {
+				out = append(out, report(m, diag.E006, diag.Error, b.Path+".vlans", fmt.Sprintf(
+					"пристрій %q недосяжний для керування: зʼєднання %s – %s не пропускає mgmt-мережу %q",
+					d.Name, b.A.String(), b.B.String(), nm.Name)))
+				continue
+			}
 		}
 
 		var near *ir.Rule
@@ -101,6 +116,24 @@ func checkE006(m *ir.Model, ps backend.Platforms) []diag.Diagnostic {
 		}
 	}
 	return out
+}
+
+// controlNodeNotDelivered tells whether the control node is a server
+// plugged into a port its network does not reach — E009 reports that, and
+// management of the whole site is moot until it is fixed.
+func controlNodeNotDelivered(m *ir.Model) bool {
+	cn := m.ControlNode
+	for _, sv := range m.Servers {
+		if sv.IP != cn.IP || sv.Port == nil || !sv.Port.Resolved() || cn.Network.Net == nil {
+			continue
+		}
+		t := sv.Site.L2
+		if t == nil || !whole(sv.Site) {
+			return false
+		}
+		return !t.Carried(sv.Port.Device, cn.Network.Net)
+	}
+	return false
 }
 
 // reachable runs a breadth-first search over the topology graph from the

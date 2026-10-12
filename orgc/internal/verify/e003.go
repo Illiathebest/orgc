@@ -15,7 +15,10 @@ import (
 //   - control_node.network → a network of that very site;
 //   - from/to of a rule → a network of the model, any or internet;
 //   - a network with a gateway → exactly one L3 gateway of its site, by the
-//     model v2 convention one device with role edge_router or firewall.
+//     model v2 convention one device with role edge_router or firewall;
+//   - link ends and server ports → devices of the same site; VLAN names
+//     and access-port networks → networks of the site; an uplink port →
+//     the site's L3 gateway.
 //
 // Lowering has already tried every reference and left the unresolved ones
 // with a nil target; this check only reports them. It has to come early:
@@ -79,6 +82,8 @@ func checkE003(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 				s.Name, strings.Join(names, ", ")))
 		}
 	}
+
+	connectionReferences(m, bad)
 
 	return out
 }

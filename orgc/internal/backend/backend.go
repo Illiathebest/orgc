@@ -37,6 +37,11 @@ type Platform interface {
 	// empty for a version CheckVersion rejects.
 	Capabilities(version string) CapSet
 
+	// CheckPort reports whether a port name is valid on the platform.
+	// expected describes the accepted names for a diagnostic; it is
+	// returned whatever ok is.
+	CheckPort(name string) (ok bool, expected string)
+
 	// Render produces the configuration of one device of this platform
 	// (docs/adr/ADR-009, decision 1). It is called only on a model that
 	// passed verification, so the device's version is supported.

@@ -17,7 +17,9 @@ import (
 //     network by bare name, so the name must mean one thing everywhere;
 //   - device and server names — one shared space across the model: both
 //     become host names of the Ansible inventory;
-//   - uplink names — within a site.
+//   - uplink names — within a site;
+//   - a port of a device — once across links, access ports, server ports
+//     and uplink ports.
 //
 // The first definition wins and every later one is reported, pointing back
 // at the first, so a name used three times yields two diagnostics.
@@ -92,6 +94,8 @@ func checkE002(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 			uplinks[u.Name] = u
 		}
 	}
+
+	usedPortsOnce(m, dup)
 
 	return out
 }

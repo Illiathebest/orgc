@@ -8,7 +8,7 @@ import (
 )
 
 // The stage criterion: a model that passes the schema but breaks every
-// invariant is caught by exactly its codes — twelve diagnostics, one per
+// invariant is caught by exactly its codes — fifteen diagnostics, one per
 // code, each on the line of its defect — and never by a generic error.
 func TestInvariantsAggregate(t *testing.T) {
 	want := []struct {
@@ -24,10 +24,13 @@ func TestInvariantsAggregate(t *testing.T) {
 		{diag.E007, 48, diag.Error},
 		{diag.E004, 60, diag.Error},
 		{diag.W002, 64, diag.Error},
-		{diag.E006, 100, diag.Error},
-		{diag.E003, 103, diag.Error},
-		{diag.W004, 105, diag.Warning},
-		{diag.E005, 110, diag.Error},
+		{diag.E009, 100, diag.Error},
+		{diag.W005, 108, diag.Warning},
+		{diag.E010, 136, diag.Error},
+		{diag.E006, 143, diag.Error},
+		{diag.E003, 146, diag.Error},
+		{diag.W004, 148, diag.Warning},
+		{diag.E005, 153, diag.Error},
 	}
 
 	ds := runChecks(t, lowerFile(t, testdata("broken", "invariants-aggregate.yml")), Checks())

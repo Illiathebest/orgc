@@ -1,0 +1,89 @@
+---
+# yaml-language-server: $schema=../orgc/schema/organization.schema.json
+# Негативний приклад E009: мережу access-порту не пропускає trunk на шляху до комутатора.
+# Рівно одне порушення — решта моделі коректна.
+organization: "Навчальна лабораторія"
+profile: S
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    uplinks:
+      - { name: isp-main, kind: primary, port: rb750:ether1 }
+    networks:
+      - vlan: 10
+        name: mgmt
+        role: mgmt
+        cidr: 192.168.10.0/24
+        gateway: 192.168.10.1
+      - vlan: 20
+        name: users
+        role: users
+        cidr: 192.168.20.0/24
+        gateway: 192.168.20.1
+        dhcp_pool: { from: 192.168.20.100, to: 192.168.20.200 }
+      - vlan: 30
+        name: servers
+        role: servers
+        cidr: 192.168.30.0/24
+        gateway: 192.168.30.1
+      - vlan: 40
+        name: guest
+        role: guest
+        cidr: 192.168.40.0/24
+        gateway: 192.168.40.1
+        dhcp_pool: { from: 192.168.40.100, to: 192.168.40.200 }
+        isolated: true
+    devices:
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.10.1
+      - name: core-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: core_switch
+        mgmt_ip: 192.168.10.2
+      - name: acc-01
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.3
+      - name: acc-02
+        type: arista_eos
+        os_version: "4.29.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.4
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4, Ethernet5], network: users }
+          - { ports: [Ethernet6], network: guest }
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10, port: acc-01:Ethernet5 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11, port: acc-01:Ethernet6 }
+    # Кінці зʼєднань — trunk-порти. Без vlans зʼєднання несе всі мережі
+    # сайту; до acc-01 доходять лише ті, що там потрібні (mgmt —
+    # обовʼязково, інакше комутатор втратить керування, E006).
+    links:
+      - { a: rb750:ether2, b: core-01:Ethernet1 }
+      - { a: core-01:Ethernet2, b: acc-01:Ethernet1, vlans: [mgmt, servers] }
+      - { a: core-01:Ethernet3, b: acc-02:Ethernet1, vlans: [mgmt, users] }
+
+# Між сегментами діє default-deny: усе, чого нема нижче, заборонено.
+# Зокрема guest не має жодного правила до внутрішніх сегментів —
+# саме відсутність правила і є забороною, окремий deny не потрібен.
+#
+# servers → mgmt відкриває обидва порти керування: 8728 — RouterOS API,
+# яким Ansible застосовує конфігурацію на MikroTik, 22 — SSH для Arista
+# EOS (network_cli). Без 8728 E006 падає: ctrl-01 не дістався б до rb750,
+# і згенерований конфіг відрізав би керування сам від себе.
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
+    - { from: users, to: servers, ports: [443, 22], action: allow }
+    - { from: users, to: internet, action: allow }
+    - { from: guest, to: internet, action: allow }

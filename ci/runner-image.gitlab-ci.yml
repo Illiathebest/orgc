@@ -48,3 +48,26 @@ build-iac-runner:
       when: on_success
     - when: manual
       allow_failure: true
+
+# Перевірка щойно зібраного образу: Go на місці й тести orgc у ньому
+# проходять. Образ береться за незмінним тегом коміту, а не latest: раннер
+# кешує образи (pull_policy if-not-present), і latest міг би виявитися
+# старим, ще без Go.
+check-iac-runner:
+  stage: build
+  needs: [build-iac-runner]
+  image: "${CI_REGISTRY_IMAGE}/iac-runner:${CI_COMMIT_SHORT_SHA}"
+  script:
+    - go version
+    - cd orgc
+    - go vet ./...
+    - go test ./...
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - runner-image/Dockerfile
+        - runner-image/requirements-pip.txt
+        - ansible/requirements.yml
+        - ci/runner-image.gitlab-ci.yml
+      when: on_success
+    - when: never

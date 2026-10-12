@@ -1,39 +1,49 @@
 ---
-# Стадія validate: перевірка моделі організації проти JSON Schema (ADR-005).
-# Виконується в образі iac-runner (check-jsonschema вже всередині).
+# Стадія validate: модель перевіряє сам orgc — схема й інваріанти
+# E001–E010, W001–W005 (ADR-008), і тут же проганяються тести orgc.
 #
-# Два напрямки (DoD M1):
-#   validate          — коректні приклади МАЮТЬ проходити; серед них і
-#                       organization.invariants-broken.yml: його дефекти
-#                       семантичні, схема їх не бачить, їх ловить orgc verify;
-#   validate-negative — навмисно зламаний приклад МАЄ бути відхилений
-#                       (job зелений саме тоді, коли валідація впала).
+# Два напрямки:
+#   orgc-verify — коректні моделі МАЮТЬ давати код 0, зламані — саме код 1.
+#                 Код 2 (помилка виклику чи дефект orgc) завдання валить:
+#                 негативна перевірка зелена лише тоді, коли orgc знайшов
+#                 дефекти моделі, а не тоді, коли він просто впав.
+#   go-test     — модульні, корпусні й golden-тести orgc.
 
-.validate-base:
+.orgc-base:
   stage: validate
-  image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
+  image: "${IAC_RUNNER_IMAGE}"
   interruptible: true
   variables:
-    SCHEMA: orgc/schema/organization.schema.json
+    GOMODCACHE: "${CI_PROJECT_DIR}/.cache/go-mod"
+    GOCACHE: "${CI_PROJECT_DIR}/.cache/go-build"
+  cache:
+    key: go-v1
+    paths:
+      - .cache/go-mod
+      - .cache/go-build
 
-validate:
-  extends: .validate-base
+orgc-verify:
+  extends: .orgc-base
   script:
-    - >
-      check-jsonschema --schemafile "${SCHEMA}"
-      examples/organization.s-profile.yml
-      examples/organization.m-profile.yml
-      examples/organization.lab.yml
-      examples/organization.invariants-broken.yml
-
-validate-negative:
-  extends: .validate-base
-  script:
+    - (cd orgc && go build -o "${CI_PROJECT_DIR}/orgc-bin" ./cmd/orgc)
     - |
-      if check-jsonschema --schemafile "${SCHEMA}" examples/organization.broken.yml; then
-        echo "ПОМИЛКА: зламаний приклад пройшов валідацію, хоча мав бути відхилений."
-        exit 1
-      else
-        echo "OK: схема коректно відхилила зламаний приклад (негативний тест пройдено)."
-        exit 0
-      fi
+      for m in s-profile m-profile lab; do
+        echo "== orgc verify examples/organization.${m}.yml (очікується 0)"
+        ./orgc-bin verify "examples/organization.${m}.yml"
+      done
+    - |
+      for m in broken invariants-broken; do
+        echo "== orgc verify examples/organization.${m}.yml (очікується 1)"
+        code=0
+        ./orgc-bin verify "examples/organization.${m}.yml" || code=$?
+        if [ "${code}" -ne 1 ]; then
+          echo "ПОМИЛКА: очікувався код 1 (дефекти моделі), отримано ${code}."
+          exit 1
+        fi
+      done
+
+go-test:
+  extends: .orgc-base
+  script:
+    - cd orgc
+    - go test ./...

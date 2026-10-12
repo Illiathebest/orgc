@@ -292,28 +292,28 @@ orgc/
 
 ## 8. Інтеграція з конвеєром
 
-Зараз пайплайн GitLab має стадії:
+Пайплайн GitLab має стадії:
 
 ```
-build      збірка образу iac-runner (Kaniko) → Registry
-lint       yamllint, ansible-lint
-validate   examples/*.yml проти JSON Schema (check-jsonschema)
+build      збірка образу iac-runner (Kaniko) → Registry; go version і go test у щойно зібраному образі
+lint       yamllint, ansible-lint, gofmt, go vet
+validate   orgc verify на прикладах моделей; go test
 smoke      read-only перевірка живого RouterOS (manual, лише main)
 ```
 
-Цільовий вигляд, коли образ `iac-runner` отримає Go toolchain:
+Збірка образу запускається лише тоді, коли змінюється Dockerfile чи його
+залежності. Решта завдань бере образ за незмінним тегом коміту, що його зібрав
+(`IAC_RUNNER_IMAGE` у `.gitlab-ci.yml`), а не `latest`: раннер кешує образи, і
+`latest` у кеші міг би лишитися старим.
 
-```
-build      збірка образу середовища виконання → Registry
-lint       yamllint, ansible-lint, go vet, gofmt
-verify     orgc verify (замість check-jsonschema)
-render     orgc render, артефакти в Merge Request
-smoke      read-only перевірка живого обладнання (manual, лише main)
-```
+`orgc-verify` вимагає коду 0 для `s-profile`, `m-profile` і моделі стенда та
+саме коду 1 для `broken` і `invariants-broken`. Код 2 (помилка виклику чи
+дефект `orgc`) завдання валить: негативна перевірка зелена лише тоді, коли
+`orgc` знайшов дефекти моделі. Зламана модель валить пайплайн конкретними
+кодами інваріантів, а не загальною помилкою розбору.
 
-Стадія `verify` буде блокувальною: навмисно зламана модель має валити
-пайплайн із конкретними кодами інваріантів, а не з загальною помилкою розбору.
-Образ середовища виконання містить засоби розгортання й лінтери із
+Стадія `render` з артефактами в Merge Request з'явиться разом із бекендами.
+Образ середовища виконання містить Go, засоби розгортання й лінтери із
 зафіксованими версіями: це умова відтворюваності результатів.
 
 ## 9. Тестування

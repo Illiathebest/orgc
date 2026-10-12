@@ -110,15 +110,15 @@ go test ./...
 ## Конвеєр CI
 
 ```
-build     збірка образу середовища виконання iac-runner
-lint      yamllint, ansible-lint
-validate  examples/*.yml проти JSON Schema
+build     збірка образу iac-runner з Go і перевірка go test у ньому
+lint      yamllint, ansible-lint, gofmt, go vet
+validate  orgc verify на прикладах моделей, go test
 smoke     read-only перевірка живого RouterOS (manual)
 ```
 
-Коли образ отримає Go toolchain, `validate` замінить `orgc verify`, з'являться
-`go vet`/`gofmt` у `lint` і стадія `render` з артефактами в Merge Request.
-Тоді зламана модель валитиме пайплайн із конкретними кодами інваріантів.
+`orgc verify` вимагає коду 0 для коректних моделей і саме коду 1 для зламаних,
+тож модель із дефектом валить пайплайн конкретними кодами інваріантів.
+Стадія `render` з артефактами в Merge Request з'явиться разом із бекендами.
 Подробиці — [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), розділ 8.
 
 ## Стан

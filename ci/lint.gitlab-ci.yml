@@ -1,15 +1,16 @@
 ---
-# Стадія lint: статична перевірка YAML та Ansible-коду.
-# M1: виконується в образі iac-runner з Registry — інструменти вже всередині,
+# Стадія lint: статична перевірка YAML, Ansible-коду й Go-коду orgc.
+# Виконується в образі iac-runner з Registry — інструменти вже всередині,
 # тому жодних `pip install` у job (відтворюваність + швидкість).
 #
-# Передумова: образ зібрано (ci/runner-image.gitlab-ci.yml) і лежить як :latest;
+# Передумова: образ зібрано (ci/runner-image.gitlab-ci.yml), тег задає
+# IAC_RUNNER_IMAGE у .gitlab-ci.yml;
 # хост-раннер ctrl-01 тягне insecure-registry — 192.168.1.50:5050 додано в
 # insecure-registries файла /etc/docker/daemon.json.
 
 .lint-base:
   stage: lint
-  image: "${CI_REGISTRY_IMAGE}/iac-runner:latest"
+  image: "${IAC_RUNNER_IMAGE}"
   interruptible: true
 
 yamllint:
@@ -21,3 +22,12 @@ ansible-lint:
   extends: .lint-base
   script:
     - ansible-lint --strict --show-relpath
+
+# gofmt і go vet для orgc. gofmt -l друкує файли з неканонічним
+# форматуванням; непорожній вивід — помилка.
+go-lint:
+  extends: .lint-base
+  script:
+    - cd orgc
+    - test -z "$(gofmt -l .)" || { gofmt -l .; echo "Файли вище не відформатовано gofmt."; exit 1; }
+    - go vet ./...

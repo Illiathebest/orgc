@@ -6,10 +6,18 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
+# Образ, у якому виконуються lint, validate і smoke. Тег — незмінний (коміт,
+# що зібрав образ), а не latest: раннер кешує образи (pull_policy
+# if-not-present), і latest у кеші міг би лишитися старим. Після зміни
+# runner-image/Dockerfile і мерджу збірки в main тег оновлюється тут
+# окремою правкою.
+variables:
+  IAC_RUNNER_IMAGE: "${CI_REGISTRY_IMAGE}/iac-runner:7e7cd281"
+
 stages:
   - build      # збірка образу iac-runner (Kaniko) → Registry
-  - lint       # yamllint + ansible-lint у образі iac-runner
-  - validate   # перевірка organization.yml проти JSON Schema (ADR-005)
+  - lint       # yamllint, ansible-lint, gofmt, go vet
+  - validate   # orgc verify на прикладах моделей + go test
   - smoke      # read-only перевірка живого RouterOS (manual, лише main)
 
 include:

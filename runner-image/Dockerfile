@@ -7,6 +7,10 @@ FROM python:3.12-slim-bookworm
 # Версії бінарних інструментів (M1 pin set, 2026-06). Kaniko не заповнює
 # TARGETARCH автоматично, тому задаємо amd64 явно (стенд pve-a = x86_64).
 ARG OPENTOFU_VERSION=1.12.1
+# Go для збірки й тестів orgc. Контрольна сума — з dl.google.com (файл .sha256
+# поруч з архівом); архів, що не збігся, зупиняє збірку.
+ARG GO_VERSION=1.27.1
+ARG GO_SHA256=63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445
 ARG TFLINT_VERSION=0.63.1
 ARG TARGETARCH=amd64
 
@@ -14,7 +18,10 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     ANSIBLE_COLLECTIONS_PATH=/usr/share/ansible/collections \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    PATH=/usr/local/go/bin:${PATH} \
+    GOTOOLCHAIN=local \
+    CGO_ENABLED=0
 
 # --- Системні залежності (мінімум; openssh-client для network_cli/SSH) ---
 RUN apt-get update \
@@ -50,6 +57,15 @@ RUN curl -fsSL -o /tmp/tflint.zip \
     && chmod +x /usr/local/bin/tflint \
     && rm -f /tmp/tflint.zip
 
+# --- Go (офіційний архів, перевірений за SHA-256) ---
+# GOTOOLCHAIN=local: go не завантажує інший toolchain, навіть якщо go.mod його
+# попросить, — збірка лишається на версії, зафіксованій тут.
+# CGO_ENABLED=0: C-компілятора в образі немає, orgc він не потрібен.
+RUN curl -fsSL -o /tmp/go.tgz "https://dl.google.com/go/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz" \
+    && echo "${GO_SHA256}  /tmp/go.tgz" | sha256sum -c - \
+    && tar -C /usr/local -xzf /tmp/go.tgz \
+    && rm -f /tmp/go.tgz
+
 # --- Перевірка вмісту під час збірки (fail-fast, якщо щось не стало) ---
 RUN ansible --version \
     && ansible-lint --version \
@@ -57,6 +73,7 @@ RUN ansible --version \
     && check-jsonschema --version \
     && tofu version \
     && tflint --version \
+    && go version \
     && python -c "import librouteros, napalm, napalm_ros; print('net libs OK')" \
     && ansible-galaxy collection list
 

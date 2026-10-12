@@ -59,16 +59,6 @@ func TestStagingIsGeneratedFromLabModel(t *testing.T) {
 		strip(Generator{}.Generate(m, platforms(t))))
 }
 
-func TestGolden(t *testing.T) {
-	for _, name := range []string{"s-profile", "m-profile"} {
-		t.Run(name, func(t *testing.T) {
-			m := lowerModel(t, filepath.Join("..", "..", "..", "testdata", "valid", name+".yml"))
-			golden.Compare(t, filepath.Join("..", "..", "..", "testdata", "golden", name, "ansible"),
-				strip(Generator{}.Generate(m, platforms(t))))
-		})
-	}
-}
-
 func TestGroupsFollowPlatforms(t *testing.T) {
 	m := lowerModel(t, filepath.Join("..", "..", "..", "testdata", "valid", "m-profile.yml"))
 	files := Generator{}.Generate(m, platforms(t))

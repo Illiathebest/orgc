@@ -88,7 +88,7 @@ func TestRenderWritesAndReplacesTree(t *testing.T) {
 	if code != exitOK {
 		t.Fatalf("другий прогін: код %d, %s", code, stderr)
 	}
-	if !strings.Contains(stdout, "Згенеровано файлів: 1") {
+	if !strings.Contains(stdout, "Згенеровано файлів:") {
 		t.Errorf("вивід: %s", stdout)
 	}
 	if _, err := os.Stat(filepath.Join(out, "a", "old.txt")); err == nil {

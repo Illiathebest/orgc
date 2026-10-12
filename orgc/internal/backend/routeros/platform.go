@@ -73,17 +73,13 @@ func (p Platform) Capabilities(v string) backend.CapSet {
 	)
 }
 
-// Render produces the device configuration. Generation is not implemented
-// yet; until it is, a device contributes no files.
-func (Platform) Render(*ir.Model, *ir.Device) []backend.File { return nil }
-
-// port matches RouterOS interface names a model may use: copper Ethernet,
+// portName matches RouterOS interface names a model may use: copper Ethernet,
 // SFP and SFP+ ports, numbered from 1.
-var port = regexp.MustCompile(`^(ether|sfp|sfp-sfpplus)[1-9][0-9]*$`)
+var portName = regexp.MustCompile(`^(ether|sfp|sfp-sfpplus)[1-9][0-9]*$`)
 
 // CheckPort accepts etherN, sfpN and sfp-sfpplusN.
 func (Platform) CheckPort(name string) (bool, string) {
-	return port.MatchString(name), "ether<N>, sfp<N> чи sfp-sfpplus<N>"
+	return portName.MatchString(name), "ether<N>, sfp<N> чи sfp-sfpplus<N>"
 }
 
 // AnsibleGroup is the inventory group of RouterOS devices. smoke_routeros.yml

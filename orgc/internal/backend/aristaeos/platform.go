@@ -98,3 +98,19 @@ var port = regexp.MustCompile(`^Ethernet[1-9][0-9]*(/[1-9][0-9]*)?$`)
 func (Platform) CheckPort(name string) (bool, string) {
 	return port.MatchString(name), "Ethernet<N> чи Ethernet<N>/<M> (Management1 — лише порт керування)"
 }
+
+// AnsibleGroup is the inventory group of EOS devices.
+func (Platform) AnsibleGroup() string { return "arista_switches" }
+
+// AnsibleVars connect to EOS over SSH with network_cli; the password is an
+// ansible-vault variable.
+func (Platform) AnsibleVars() []backend.Var {
+	return []backend.Var{
+		{Name: "ansible_connection", Value: "ansible.netcommon.network_cli"},
+		{Name: "ansible_network_os", Value: "arista.eos.eos"},
+		{Name: "ansible_user", Value: "ansible-net"},
+		{Name: "ansible_password", Value: "{{ vault_arista_password }}"},
+		{Name: "ansible_become", Value: "true"},
+		{Name: "ansible_become_method", Value: "ansible.netcommon.enable"},
+	}
+}

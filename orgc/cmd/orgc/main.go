@@ -14,6 +14,7 @@ import (
 	"os"
 
 	"orgc/internal/backend"
+	"orgc/internal/backend/ansible"
 	"orgc/internal/backend/aristaeos"
 	"orgc/internal/backend/routeros"
 	"orgc/internal/diag"
@@ -136,7 +137,9 @@ func platforms() (*backend.Registry, error) {
 // generators is the registry of model-wide generators render runs, in
 // order. A variable for the same reason as invariants; backends join it as
 // they are implemented.
-var generators = func() []backend.Generator { return nil }
+var generators = func() []backend.Generator {
+	return []backend.Generator{ansible.Generator{}}
+}
 
 // verifyModel runs the pipeline up to verification and returns its findings.
 func verifyModel(path string) ([]diag.Diagnostic, error) {

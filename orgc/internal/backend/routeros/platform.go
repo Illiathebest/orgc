@@ -85,3 +85,19 @@ var port = regexp.MustCompile(`^(ether|sfp|sfp-sfpplus)[1-9][0-9]*$`)
 func (Platform) CheckPort(name string) (bool, string) {
 	return port.MatchString(name), "ether<N>, sfp<N> чи sfp-sfpplus<N>"
 }
+
+// AnsibleGroup is the inventory group of RouterOS devices. smoke_routeros.yml
+// targets it by this name.
+func (Platform) AnsibleGroup() string { return "mikrotik_routers" }
+
+// AnsibleVars connect to RouterOS over its API: community.routeros.api
+// modules open the connection themselves, hence connection local. The
+// password comes from the environment — a masked CI variable or a local
+// export — never from the inventory.
+func (Platform) AnsibleVars() []backend.Var {
+	return []backend.Var{
+		{Name: "ansible_connection", Value: "local"},
+		{Name: "routeros_api_username", Value: "ansible-ro"},
+		{Name: "routeros_api_password", Value: "{{ lookup('ansible.builtin.env', 'ROUTEROS_PASSWORD') }}"},
+	}
+}

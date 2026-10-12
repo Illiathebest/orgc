@@ -1,0 +1,3 @@
+# Згенеровано orgc з organization.lab.yml. Не редагувати вручну.
+---
+ansible_user: ansible-svc

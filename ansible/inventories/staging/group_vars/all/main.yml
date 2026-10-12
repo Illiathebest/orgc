@@ -1,4 +1,0 @@
----
-# Загальні змінні staging. Секрети — ТІЛЬКИ у vault.yml (ansible-vault) поруч.
-env_name: staging
-ansible_user: ansible-svc

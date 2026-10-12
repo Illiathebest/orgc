@@ -1,0 +1,5 @@
+# Згенеровано orgc з m-profile.yml. Не редагувати вручну.
+---
+ansible_connection: local
+routeros_api_username: ansible-ro
+routeros_api_password: "{{ lookup('ansible.builtin.env', 'ROUTEROS_PASSWORD') }}"

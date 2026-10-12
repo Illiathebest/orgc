@@ -1,12 +1,5 @@
+# Згенеровано orgc з organization.lab.yml. Не редагувати вручну.
 ---
-# MikroTik керується через RouterOS API (модулі community.routeros.api*):
-# модуль сам відкриває зʼєднання з ansible_host, тому connection=local.
-#
-# M1 (read-only smoke): окремий користувач ansible-ro з групи `read`
-# (мінімальні права — лише читання). Пароль береться зі змінної середовища
-# ROUTEROS_PASSWORD: у CI — masked+protected variable GitLab; локально —
-# `export ROUTEROS_PASSWORD=...`. Міграцію секретів на Ansible Vault разом із
-# write-кредами та Cisco заплановано на M3-M4.
 ansible_connection: local
 routeros_api_username: ansible-ro
 routeros_api_password: "{{ lookup('ansible.builtin.env', 'ROUTEROS_PASSWORD') }}"

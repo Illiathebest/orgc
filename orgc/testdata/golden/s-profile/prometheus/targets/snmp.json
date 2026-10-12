@@ -1,0 +1,46 @@
+[
+  {
+    "targets": [
+      "192.168.10.1"
+    ],
+    "labels": {
+      "device": "rb750",
+      "platform": "mikrotik",
+      "role": "edge_router",
+      "site": "hq"
+    }
+  },
+  {
+    "targets": [
+      "192.168.10.2"
+    ],
+    "labels": {
+      "device": "core-01",
+      "platform": "arista_eos",
+      "role": "core_switch",
+      "site": "hq"
+    }
+  },
+  {
+    "targets": [
+      "192.168.10.3"
+    ],
+    "labels": {
+      "device": "acc-01",
+      "platform": "arista_eos",
+      "role": "access_switch",
+      "site": "hq"
+    }
+  },
+  {
+    "targets": [
+      "192.168.10.4"
+    ],
+    "labels": {
+      "device": "acc-02",
+      "platform": "arista_eos",
+      "role": "access_switch",
+      "site": "hq"
+    }
+  }
+]

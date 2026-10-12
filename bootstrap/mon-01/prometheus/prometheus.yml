@@ -1,6 +1,7 @@
 ---
-# Prometheus (mon-01). M1: збираємо себе та node-exporter на mon-01.
-# Скрейп ctrl-01/GitLab/RB750 (snmp_exporter) додається в M4.
+# Prometheus (mon-01): себе, node-exporter на mon-01 і цілі, згенеровані orgc.
+# targets/*.json — вихід orgc render з examples/organization.lab.yml (file_sd);
+# Prometheus перечитує їх сам, без перезапуску.
 global:
   scrape_interval: 30s
   evaluation_interval: 30s
@@ -25,3 +26,12 @@ scrape_configs:
       - targets: ["node-exporter:9100"]
         labels:
           host: mon-01
+
+  # Сервери моделі: node_exporter на порту 9100.
+  - job_name: orgc-node
+    file_sd_configs:
+      - files: [/etc/prometheus/targets/node.json]
+
+  # targets/snmp.json (пристрої моделі за mgmt_ip) — для job через
+  # snmp_exporter; job вмикається разом із розгортанням експортера, бо без
+  # нього кожен пристрій давав би InstanceDown.

@@ -1,0 +1,22 @@
+[
+  {
+    "targets": [
+      "192.168.1.50:9100"
+    ],
+    "labels": {
+      "host": "ctrl-01",
+      "roles": "docker_host",
+      "site": "lab"
+    }
+  },
+  {
+    "targets": [
+      "192.168.1.51:9100"
+    ],
+    "labels": {
+      "host": "mon-01",
+      "roles": "docker_host,monitoring",
+      "site": "lab"
+    }
+  }
+]

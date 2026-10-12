@@ -16,6 +16,7 @@ import (
 	"orgc/internal/backend"
 	"orgc/internal/backend/ansible"
 	"orgc/internal/backend/aristaeos"
+	"orgc/internal/backend/prometheus"
 	"orgc/internal/backend/routeros"
 	"orgc/internal/diag"
 	"orgc/internal/ir"
@@ -138,7 +139,7 @@ func platforms() (*backend.Registry, error) {
 // order. A variable for the same reason as invariants; backends join it as
 // they are implemented.
 var generators = func() []backend.Generator {
-	return []backend.Generator{ansible.Generator{}}
+	return []backend.Generator{ansible.Generator{}, prometheus.Generator{}}
 }
 
 // verifyModel runs the pipeline up to verification and returns its findings.

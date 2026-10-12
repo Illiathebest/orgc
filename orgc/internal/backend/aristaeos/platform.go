@@ -51,8 +51,9 @@ func (p Platform) ManagementPorts(v string) []ir.PortSpec {
 //
 //   - L3Gateway: routing between VLAN interfaces;
 //   - DHCPServer: the built-in DHCPv4 server appeared in EOS 4.22.1;
-//   - ClientIsolation: private VLANs with an isolated secondary VLAN, whose
-//     hosts cannot reach each other by bridging.
+//   - ClientIsolation: an inbound port ACL on the access ports of an
+//     isolated network, letting hosts reach the gateway and the outside but
+//     not each other.
 //
 // Two are absent on purpose. EOS ACLs are stateless, so the model's
 // stateful rules cannot be enforced as written (no StatefulFilter). NAT
@@ -85,18 +86,14 @@ func atLeast(v string, major, minor, patch int) bool {
 	return true
 }
 
-// Render produces the device configuration. Generation is not implemented
-// yet; until it is, a device contributes no files.
-func (Platform) Render(*ir.Model, *ir.Device) []backend.File { return nil }
-
-// port matches EOS front-panel interfaces: Ethernet<N>, or Ethernet<N>/<M>
+// portName matches EOS front-panel interfaces: Ethernet<N>, or Ethernet<N>/<M>
 // on modular and breakout ports. Management1 does not match: it is the
 // out-of-band management port and carries neither trunk nor access VLANs.
-var port = regexp.MustCompile(`^Ethernet[1-9][0-9]*(/[1-9][0-9]*)?$`)
+var portName = regexp.MustCompile(`^Ethernet[1-9][0-9]*(/[1-9][0-9]*)?$`)
 
 // CheckPort accepts Ethernet<N> and Ethernet<N>/<M>.
 func (Platform) CheckPort(name string) (bool, string) {
-	return port.MatchString(name), "Ethernet<N> чи Ethernet<N>/<M> (Management1 — лише порт керування)"
+	return portName.MatchString(name), "Ethernet<N> чи Ethernet<N>/<M> (Management1 — лише порт керування)"
 }
 
 // AnsibleGroup is the inventory group of EOS devices.

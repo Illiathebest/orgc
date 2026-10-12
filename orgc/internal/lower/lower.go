@@ -12,6 +12,7 @@ import (
 	"net/netip"
 	"sort"
 	"strconv"
+	"strings"
 
 	"orgc/internal/ir"
 	"orgc/internal/model"
@@ -131,6 +132,74 @@ func (l *lowerer) site(s *model.Site, path string) {
 		}
 		site.Servers = append(site.Servers, srv)
 		l.m.Servers = append(l.m.Servers, srv)
+	}
+
+	l.connections(s, path, site)
+}
+
+// connections resolves everything that names a port: uplink ports, server
+// ports, access ports and links. Ports are looked up among the devices of
+// the same site only — the model does not describe links between sites —
+// so this runs once all of them are known. It ends by building the site's
+// L2 tree when the site describes its links.
+func (l *lowerer) connections(s *model.Site, path string, site *ir.Site) {
+	devices := map[string]*ir.Device{}
+	for _, d := range site.Devices {
+		if _, dup := devices[d.Name]; !dup {
+			devices[d.Name] = d
+		}
+	}
+	networks := map[string]*ir.Network{}
+	for _, n := range site.Networks {
+		if _, dup := networks[n.Name]; !dup {
+			networks[n.Name] = n
+		}
+	}
+	port := func(ref, p string) *ir.PortRef {
+		name, iface, _ := strings.Cut(ref, ":")
+		return &ir.PortRef{DeviceName: name, Port: iface, Device: devices[name], Origin: ir.Origin{Path: p}}
+	}
+
+	for i, u := range s.Uplinks {
+		if u.Port != "" {
+			site.Uplinks[i].Port = port(u.Port, site.Uplinks[i].Path+".port")
+		}
+	}
+	for i, sv := range s.Servers {
+		if sv.Port != "" {
+			site.Servers[i].Port = port(sv.Port, site.Servers[i].Path+".port")
+		}
+	}
+	for i, d := range s.Devices {
+		dev := site.Devices[i]
+		for k, ap := range d.AccessPorts {
+			dev.AccessPorts = append(dev.AccessPorts, &ir.AccessPorts{
+				Ports:   ap.Ports,
+				Network: ir.NetRef{Name: ap.Network, Net: networks[ap.Network]},
+				Device:  dev,
+				Origin:  ir.Origin{Path: dev.Path + ".access_ports[" + strconv.Itoa(k) + "]"},
+			})
+		}
+	}
+
+	for i, lk := range s.Links {
+		p := path + ".links[" + strconv.Itoa(i) + "]"
+		link := &ir.Link{
+			A:      *port(lk.A, p+".a"),
+			B:      *port(lk.B, p+".b"),
+			Site:   site,
+			Origin: ir.Origin{Path: p},
+		}
+		if lk.VLANs != nil {
+			link.VLANs = make([]ir.NetRef, len(lk.VLANs))
+			for k, name := range lk.VLANs {
+				link.VLANs[k] = ir.NetRef{Name: name, Net: networks[name]}
+			}
+		}
+		site.Links = append(site.Links, link)
+	}
+	if len(site.Links) > 0 {
+		site.L2 = ir.BuildL2(site)
 	}
 }
 

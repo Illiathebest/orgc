@@ -84,6 +84,15 @@ type Site struct {
 	// should.
 	GatewayCandidates []*Device
 
+	// Links are the cables between device ports, in file order. A site
+	// without links is built as a star from its gateway by platform
+	// convention (docs/adr/ADR-009).
+	Links []*Link
+
+	// L2 is the site's topology as a tree rooted at the gateway; nil for a
+	// site without links.
+	L2 *L2Tree
+
 	Origin
 }
 
@@ -100,6 +109,11 @@ type Uplink struct {
 	Name string
 	Kind UplinkKind
 	Site *Site
+
+	// Port is the gateway port the link leaves through; nil when the model
+	// leaves it to the platform's convention.
+	Port *PortRef
+
 	Origin
 }
 
@@ -176,6 +190,10 @@ type Device struct {
 	Role   DeviceRole
 	MgmtIP netip.Addr
 	Site   *Site
+
+	// AccessPorts are untagged ports for hosts the model does not name.
+	AccessPorts []*AccessPorts
+
 	Origin
 }
 
@@ -188,6 +206,11 @@ type Server struct {
 	Roles []ServerRole
 	IP    netip.Addr
 	Site  *Site
+
+	// Port is the access port the server is plugged into; nil when the
+	// model does not say.
+	Port *PortRef
+
 	Origin
 }
 

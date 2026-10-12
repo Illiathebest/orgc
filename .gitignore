@@ -36,3 +36,6 @@ Thumbs.db
 /orgc/orgc.exe
 *.test
 *.out
+
+# Вихід orgc render за замовчуванням
+out/

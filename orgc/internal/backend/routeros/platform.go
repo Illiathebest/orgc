@@ -72,3 +72,7 @@ func (p Platform) Capabilities(v string) backend.CapSet {
 		backend.ClientIsolation,
 	)
 }
+
+// Render produces the device configuration. Generation is not implemented
+// yet; until it is, a device contributes no files.
+func (Platform) Render(*ir.Model, *ir.Device) []backend.File { return nil }

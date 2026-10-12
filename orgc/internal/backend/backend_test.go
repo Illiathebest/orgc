@@ -13,6 +13,7 @@ func (f fake) Type() ir.DeviceType                { return f.t }
 func (fake) CheckVersion(string) (bool, string)   { return true, "будь-яка" }
 func (fake) ManagementPorts(string) []ir.PortSpec { return nil }
 func (fake) Capabilities(string) CapSet           { return 0 }
+func (fake) Render(*ir.Model, *ir.Device) []File  { return nil }
 
 func TestRegistry(t *testing.T) {
 	r, err := NewRegistry(fake{"zeta"}, fake{"alpha"})

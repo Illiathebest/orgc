@@ -4,8 +4,8 @@
 // ports E006 checks, the capabilities W002 checks — so that no vendor
 // knowledge leaks into the core (docs/adr/ADR-008, decision 5).
 //
-// Only the part needed by verification lives here so far. Rendering adds its
-// own methods in stage 3.
+// Rendering is split the same way: a platform renders its own devices, and
+// generators render what describes the model as a whole (render.go).
 package backend
 
 import (
@@ -36,6 +36,11 @@ type Platform interface {
 	// Capabilities lists what the platform can do at this version. It is
 	// empty for a version CheckVersion rejects.
 	Capabilities(version string) CapSet
+
+	// Render produces the configuration of one device of this platform
+	// (docs/adr/ADR-009, decision 1). It is called only on a model that
+	// passed verification, so the device's version is supported.
+	Render(m *ir.Model, d *ir.Device) []File
 }
 
 // Platforms finds the platform serving a device type.

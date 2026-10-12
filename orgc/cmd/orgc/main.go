@@ -17,8 +17,10 @@ import (
 	"orgc/internal/backend/aristaeos"
 	"orgc/internal/backend/routeros"
 	"orgc/internal/diag"
+	"orgc/internal/ir"
 	"orgc/internal/lower"
 	"orgc/internal/model"
+	"orgc/internal/render"
 	"orgc/internal/verify"
 )
 
@@ -42,11 +44,15 @@ const usage = `orgc — компілятор декларативної моде
 
 Прапорці:
   -h, --help    показати цю довідку
+  -o <каталог>  (render) каталог виходу, типово out; перезаписується
+                повністю, якщо створений orgc render
 
 Коди виходу:
   0    модель коректна; попередження код виходу не змінюють
-  1    у моделі знайдено помилки (зокрема W002 рівня помилки)
-  2    помилка виклику: невідома команда, немає файлу, файл не читається
+  1    у моделі знайдено помилки (зокрема W002 рівня помилки);
+       render у такому разі не створює жодного файлу
+  2    помилка виклику: невідома команда, немає файлу, файл не читається,
+       каталог виходу не порожній і створений не orgc
 
 orgc нічого не застосовує — лише генерує текст. Застосування виконує
 наявний ланцюг GitLab CI → Ansible.
@@ -127,30 +133,42 @@ func platforms() (*backend.Registry, error) {
 	return backend.NewRegistry(routeros.Platform{}, aristaeos.Platform{})
 }
 
-// verifyModel runs the pipeline up to verification: schema, lowering,
-// invariants. A model with structural errors stops after the schema — it
-// has no definite meaning for the invariants to check.
+// generators is the registry of model-wide generators render runs, in
+// order. A variable for the same reason as invariants; backends join it as
+// they are implemented.
+var generators = func() []backend.Generator { return nil }
+
+// verifyModel runs the pipeline up to verification and returns its findings.
+func verifyModel(path string) ([]diag.Diagnostic, error) {
+	_, ds, err := pipeline(path)
+	return ds, err
+}
+
+// pipeline runs schema, lowering and invariants — the one path both verify
+// and render take, so they can never judge a model differently. A model
+// with structural errors stops after the schema: it has no definite meaning
+// for the invariants to check, and the returned IR is nil.
 //
 // The error means orgc itself failed, never that the model is wrong.
-func verifyModel(path string) ([]diag.Diagnostic, error) {
+func pipeline(path string) (*ir.Model, []diag.Diagnostic, error) {
 	doc, ds, err := model.Load(path)
 	if err != nil || doc == nil {
-		return ds, err
+		return nil, ds, err
 	}
 
 	m, err := lower.Lower(doc)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	reg, err := platforms()
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	found, err := verify.Run(m, reg, invariants())
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return append(ds, found...), nil
+	return m, append(ds, found...), nil
 }
 
 func runRender(args []string, stdout, stderr io.Writer) int {
@@ -170,8 +188,47 @@ func runRender(args []string, stdout, stderr io.Writer) int {
 		return code
 	}
 
-	fmt.Fprintf(stderr, "orgc: генерацію ще не реалізовано (%s → %s)\n", path, *outDir)
-	return exitInvoked
+	m, ds, err := pipeline(path)
+	if err != nil {
+		fmt.Fprintf(stderr, "orgc: %v\n", err)
+		return exitInvoked
+	}
+
+	// Generation follows verification, and only a clean one: a model with
+	// errors gets its diagnostics and no files at all, and the output
+	// directory is left untouched (docs/adr/ADR-009, decision 1).
+	if err := diag.Render(stdout, ds); err != nil {
+		fmt.Fprintf(stderr, "orgc: не вдалося вивести діагностики: %v\n", err)
+		return exitInvoked
+	}
+	if m == nil || diag.HasErrors(ds) {
+		fmt.Fprintln(stdout, diag.Summary(ds))
+		return exitModel
+	}
+
+	reg, err := platforms()
+	if err != nil {
+		fmt.Fprintf(stderr, "orgc: %v\n", err)
+		return exitInvoked
+	}
+	files, err := render.Files(m, reg, generators())
+	if err != nil {
+		fmt.Fprintf(stderr, "orgc: %v\n", err)
+		return exitInvoked
+	}
+	if err := render.Write(*outDir, files); err != nil {
+		if errors.Is(err, render.ErrNotOwned) {
+			fmt.Fprintf(stderr, "orgc: %v; вкажіть порожній каталог або каталог, створений orgc render\n", err)
+		} else {
+			fmt.Fprintf(stderr, "orgc: не вдалося записати %s: %v\n", *outDir, err)
+		}
+		return exitInvoked
+	}
+	if len(ds) > 0 {
+		fmt.Fprintln(stdout, diag.Summary(ds))
+	}
+	fmt.Fprintf(stdout, "Згенеровано файлів: %d → %s\n", len(files), *outDir)
+	return exitOK
 }
 
 // singleModelArg enforces that a command got exactly one model file.

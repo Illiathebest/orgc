@@ -14,7 +14,7 @@ import (
 // platform package. Only cmd/orgc wires platforms in. This is the claim the
 // thesis makes about the architecture, so it is checked, not trusted.
 func TestCoreImportsNoPlatform(t *testing.T) {
-	for _, dir := range []string{"../ir", "../lower", ".", "../backend"} {
+	for _, dir := range []string{"../ir", "../lower", ".", "../backend", "../render"} {
 		files, err := filepath.Glob(filepath.Join(dir, "*.go"))
 		if err != nil || len(files) == 0 {
 			t.Fatalf("%s: файлів не знайдено (%v)", dir, err)

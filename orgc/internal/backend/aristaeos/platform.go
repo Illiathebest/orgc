@@ -84,3 +84,7 @@ func atLeast(v string, major, minor, patch int) bool {
 	}
 	return true
 }
+
+// Render produces the device configuration. Generation is not implemented
+// yet; until it is, a device contributes no files.
+func (Platform) Render(*ir.Model, *ir.Device) []backend.File { return nil }

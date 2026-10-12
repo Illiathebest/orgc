@@ -44,8 +44,10 @@ func TestRunExitCodes(t *testing.T) {
 		{"verify valid model", []string{"verify", model}, exitOK},
 		{"verify broken model", []string{"verify", broken}, exitModel},
 
-		// render is still a stub: no backend generates output yet.
-		{"render readable file, not implemented", []string{"render", model}, exitInvoked},
+		// render writes into -o; a fresh temporary directory keeps the
+		// test from leaving an out/ next to the sources.
+		{"render valid model", []string{"render", "-o", filepath.Join(t.TempDir(), "out"), model}, exitOK},
+		{"render broken model", []string{"render", "-o", filepath.Join(t.TempDir(), "out"), broken}, exitModel},
 	}
 
 	for _, tt := range tests {

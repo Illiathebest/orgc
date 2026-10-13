@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=../../../orgc/schema/organization.schema.json
+# Мінімальна топологія наскрізної перевірки: по одному вузлу кожної
+# платформи і вузол керування за access-портом.
+#   rb750 (CHR, шлюз) ── sw-01 (cEOS, access) ── ctrl-01
+organization: "Мінімальна топологія"
+profile: S
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    uplinks:
+      - { name: isp-main, kind: primary, port: rb750:ether1 }
+    networks:
+      - { vlan: 10, name: mgmt, role: mgmt, cidr: 192.168.10.0/24, gateway: 192.168.10.1 }
+      - vlan: 20
+        name: users
+        role: users
+        cidr: 192.168.20.0/24
+        gateway: 192.168.20.1
+        dhcp_pool: { from: 192.168.20.100, to: 192.168.20.200 }
+      - { vlan: 30, name: servers, role: servers, cidr: 192.168.30.0/24, gateway: 192.168.30.1 }
+    devices:
+      - { name: rb750, type: mikrotik, os_version: "6.48", role: edge_router, mgmt_ip: 192.168.10.1 }
+      - name: sw-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.2
+        access_ports:
+          - { ports: [Ethernet3], network: users }
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10, port: sw-01:Ethernet2 }
+    links:
+      - { a: rb750:ether2, b: sw-01:Ethernet1 }
+
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
+    - { from: users, to: internet, action: allow }

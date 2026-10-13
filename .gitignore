@@ -39,3 +39,6 @@ Thumbs.db
 
 # Вихід orgc render за замовчуванням
 out/
+
+# --- Вихід наскрізної перевірки (experiments/e4/run.sh) ---
+experiments/e4/out/

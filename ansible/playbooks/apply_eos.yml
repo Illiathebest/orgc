@@ -1,0 +1,47 @@
+---
+# Застосування конфігурації Arista EOS з виходу orgc render.
+#
+# Конфігурація зливається з поточною (eos_config, порівняння по рядках), а не
+# замінює її: orgc не описує інтерфейс керування й облікові записи, і заміна
+# всієї конфігурації прибрала б їх разом із доступом до комутатора.
+# Збережено в startup-config лише тоді, коли щось змінилося.
+#
+# Злиття не прибирає того, чого модель не описує. Маршрут за замовчуванням
+# через мережу керування (так налаштовано cEOS у containerlab без
+# startup-config) лишиться поруч із маршрутом через шлюз сайту, і частина
+# відповідей піде повз шлюз. Перед застосуванням такий маршрут прибирають
+# або переносять мережу керування в окремий VRF.
+#
+# Запуск (cwd = ansible/), інвентар — теж із виходу orgc:
+#   ansible-playbook -i <вихід>/ansible/hosts.yml playbooks/apply_eos.yml -e orgc_out=<вихід>
+- name: Застосувати конфігурацію orgc на Arista EOS
+  hosts: arista_switches
+  gather_facts: false
+  vars:
+    orgc_config: "{{ orgc_found.files | map(attribute='path') | first }}"
+  tasks:
+    - name: Перевірити, що вихід orgc задано
+      ansible.builtin.assert:
+        that: orgc_out is defined
+        fail_msg: "Каталог виходу orgc render: -e orgc_out=<каталог>"
+      run_once: true
+
+    - name: Знайти файл пристрою у виході orgc
+      ansible.builtin.find:
+        paths: "{{ orgc_out }}/configs"
+        patterns: "{{ inventory_hostname }}.cfg"
+        recurse: true
+      delegate_to: localhost
+      vars:
+        ansible_connection: local
+      register: orgc_found
+
+    - name: Перевірити, що файл пристрою є
+      ansible.builtin.assert:
+        that: orgc_found.matched == 1
+        fail_msg: "У {{ orgc_out }}/configs немає {{ inventory_hostname }}.cfg"
+
+    - name: Злити конфігурацію з поточною
+      arista.eos.eos_config:
+        src: "{{ orgc_config }}"
+        save_when: modified

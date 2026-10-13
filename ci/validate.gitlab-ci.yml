@@ -32,6 +32,11 @@ orgc-verify:
         ./orgc-bin verify "examples/organization.${m}.yml"
       done
     - |
+      for m in experiments/e4/models/*.yml; do
+        echo "== orgc verify ${m} (очікується 0)"
+        ./orgc-bin verify "${m}"
+      done
+    - |
       for m in broken invariants-broken; do
         echo "== orgc verify examples/organization.${m}.yml (очікується 1)"
         code=0

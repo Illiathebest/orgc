@@ -1,0 +1,73 @@
+---
+# Застосування скрипту RouterOS з виходу orgc render.
+#
+# Скрипт розрахований на пристрій, скинутий без заводської конфігурації
+# (/system reset-configuration no-defaults=yes): він створює міст, списки
+# інтерфейсів і DHCP-клієнт, а на заводській конфігурації ці команди падають.
+# Тому плейбук спершу перевіряє, що мосту ще немає, і лише тоді завантажує
+# скрипт по SFTP і виконує /import.
+#
+# Імпорт виконується на самому пристрої. Сесія, через яку його запущено,
+# може обірватися, коли скрипт увімкне фаєрвол чи VLAN-фільтрацію: доступ
+# лишиться лише з мережі вузла керування (те, що перевіряє E006).
+#
+# Підключення — SSH (network_cli) користувачем із правом запису; пароль —
+# змінна середовища ROUTEROS_ADMIN_PASSWORD.
+#
+# Запуск (cwd = ansible/), інвентар — із виходу orgc:
+#   ansible-playbook -i <вихід>/ansible/hosts.yml playbooks/apply_routeros.yml -e orgc_out=<вихід>
+- name: Застосувати скрипт orgc на RouterOS
+  hosts: mikrotik_routers
+  gather_facts: false
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: community.routeros.routeros
+    ansible_user: "{{ routeros_admin_username | default('admin') }}"
+    ansible_password: "{{ lookup('ansible.builtin.env', 'ROUTEROS_ADMIN_PASSWORD') }}"
+    orgc_script: "{{ orgc_found.files | map(attribute='path') | first }}"
+  tasks:
+    - name: Перевірити, що вихід orgc задано
+      ansible.builtin.assert:
+        that: orgc_out is defined
+        fail_msg: "Каталог виходу orgc render: -e orgc_out=<каталог>"
+      run_once: true
+
+    - name: Знайти файл пристрою у виході orgc
+      ansible.builtin.find:
+        paths: "{{ orgc_out }}/configs"
+        patterns: "{{ inventory_hostname }}.rsc"
+        recurse: true
+      delegate_to: localhost
+      vars:
+        ansible_connection: local
+      register: orgc_found
+
+    - name: Перевірити, що файл пристрою є
+      ansible.builtin.assert:
+        that: orgc_found.matched == 1
+        fail_msg: "У {{ orgc_out }}/configs немає {{ inventory_hostname }}.rsc"
+
+    - name: Прочитати мости
+      community.routeros.command:
+        commands: /interface bridge print count-only
+      register: ros_bridges
+      changed_when: false
+
+    - name: Перевірити, що пристрій скинуто без заводської конфігурації
+      ansible.builtin.assert:
+        that: ros_bridges.stdout[0] | trim == '0'
+        fail_msg: >-
+          На пристрої вже є міст. Скрипт orgc розрахований на конфігурацію
+          після /system reset-configuration no-defaults=yes.
+
+    - name: Завантажити скрипт
+      ansible.netcommon.net_put:
+        src: "{{ orgc_script }}"
+        dest: orgc.rsc
+        protocol: sftp
+
+    - name: Виконати скрипт
+      community.routeros.command:
+        commands: /import file-name=orgc.rsc
+      register: ros_import
+      changed_when: true

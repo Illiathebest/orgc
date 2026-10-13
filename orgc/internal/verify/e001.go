@@ -2,6 +2,7 @@ package verify
 
 import (
 	"fmt"
+	"sort"
 
 	"orgc/internal/backend"
 	"orgc/internal/diag"
@@ -27,23 +28,19 @@ func checkE001(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 	type pair struct{ a, b *ir.Network }
 	allowed := map[pair]bool{}
 
-	for j, b := range m.Networks {
-		for _, a := range m.Networks[:j] {
-			if !overlap(a.Prefix, b.Prefix) {
-				continue
-			}
-			switch {
-			case a.Site == b.Site:
-				bad(b.Path+".cidr", fmt.Sprintf(
-					"префікс %s перетинається з мережею %q %s%s; усередині сайту перетин заборонено",
-					b.Prefix, a.Name, a.Prefix, line(m, a.Path)))
-			case a.Site.AllowOverlap || b.Site.AllowOverlap:
-				allowed[pair{a, b}], allowed[pair{b, a}] = true, true
-			default:
-				bad(b.Path+".cidr", fmt.Sprintf(
-					"префікс %s перетинається з мережею %q сайту %q %s%s; між сайтами перетин дозволяє лише allow_overlap",
-					b.Prefix, a.Name, a.Site.Name, a.Prefix, line(m, a.Path)))
-			}
+	for _, pr := range overlapping(m.Networks) {
+		a, b := pr[0], pr[1]
+		switch {
+		case a.Site == b.Site:
+			bad(b.Path+".cidr", fmt.Sprintf(
+				"префікс %s перетинається з мережею %q %s%s; усередині сайту перетин заборонено",
+				b.Prefix, a.Name, a.Prefix, line(m, a.Path)))
+		case a.Site.AllowOverlap || b.Site.AllowOverlap:
+			allowed[pair{a, b}], allowed[pair{b, a}] = true, true
+		default:
+			bad(b.Path+".cidr", fmt.Sprintf(
+				"префікс %s перетинається з мережею %q сайту %q %s%s; між сайтами перетин дозволяє лише allow_overlap",
+				b.Prefix, a.Name, a.Site.Name, a.Prefix, line(m, a.Path)))
 		}
 	}
 
@@ -77,4 +74,52 @@ func side(m *ir.Model, e ir.Endpoint) []*ir.Network {
 		return m.Networks
 	}
 	return []*ir.Network{e.Net}
+}
+
+// overlapping returns every pair of networks whose prefixes share an
+// address, each pair as (earlier, later) in model order, in the order the
+// earlier quadratic scan found them.
+//
+// Two CIDR prefixes either do not overlap or one contains the other, so
+// after sorting by address (shorter prefix first) the prefixes containing
+// a given one are exactly those on a stack of enclosing prefixes: one pass,
+// O(n log n + k) for n networks and k overlapping pairs.
+func overlapping(nets []*ir.Network) [][2]*ir.Network {
+	index := make(map[*ir.Network]int, len(nets))
+	order := make([]*ir.Network, len(nets))
+	for i, n := range nets {
+		index[n] = i
+		order[i] = n
+	}
+	sort.SliceStable(order, func(i, j int) bool {
+		a, b := order[i].Prefix.Masked(), order[j].Prefix.Masked()
+		if c := a.Addr().Compare(b.Addr()); c != 0 {
+			return c < 0
+		}
+		return a.Bits() < b.Bits()
+	})
+	var out [][2]*ir.Network
+	var stack []*ir.Network
+	for _, n := range order {
+		p := n.Prefix.Masked()
+		for len(stack) > 0 && !stack[len(stack)-1].Prefix.Masked().Contains(p.Addr()) {
+			stack = stack[:len(stack)-1]
+		}
+		for _, outer := range stack {
+			a, b := outer, n
+			if index[a] > index[b] {
+				a, b = b, a
+			}
+			out = append(out, [2]*ir.Network{a, b})
+		}
+		stack = append(stack, n)
+	}
+	sort.Slice(out, func(i, j int) bool {
+		bi, bj := index[out[i][1]], index[out[j][1]]
+		if bi != bj {
+			return bi < bj
+		}
+		return index[out[i][0]] < index[out[j][0]]
+	})
+	return out
 }

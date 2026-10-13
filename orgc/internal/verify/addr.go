@@ -48,10 +48,6 @@ func isHost(p netip.Prefix, a netip.Addr) bool {
 	return v != network && v != broadcast
 }
 
-func overlap(a, b netip.Prefix) bool {
-	return a.Masked().Overlaps(b.Masked())
-}
-
 // inPool reports whether a falls inside the pool. An inverted pool contains
 // nothing; E007 reports it separately.
 func inPool(r *ir.Range, a netip.Addr) bool {

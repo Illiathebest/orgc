@@ -1,48 +1,82 @@
 # Згенеровано orgc з m-profile.yml. Не редагувати вручну.
 ---
 name: lab
+mgmt:
+  network: orgc-mgmt
+  ipv4-subnet: 10.99.1.0/24
 topology:
   nodes:
     rb750:
       kind: mikrotik_ros
       image: vrnetlab/mikrotik_routeros:6.48
+      mgmt-ipv4: 10.99.1.11
       startup-config: ../configs/hq/rb750.rsc
     core-01:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.12
       startup-config: ../configs/hq/core-01.cfg
     dist-01:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.13
       startup-config: ../configs/hq/dist-01.cfg
     dist-02:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.14
       startup-config: ../configs/hq/dist-02.cfg
     acc-01:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.15
       startup-config: ../configs/hq/acc-01.cfg
     acc-02:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.16
       startup-config: ../configs/hq/acc-02.cfg
     acc-03:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.17
       startup-config: ../configs/hq/acc-03.cfg
     rb-branch:
       kind: mikrotik_ros
       image: vrnetlab/mikrotik_routeros:6.48
+      mgmt-ipv4: 10.99.1.18
       startup-config: ../configs/branch/rb-branch.rsc
     core-br-01:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.19
       startup-config: ../configs/branch/core-br-01.cfg
     sw-branch-01:
       kind: arista_ceos
       image: ceos:4.36.2F
+      mgmt-ipv4: 10.99.1.20
       startup-config: ../configs/branch/sw-branch-01.cfg
+    ctrl-01:
+      kind: linux
+      image: alpine:3.22
+      mgmt-ipv4: 10.99.1.21
+      exec:
+        - ip address add 192.168.30.10/24 dev eth1
+        - ip route replace default via 192.168.30.1 dev eth1
+    mon-01:
+      kind: linux
+      image: alpine:3.22
+      mgmt-ipv4: 10.99.1.22
+      exec:
+        - ip address add 192.168.30.11/24 dev eth1
+        - ip route replace default via 192.168.30.1 dev eth1
+    app-branch-01:
+      kind: linux
+      image: alpine:3.22
+      mgmt-ipv4: 10.99.1.23
+      exec:
+        - ip address add 192.168.130.10/24 dev eth1
+        - ip route replace default via 192.168.130.1 dev eth1
   links:
     - endpoints: ["rb750:eth1", "core-01:eth1"]
     - endpoints: ["core-01:eth2", "dist-01:eth1"]
@@ -52,3 +86,6 @@ topology:
     - endpoints: ["dist-02:eth2", "acc-03:eth1"]
     - endpoints: ["rb-branch:eth1", "core-br-01:eth1"]
     - endpoints: ["core-br-01:eth2", "sw-branch-01:eth1"]
+    - endpoints: ["acc-01:eth5", "ctrl-01:eth1"]
+    - endpoints: ["acc-01:eth6", "mon-01:eth1"]
+    - endpoints: ["sw-branch-01:eth5", "app-branch-01:eth1"]

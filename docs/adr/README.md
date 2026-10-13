@@ -12,10 +12,11 @@
 |---|---|---|
 | [ADR-001](ADR-001-lab-virtualization.md) | Платформа віртуалізації лабораторного стенда | Proposed |
 | [ADR-002](ADR-002-git-ci-platform.md) | Git + CI/CD платформа | Accepted — GitLab CE |
-| [ADR-003](ADR-003-network-emulation.md) | Емуляція мережевого обладнання | Proposed |
+| [ADR-003](ADR-003-network-emulation.md) | Емуляція мережевого обладнання | Superseded by ADR-010 |
 | [ADR-004](ADR-004-observability-siem.md) | Стек моніторингу та SIEM | Proposed |
 | [ADR-005](ADR-005-data-model-validation.md) | Спосіб валідації моделі даних `organization.yml` | Accepted — JSON Schema 2020-12 |
 | [ADR-006](ADR-006-go-dependencies-schema-embedding.md) | Залежності компілятора `orgc` і розміщення схеми для `go:embed` | Accepted — `goccy/go-yaml` + `santhosh-tekuri/jsonschema/v6`, схема в `orgc/schema/` |
 | [ADR-007](ADR-007-module-path-and-schema-id.md) | Шлях модуля Go та ідентифікатор схеми | Accepted — модуль `orgc`, `$id` `urn:orgc:organization-schema` |
 | [ADR-008](ADR-008-ir-and-verify-contract.md) | Проміжне представлення і контракт перевірок `verify` | Accepted — IR з індексом позицій, інваріант — функція над IR, лише W → 0, можливості через `backend.Platform`, E006 на графі мереж і шлюзів |
 | [ADR-009](ADR-009-render-interface-and-output.md) | Інтерфейс рендеру і контракт виходу `orgc render` | Accepted — `Platform.Render` + генератори рівня моделі, каталог виходу належить `orgc`, порти за конвенцією платформи, еталон інвентаря — модель поточного стенда |
+| [ADR-010](ADR-010-emulation-stand.md) | Емуляційний стенд і його звʼязок зі стендом | Accepted — containerlab на VM `clab-01` у Hyper-V, cEOS 4.36.2F і CHR 6.48, мережа керування `10.99.1.0/24` через Tailscale, сервери з портом — вузли Linux, без гібрида |

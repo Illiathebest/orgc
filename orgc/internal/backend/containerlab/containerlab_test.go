@@ -60,14 +60,35 @@ func has(t *testing.T, topo, s string) {
 
 func TestNodesAndLinksFromModel(t *testing.T) {
 	topo := topology(t, "s-profile.yml")
-	has(t, topo, "    rb750:\n      kind: mikrotik_ros\n      image: vrnetlab/mikrotik_routeros:6.48\n      startup-config: ../configs/hq/rb750.rsc\n")
-	has(t, topo, "    core-01:\n      kind: arista_ceos\n      image: ceos:4.36.2F\n      startup-config: ../configs/hq/core-01.cfg\n")
+	has(t, topo, "    rb750:\n      kind: mikrotik_ros\n      image: vrnetlab/mikrotik_routeros:6.48\n      mgmt-ipv4: 10.99.1.11\n      startup-config: ../configs/hq/rb750.rsc\n")
+	has(t, topo, "    core-01:\n      kind: arista_ceos\n      image: ceos:4.36.2F\n      mgmt-ipv4: 10.99.1.12\n      startup-config: ../configs/hq/core-01.cfg\n")
 	has(t, topo, `    - endpoints: ["rb750:eth1", "core-01:eth1"]`+"\n")
 	has(t, topo, `    - endpoints: ["core-01:eth3", "acc-02:eth1"]`+"\n")
-	for _, srv := range []string{"ctrl-01", "mon-01"} {
-		if strings.Contains(topo, "    "+srv+":") {
-			t.Errorf("сервер %s не є вузлом топології", srv)
-		}
+}
+
+// A server plugged into a port stands in for itself as a Linux node: its
+// address and default route come from the model, and its address in the
+// management network follows the devices'.
+func TestServersAsNodes(t *testing.T) {
+	topo := topology(t, "s-profile.yml")
+	has(t, topo, "    ctrl-01:\n      kind: linux\n      image: alpine:3.22\n      mgmt-ipv4: 10.99.1.15\n      exec:\n"+
+		"        - ip address add 192.168.30.10/24 dev eth1\n"+
+		"        - ip route replace default via 192.168.30.1 dev eth1\n")
+	has(t, topo, `    - endpoints: ["acc-01:eth5", "ctrl-01:eth1"]`+"\n")
+	has(t, topo, `    - endpoints: ["acc-01:eth6", "mon-01:eth1"]`+"\n")
+
+	// Without a port the server has no place in the topology.
+	topo = topology(t, "s-profile.yml", ", port: acc-01:Ethernet6 }", " }")
+	if strings.Contains(topo, "    mon-01:") {
+		t.Error("сервер без port не є вузлом топології")
+	}
+}
+
+func TestManagementNetwork(t *testing.T) {
+	topo := topology(t, "s-profile.yml")
+	has(t, topo, "name: lab\nmgmt:\n  network: orgc-mgmt\n  ipv4-subnet: 10.99.1.0/24\ntopology:\n")
+	if n := strings.Count(topo, "mgmt-ipv4: "); n != 6 {
+		t.Errorf("адреса керування — у кожного з 6 вузлів, а є %d:\n%s", n, topo)
 	}
 }
 
@@ -109,7 +130,7 @@ func TestPortMapping(t *testing.T) {
 
 func TestShape(t *testing.T) {
 	topo := topology(t, "m-profile.yml")
-	if !strings.HasPrefix(topo, "# Згенеровано orgc з m-profile.yml. Не редагувати вручну.\n---\nname: lab\ntopology:\n") {
+	if !strings.HasPrefix(topo, "# Згенеровано orgc з m-profile.yml. Не редагувати вручну.\n---\nname: lab\nmgmt:\n") {
 		t.Errorf("заголовок:\n%s", topo[:120])
 	}
 	if strings.ContainsRune(topo, '\r') {

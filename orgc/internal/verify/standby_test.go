@@ -28,7 +28,7 @@ func TestStandbyLinks(t *testing.T) {
 			[]string{mStandbyAcc01, mStandbyAcc01 + "      - { a: dist-01:Ethernet5, b: acc-01:Ethernet3, vlans: [mgmt], standby: true }\n"}, "", nil},
 		{"резервне без mgmt-мережі — W006",
 			[]string{mStandbyAcc01, strings.Replace(mStandbyAcc01, "[mgmt, servers]", "[servers]", 1)}, "W006",
-			[]string{`резервне зʼєднання dist-02:Ethernet3 – acc-01:Ethernet2 не пропускає mgmt-мережу "mgmt", тож пристрої втратять керування: ` +
+			[]string{`резервне зʼєднання dist-02:Ethernet3 – acc-01:Ethernet2 не пропускає mgmt-мережу "mgmt", тож пристрої можуть втратити керування: ` +
 				`при відмові зʼєднання core-01:Ethernet2 – dist-01:Ethernet1 — "dist-01", "acc-01", "acc-02"; ` +
 				`при відмові зʼєднання core-01:Ethernet3 – dist-02:Ethernet1 — "dist-02", "acc-03"`}},
 		{"резервне без vlans несе всі мережі",

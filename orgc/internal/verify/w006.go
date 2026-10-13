@@ -25,6 +25,11 @@ import (
 // cut off by the same missing VLAN are reported together, one diagnostic
 // per link that lacks it, positioned on that link's vlans.
 //
+// "May" lose management: when another standby link closes a cycle through
+// the same failed link, which of the two STP unblocks depends on bridge IDs
+// — MAC addresses the model does not have — so the model cannot promise the
+// good one. With a single standby link for the failure, the loss is certain.
+//
 // A warning: in normal operation management works. Sites with a broken
 // topology (E003, E010) and devices whose mgmt network is not carried even
 // now (E006) are skipped.
@@ -129,7 +134,7 @@ func checkW006(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 					path += ".vlans"
 				}
 				out = append(out, report(m, diag.W006, diag.Warning, path, fmt.Sprintf(
-					"%s не пропускає mgmt-мережу %q, тож пристрої втратять керування: %s",
+					"%s не пропускає mgmt-мережу %q, тож пристрої можуть втратити керування: %s",
 					how, f.mgmt.Name, strings.Join(parts, "; "))))
 			}
 		}

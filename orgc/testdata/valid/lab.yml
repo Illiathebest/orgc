@@ -23,7 +23,7 @@ sites:
     devices:
       - name: rb750
         type: mikrotik
-        os_version: "6.48"
+        os_version: "6.49.23"
         role: edge_router
         mgmt_ip: 192.168.1.220
     servers:

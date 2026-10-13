@@ -1,0 +1,245 @@
+{
+  "m-profile": {
+    "output": {
+      "files": 17,
+      "lines": 797
+    },
+    "changes": {
+      "rule-add": {
+        "what": "нове правило users → servers у сайті вузла керування",
+        "changed": [
+          "configs/hq/rb750.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 1,
+        "lines": 2
+      },
+      "rule-ports": {
+        "what": "до наявного правила додано порт",
+        "changed": [
+          "configs/hq/rb750.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 1,
+        "lines": 4
+      },
+      "rule-other-site": {
+        "what": "нове правило в останньому сайті",
+        "changed": [
+          "configs/branch/rb-branch.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 1,
+        "lines": 2
+      },
+      "network-add": {
+        "what": "нова мережа з DHCP у сайті",
+        "changed": [
+          "configs/hq/core-01.cfg",
+          "configs/hq/dist-01.cfg",
+          "configs/hq/dist-02.cfg",
+          "configs/hq/rb750.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 4,
+        "lines": 23
+      },
+      "device-add": {
+        "what": "новий access-комутатор під distribution",
+        "changed": [
+          "ansible/hosts.yml",
+          "configs/hq/dist-01.cfg",
+          "containerlab/lab.clab.yml",
+          "prometheus/targets/snmp.json"
+        ],
+        "added": [
+          "configs/hq/acc-new.cfg"
+        ],
+        "removed": [],
+        "files": 5,
+        "lines": 61
+      },
+      "standby-remove": {
+        "what": "прибрано резервне зʼєднання access-комутатора",
+        "changed": [
+          "configs/hq/acc-01.cfg",
+          "configs/hq/dist-02.cfg",
+          "containerlab/lab.clab.yml"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 3,
+        "lines": 13
+      },
+      "vlan-on-trunk": {
+        "what": "на trunk дозволено ще один VLAN сайту",
+        "changed": [
+          "configs/hq/acc-01.cfg",
+          "configs/hq/dist-01.cfg"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 2,
+        "lines": 6
+      },
+      "vlan-off-trunk": {
+        "what": "з trunk прибрано VLAN, не потрібний нижче",
+        "changed": [
+          "configs/hq/core-01.cfg",
+          "configs/hq/dist-01.cfg"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 2,
+        "lines": 4
+      },
+      "mgmt-ip": {
+        "what": "змінено mgmt_ip access-комутатора",
+        "changed": [
+          "ansible/hosts.yml",
+          "configs/hq/acc-01.cfg",
+          "prometheus/targets/snmp.json"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 3,
+        "lines": 6
+      },
+      "server-add": {
+        "what": "новий сервер на access-порту",
+        "changed": [
+          "ansible/hosts.yml",
+          "configs/hq/acc-01.cfg",
+          "containerlab/lab.clab.yml",
+          "prometheus/targets/node.json"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 4,
+        "lines": 26
+      }
+    }
+  },
+  "synthetic-200": {
+    "output": {
+      "files": 207,
+      "lines": 16575
+    },
+    "changes": {
+      "rule-add": {
+        "what": "нове правило users → servers у сайті вузла керування",
+        "changed": [
+          "configs/s000/gw-s000.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 1,
+        "lines": 2
+      },
+      "rule-ports": {
+        "what": "до наявного правила додано порт",
+        "changed": [
+          "configs/s000/gw-s000.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 1,
+        "lines": 4
+      },
+      "rule-other-site": {
+        "what": "нове правило в останньому сайті",
+        "changed": [
+          "configs/s019/gw-s019.cfg"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 1,
+        "lines": 5
+      },
+      "network-add": {
+        "what": "нова мережа з DHCP у сайті",
+        "changed": [
+          "configs/s000/core-s000.cfg",
+          "configs/s000/dist1-s000.cfg",
+          "configs/s000/dist2-s000.cfg",
+          "configs/s000/gw-s000.rsc"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 4,
+        "lines": 23
+      },
+      "device-add": {
+        "what": "новий access-комутатор під distribution",
+        "changed": [
+          "ansible/hosts.yml",
+          "configs/s000/dist1-s000.cfg",
+          "containerlab/lab.clab.yml",
+          "prometheus/targets/snmp.json"
+        ],
+        "added": [
+          "configs/s000/acc-new.cfg"
+        ],
+        "removed": [],
+        "files": 5,
+        "lines": 469
+      },
+      "standby-remove": {
+        "what": "прибрано резервне зʼєднання access-комутатора",
+        "changed": [
+          "configs/s000/acc1-s000.cfg",
+          "configs/s000/dist2-s000.cfg",
+          "containerlab/lab.clab.yml"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 3,
+        "lines": 13
+      },
+      "vlan-on-trunk": {
+        "what": "на trunk дозволено ще один VLAN сайту",
+        "not_applicable": "кожен trunk уже несе всі мережі сайту"
+      },
+      "vlan-off-trunk": {
+        "what": "з trunk прибрано VLAN, не потрібний нижче",
+        "changed": [
+          "configs/s000/core-s000.cfg",
+          "configs/s000/dist2-s000.cfg"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 2,
+        "lines": 4
+      },
+      "mgmt-ip": {
+        "what": "змінено mgmt_ip access-комутатора",
+        "changed": [
+          "ansible/hosts.yml",
+          "configs/s000/acc1-s000.cfg",
+          "prometheus/targets/snmp.json"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 3,
+        "lines": 6
+      },
+      "server-add": {
+        "what": "новий сервер на access-порту",
+        "changed": [
+          "ansible/hosts.yml",
+          "configs/s000/acc1-s000.cfg",
+          "containerlab/lab.clab.yml",
+          "prometheus/targets/node.json"
+        ],
+        "added": [],
+        "removed": [],
+        "files": 4,
+        "lines": 62
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "nets-08": {
+    "args": [
+      "--devices",
+      "200",
+      "--extra-networks",
+      "4"
+    ],
+    "devices": 200,
+    "lines": 950,
+    "networks": 160,
+    "rules": 99,
+    "sites": 20
+  },
+  "nets-16": {
+    "args": [
+      "--devices",
+      "200",
+      "--extra-networks",
+      "12"
+    ],
+    "devices": 200,
+    "lines": 1110,
+    "networks": 320,
+    "rules": 99,
+    "sites": 20
+  },
+  "nets-32": {
+    "args": [
+      "--devices",
+      "200",
+      "--extra-networks",
+      "28"
+    ],
+    "devices": 200,
+    "lines": 1430,
+    "networks": 640,
+    "rules": 99,
+    "sites": 20
+  },
+  "rules-0500": {
+    "args": [
+      "--devices",
+      "1000",
+      "--extra-rules",
+      "500"
+    ],
+    "devices": 1000,
+    "lines": 4810,
+    "networks": 400,
+    "rules": 999,
+    "sites": 100
+  },
+  "rules-2000": {
+    "args": [
+      "--devices",
+      "1000",
+      "--extra-rules",
+      "2000"
+    ],
+    "devices": 1000,
+    "lines": 6310,
+    "networks": 400,
+    "rules": 2499,
+    "sites": 100
+  },
+  "rules-5000": {
+    "args": [
+      "--devices",
+      "1000",
+      "--extra-rules",
+      "5000"
+    ],
+    "devices": 1000,
+    "lines": 9310,
+    "networks": 400,
+    "rules": 5499,
+    "sites": 100
+  },
+  "size-0010": {
+    "args": [
+      "--devices",
+      "10"
+    ],
+    "devices": 10,
+    "lines": 53,
+    "networks": 4,
+    "rules": 4,
+    "sites": 1
+  },
+  "size-0050": {
+    "args": [
+      "--devices",
+      "50"
+    ],
+    "devices": 50,
+    "lines": 225,
+    "networks": 20,
+    "rules": 24,
+    "sites": 5
+  },
+  "size-0200": {
+    "args": [
+      "--devices",
+      "200"
+    ],
+    "devices": 200,
+    "lines": 870,
+    "networks": 80,
+    "rules": 99,
+    "sites": 20
+  },
+  "size-1000": {
+    "args": [
+      "--devices",
+      "1000"
+    ],
+    "devices": 1000,
+    "lines": 4310,
+    "networks": 400,
+    "rules": 499,
+    "sites": 100
+  }
+}

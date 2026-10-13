@@ -62,6 +62,25 @@ experiments/e4/run.sh experiments/e4/models/minimal.yml --keep   # лишити 
 | `examples/organization.s-profile.yml` | CHR + 3 cEOS + 2 сервери | ієрархія Access–Core |
 | `models/eos-gateway.yml` | 2 cEOS + сервер | EOS як шлюз: SVI, DHCP-сервер, ACL з кількома портами, ізоляція гостьової мережі |
 | `examples/organization.m-profile.yml` | 2 CHR + 8 cEOS + 3 сервери | Access–Distribution–Core, два сайти |
+| `examples/organization.lab.yml` | живий RB750 | конфігурація стенда на справжньому залізі (розділ нижче) |
+
+## Живий RB750
+
+Модель — `examples/organization.lab.yml`, вузол керування — `ctrl-01` (`192.168.1.50`). Процедура:
+
+1. На флеш RB750 кладуться `rb750.rsc` з виходу `orgc render` без змін і обгортка `e4-apply.rsc`: `:delay 15s`, потім `/import file-name=rb750.rsc`. Затримка потрібна, бо скрипт `run-after-reset` стартує раніше, ніж піднімаються інтерфейси.
+2. Скидання робить людина у WinBox по MAC через `ether5`: `/system reset-configuration no-defaults=yes skip-backup=yes run-after-reset=e4-apply.rsc`. Після скидання IP-адреси немає, тож плейбук `apply_routeros` тут не підходить.
+3. Облікові записи заводяться через API поза orgc: модель їх не описує, а після скидання лишається лише `admin` без пароля.
+4. На `ctrl-01` запускається `compare.py --render`.
+5. Відкат — `/system backup load` з копії, зробленої до експерименту, теж у WinBox по MAC.
+
+`results/organization.lab/reachability.log` — журнал досяжності API (8728) і SSH (22) з `ctrl-01`, опитування щосекунди, час UTC.
+
+## Інцидент E006
+
+`incident/lab-e006.yml` — модель стенда, у якій вузол керування стоїть в окремій мережі, а правило до мережі керування відкриває лише SSH. `orgc verify` відхиляє її з E006 («правило відкриває tcp/22, а керування пристроєм rb750 (mikrotik) іде через tcp/8728»), і `orgc render` нічого не генерує. З `ports: [22, 8728]` модель проходить.
+
+На живому RB750 ту саму правку внесено вручну, в обхід orgc: у правилі керування порт 8728 замінено на 22. Сесія, через яку це зробили, ще встигла прочитати результат. Через 2 с нові API-з'єднання з `ctrl-01` перестали встановлюватися, а SSH лишився відкритим: пристрій «доступний», але Ansible відрізаний. Повернути керування вдалося лише в обхід IP, через WinBox по MAC.
 
 ## Застосування на справжньому обладнанні
 

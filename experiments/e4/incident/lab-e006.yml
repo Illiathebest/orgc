@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=../../../orgc/schema/organization.schema.json
+# Інцидент E006 на моделі стенда: вузол керування в окремій мережі, а
+# правило до мережі керування відкриває лише SSH. Ansible керує RouterOS
+# через API (TCP 8728), тож така конфігурація відрізала б RB750 від
+# керування. orgc verify відхиляє модель, orgc render нічого не генерує.
+organization: "Навчальна лабораторія"
+profile: S
+
+control_node:
+  site: lab
+  network: ops
+  ip: 192.168.2.50
+
+sites:
+  - name: lab
+    networks:
+      - { vlan: 1, name: lan, role: mgmt, cidr: 192.168.1.0/24, gateway: 192.168.1.220 }
+      - { vlan: 2, name: ops, role: servers, cidr: 192.168.2.0/24, gateway: 192.168.2.1 }
+    devices:
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.1.220
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.2.50 }
+
+policies:
+  inter_vlan:
+    - { from: ops, to: lan, ports: [22], action: allow }

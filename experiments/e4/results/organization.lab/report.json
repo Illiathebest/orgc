@@ -1,0 +1,45 @@
+{
+  "devices": {
+    "rb750": {
+      "accepted": true,
+      "checked": 7,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.1.220",
+      "observed": {
+        "addresses": [
+          "192.168.1.220/24",
+          "192.168.1.220/24"
+        ],
+        "ports": {
+          "ether2": {
+            "mode": "trunk",
+            "vlans": [
+              1
+            ]
+          },
+          "ether3": {
+            "mode": "trunk",
+            "vlans": [
+              1
+            ]
+          },
+          "ether4": {
+            "mode": "trunk",
+            "vlans": [
+              1
+            ]
+          }
+        },
+        "script_errors": [],
+        "vlan_filtering": true,
+        "vlans": {
+          "1": "lan"
+        }
+      },
+      "seconds": 0.5,
+      "type": "mikrotik"
+    }
+  },
+  "discrepancies": [],
+  "model": "organization.lab.yml"
+}

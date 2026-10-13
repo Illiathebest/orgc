@@ -179,6 +179,39 @@ func (Generator) Generate(m *ir.Model, ps backend.Platforms) []backend.File {
 		}
 		lines = append(lines, fmt.Sprintf("    - endpoints: [\"%s:%s\", \"%s:eth1\"]\n", p.Device.Name, ifc, sv.Name))
 	}
+
+	// An access port with nothing plugged in gets a dummy link: cEOS and
+	// vrnetlab create a port only for an interface the container has, and
+	// a port that does not exist cannot carry its VLAN for the check.
+	plugged := map[endpoint]bool{}
+	for _, l := range links {
+		plugged[l[0]], plugged[l[1]] = true, true
+	}
+	for _, sv := range hosts {
+		plugged[endpoint{sv.Port.Device, sv.Port.Port}] = true
+	}
+	dummy := func(d *ir.Device, port string) {
+		e := endpoint{d, port}
+		if plugged[e] || node(d) == nil {
+			return
+		}
+		plugged[e] = true
+		if ifc, ok := node(d).LabInterface(port); ok {
+			lines = append(lines, fmt.Sprintf("    - type: dummy\n      endpoint: { node: %s, interface: %s }\n", d.Name, ifc))
+		}
+	}
+	for _, d := range m.Devices {
+		for _, ap := range d.AccessPorts {
+			for _, p := range ap.Ports {
+				dummy(d, p)
+			}
+		}
+	}
+	for _, sv := range m.Servers {
+		if sv.Port.Resolved() {
+			dummy(sv.Port.Device, sv.Port.Port)
+		}
+	}
 	if len(lines) > 0 {
 		b.WriteString("  links:\n")
 		for _, s := range lines {

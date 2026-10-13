@@ -89,3 +89,19 @@ topology:
     - endpoints: ["acc-01:eth5", "ctrl-01:eth1"]
     - endpoints: ["acc-01:eth6", "mon-01:eth1"]
     - endpoints: ["sw-branch-01:eth5", "app-branch-01:eth1"]
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth3 }
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth4 }
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth5 }
+    - type: dummy
+      endpoint: { node: acc-03, interface: eth3 }
+    - type: dummy
+      endpoint: { node: acc-03, interface: eth4 }
+    - type: dummy
+      endpoint: { node: acc-03, interface: eth6 }
+    - type: dummy
+      endpoint: { node: sw-branch-01, interface: eth3 }
+    - type: dummy
+      endpoint: { node: sw-branch-01, interface: eth4 }

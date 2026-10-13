@@ -84,6 +84,17 @@ func TestServersAsNodes(t *testing.T) {
 	}
 }
 
+// An access port with nothing plugged in still exists on the node, through
+// a dummy link; a port already taken by a server node gets none.
+func TestDummyAccessPorts(t *testing.T) {
+	topo := topology(t, "s-profile.yml")
+	has(t, topo, "    - type: dummy\n      endpoint: { node: acc-02, interface: eth3 }\n")
+	has(t, topo, "    - type: dummy\n      endpoint: { node: acc-02, interface: eth6 }\n")
+	if strings.Contains(topo, "endpoint: { node: acc-01, interface: eth5 }") {
+		t.Error("порт сервера ctrl-01 уже зайнятий вузлом сервера")
+	}
+}
+
 func TestManagementNetwork(t *testing.T) {
 	topo := topology(t, "s-profile.yml")
 	has(t, topo, "name: lab\nmgmt:\n  network: orgc-mgmt\n  ipv4-subnet: 10.99.1.0/24\ntopology:\n")

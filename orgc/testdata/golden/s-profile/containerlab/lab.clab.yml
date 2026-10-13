@@ -46,3 +46,11 @@ topology:
     - endpoints: ["core-01:eth3", "acc-02:eth1"]
     - endpoints: ["acc-01:eth5", "ctrl-01:eth1"]
     - endpoints: ["acc-01:eth6", "mon-01:eth1"]
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth3 }
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth4 }
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth5 }
+    - type: dummy
+      endpoint: { node: acc-02, interface: eth6 }

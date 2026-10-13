@@ -1,0 +1,76 @@
+{
+  "devices": {
+    "rb750": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.1",
+      "observed": {
+        "addresses": [
+          "172.31.255.30/30",
+          "192.168.10.1/24",
+          "192.168.20.1/24",
+          "192.168.30.1/24"
+        ],
+        "ports": {
+          "ether2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          }
+        },
+        "script_errors": [],
+        "vlan_filtering": true,
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers"
+        }
+      },
+      "seconds": 0.0,
+      "type": "mikrotik"
+    },
+    "sw-01": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.2",
+      "observed": {
+        "addresses": [
+          "10.99.1.12/24",
+          "192.168.10.2/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          },
+          "Ethernet2": {
+            "mode": "access",
+            "vlan": 30
+          },
+          "Ethernet3": {
+            "mode": "access",
+            "vlan": 20
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers"
+        }
+      },
+      "seconds": 1.9,
+      "type": "arista_eos"
+    }
+  },
+  "discrepancies": [],
+  "model": "minimal.yml"
+}

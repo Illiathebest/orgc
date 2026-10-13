@@ -2,7 +2,9 @@
 
 The result has the shape of expected.py, so the two compare key by key:
 vlans (ID -> name), addresses ("ip/len"), ports (trunk with VLANs or access
-with its VLAN). Addresses outside the model's networks — the containerlab
+with its VLAN). Besides, it carries what shows whether the device took the
+whole generated configuration: the running configuration of EOS, the script
+errors in the RouterOS log and whether VLAN filtering is on. Addresses outside the model's networks — the containerlab
 management interface, the uplink — are left out by compare.py, not here.
 
 EOS is read with the eos driver over SSH (napalm >= 4.1), so eAPI need not
@@ -53,7 +55,8 @@ def observe_eos(host, user, password, timeout=30):
                 ports[name] = {"mode": "trunk", "vlans": parse_vlan_list(info.get("trunkAllowedVlans", ""))}
             elif info.get("mode") == "access":
                 ports[name] = {"mode": "access", "vlan": info.get("accessVlanId")}
-        return {"vlans": vlans, "addresses": addresses(driver), "ports": ports}
+        running = driver.get_config(retrieve="running")["running"]
+        return {"vlans": vlans, "addresses": addresses(driver), "ports": ports, "running": running}
     finally:
         driver.close()
 
@@ -88,7 +91,12 @@ def observe_ros(host, user, password, timeout=30):
                 ports[name] = {"mode": "trunk", "vlans": sorted(tagged.get(name, []))}
             else:
                 ports[name] = {"mode": "access", "vlan": int(p.get("pvid", 1))}
-        return {"vlans": vlans, "addresses": addresses(driver), "ports": ports}
+        # /import stops at the first failing command and logs it; the script
+        # switches VLAN filtering on as its very last command.
+        errors = [e.get("message", "") for e in api.path("log") if "script" in e.get("topics", "") and "error" in e.get("topics", "")]
+        filtering = [str(b.get("vlan-filtering")).lower() in ("true", "yes") for b in api.path("interface", "bridge")]
+        return {"vlans": vlans, "addresses": addresses(driver), "ports": ports,
+                "script_errors": errors, "vlan_filtering": bool(filtering) and all(filtering)}
     finally:
         driver.close()
 

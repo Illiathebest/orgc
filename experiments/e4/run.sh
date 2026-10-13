@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Наскрізна перевірка в емуляції: модель → orgc render → containerlab deploy
-# → звірка стану з моделлю → destroy. Запускається на хості containerlab
+# → звірка стану з моделлю → destroy. Міжсайтовий канал, який модель лише
+# припускає, додає intersite.py до копії топології (out/<модель>/lab/). Запускається на хості containerlab
 # (clab-01) з кореня репозиторію:
 #
 #   experiments/e4/run.sh experiments/e4/models/minimal.yml [--keep]
@@ -36,9 +37,11 @@ now() { date +%s.%N; }
 span() { awk -v a="$1" -v b="$2" 'BEGIN { printf "%.1f", b - a }'; }
 t0=$(now)
 runner -w /w/orgc "$image" go run ./cmd/orgc render -o "/w/$out/render" "/w/$model"
+runner -w /w/experiments/e4 "$image" python intersite.py "/w/$model" "/w/$out/render" "/w/$out"
+topology="$out/lab/lab.clab.yml"
 t1=$(now)
 
-containerlab deploy -t "$out/render/containerlab/lab.clab.yml" --reconfigure >"$out/deploy.log" 2>&1
+containerlab deploy -t "$topology" --reconfigure >"$out/deploy.log" 2>&1
 t2=$(now)
 
 # Готовність: cEOS відповідає в CLI, CHR — здоровий за healthcheck vrnetlab.
@@ -69,13 +72,13 @@ fi
 
 code=0
 runner --network "container:clab-$lab-$control" -w /w/experiments/e4 "$image" \
-  python compare.py "/w/$model" --out "/w/$out/report.json" --wait 120 || code=$?
+  python compare.py "/w/$model" --out "/w/$out/report.json" --wait 120 --render "/w/$out/render" || code=$?
 t4=$(now)
 
 printf 'render %s s\ndeploy %s s\nready %s s\ncheck %s s\n' \
   "$(span "$t0" "$t1")" "$(span "$t1" "$t2")" "$(span "$t2" "$t3")" "$(span "$t3" "$t4")" | tee "$out/timing.txt"
 
 if [ "$keep" != --keep ]; then
-  containerlab destroy -t "$out/render/containerlab/lab.clab.yml" --cleanup >>"$out/deploy.log" 2>&1
+  containerlab destroy -t "$topology" --cleanup >>"$out/deploy.log" 2>&1
 fi
 exit "$code"

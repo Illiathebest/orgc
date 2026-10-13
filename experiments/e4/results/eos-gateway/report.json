@@ -1,0 +1,87 @@
+{
+  "devices": {
+    "gw-01": {
+      "accepted": true,
+      "checked": 11,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.1",
+      "observed": {
+        "addresses": [
+          "10.99.1.11/24",
+          "192.168.10.1/24",
+          "192.168.20.1/24",
+          "192.168.30.1/24",
+          "192.168.40.1/24"
+        ],
+        "ports": {
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30,
+              40
+            ]
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers",
+          "40": "guest"
+        }
+      },
+      "seconds": 17.9,
+      "type": "arista_eos"
+    },
+    "sw-01": {
+      "accepted": true,
+      "checked": 12,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.2",
+      "observed": {
+        "addresses": [
+          "10.99.1.12/24",
+          "192.168.10.2/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30,
+              40
+            ]
+          },
+          "Ethernet2": {
+            "mode": "access",
+            "vlan": 30
+          },
+          "Ethernet3": {
+            "mode": "access",
+            "vlan": 20
+          },
+          "Ethernet4": {
+            "mode": "access",
+            "vlan": 40
+          },
+          "Ethernet5": {
+            "mode": "access",
+            "vlan": 40
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers",
+          "40": "guest"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    }
+  },
+  "discrepancies": [],
+  "model": "eos-gateway.yml"
+}

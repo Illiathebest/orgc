@@ -1,0 +1,56 @@
+---
+# yaml-language-server: $schema=../../../orgc/schema/organization.schema.json
+# Arista EOS як L3-шлюз сайту: SVI з адресами шлюзів, DHCP-сервер, ACL з
+# правил політики (кілька портів в одному правилі), ізоляція гостьової
+# мережі. Перевіряє синтаксис, який у s-profile і m-profile не
+# генерується, бо там шлюз — MikroTik.
+#   gw-01 (cEOS, шлюз) ── sw-01 (cEOS, access) ── ctrl-01
+organization: "Шлюз на Arista EOS"
+profile: S
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    uplinks:
+      - { name: isp-main, kind: primary, port: gw-01:Ethernet1 }
+    networks:
+      - { vlan: 10, name: mgmt, role: mgmt, cidr: 192.168.10.0/24, gateway: 192.168.10.1 }
+      - vlan: 20
+        name: users
+        role: users
+        cidr: 192.168.20.0/24
+        gateway: 192.168.20.1
+        dhcp_pool: { from: 192.168.20.100, to: 192.168.20.200 }
+      - { vlan: 30, name: servers, role: servers, cidr: 192.168.30.0/24, gateway: 192.168.30.1 }
+      - vlan: 40
+        name: guest
+        role: guest
+        cidr: 192.168.40.0/24
+        gateway: 192.168.40.1
+        dhcp_pool: { from: 192.168.40.100, to: 192.168.40.200 }
+        isolated: true
+    devices:
+      - { name: gw-01, type: arista_eos, os_version: "4.36.2F", role: edge_router, mgmt_ip: 192.168.10.1 }
+      - name: sw-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.2
+        access_ports:
+          - { ports: [Ethernet3], network: users }
+          - { ports: [Ethernet4, Ethernet5], network: guest }
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10, port: sw-01:Ethernet2 }
+    links:
+      - { a: gw-01:Ethernet2, b: sw-01:Ethernet1 }
+
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22], action: allow }
+    - { from: users, to: servers, ports: [443, 22, 8080], action: allow }
+    - { from: users, to: internet, action: allow }
+    - { from: guest, to: internet, action: allow }

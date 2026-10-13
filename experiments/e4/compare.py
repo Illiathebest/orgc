@@ -6,7 +6,12 @@ probed along the path the model describes, through the site gateway and its
 rules, not over containerlab's management network.
 
 Every compared item is one parameter: a VLAN, an address, a port, a
-management port reached. A discrepancy names the device, the parameter, and
+management port reached. With --render, one more parameter per device says
+whether it took the whole configuration orgc generated: every line of the
+EOS .cfg is in the running configuration; the RouterOS script ran to its
+last command (VLAN filtering on) with no script error logged. This one is
+checked against orgc's output, not the model: it catches a rejected command
+or an import cut short, which may leave the oracle's parameters intact. A discrepancy names the device, the parameter, and
 what was expected and observed. The exit code is 1 when any parameter
 differs, 0 otherwise.
 
@@ -79,7 +84,45 @@ def compare_device(name, exp, obs):
     return checked, diffs
 
 
-def run(model_path, out_path, wait):
+# EOS stores well-known ports by name ("eq 22 443" reads back as
+# "eq ssh https"); both sides are normalised to the same names.
+EOS_PORT_NAMES = {"21": "ftp", "22": "ssh", "23": "telnet", "25": "smtp", "53": "domain", "67": "bootps",
+                  "68": "bootpc", "80": "www", "123": "ntp", "161": "snmp", "443": "https"}
+
+
+def normalise(line):
+    return " ".join(EOS_PORT_NAMES.get(w, w) for w in line.split())
+
+
+def config_lines(path):
+    """Commands of a generated EOS configuration, normalised."""
+    out = []
+    for line in open(path, encoding="utf-8"):
+        line = normalise(line)
+        if line and not line.startswith("!") and line != "end":
+            out.append(line)
+    return out
+
+
+def accepted(kind, obs, config):
+    """Return (ok, detail): did the device take the whole configuration."""
+    if kind == "arista_eos":
+        running = {normalise(l) for l in obs["running"].splitlines()}
+        missing = [l for l in config_lines(config) if l not in running]
+        return not missing, {"missing": missing}
+    errors = obs["script_errors"]
+    return not errors and obs["vlan_filtering"], {"script_errors": errors, "vlan_filtering": obs["vlan_filtering"]}
+
+
+def device_config(render, name):
+    for root, _, files in os.walk(os.path.join(render, "configs")):
+        for ext in (".cfg", ".rsc"):
+            if name + ext in files:
+                return os.path.join(root, name + ext)
+    return None
+
+
+def run(model_path, out_path, wait, render=None):
     exp = expected.load(model_path)
     creds = {
         "arista_eos": (os.environ.get("E4_EOS_USER", "admin"), os.environ.get("E4_EOS_PASSWORD", "admin")),
@@ -115,6 +158,15 @@ def run(model_path, out_path, wait):
                 n, diffs = compare_device(name, dev, obs)
                 checked += n
                 report["discrepancies"].extend(diffs)
+                config = device_config(render, name) if render else None
+                if config:
+                    checked += 1
+                    ok, detail = accepted(dev["type"], obs, config)
+                    entry["accepted"] = ok
+                    if not ok:
+                        report["discrepancies"].append({"device": name, "parameter": "configuration accepted",
+                                                        "expected": True, "observed": detail})
+                obs.pop("running", None)
                 entry["observed"] = obs
         entry["checked"] = checked
         entry["discrepancies"] = sum(1 for d in report["discrepancies"] if d["device"] == name)
@@ -126,9 +178,10 @@ def run(model_path, out_path, wait):
             json.dump(report, f, ensure_ascii=False, indent=2, sort_keys=True)
             f.write("\n")
 
-    print(f"{'пристрій':<16}{'тип':<12}{'параметрів':>11}{'розбіжностей':>14}")
+    print(f"{'пристрій':<16}{'тип':<12}{'параметрів':>11}{'розбіжностей':>14}  прийнято")
     for name, e in report["devices"].items():
-        print(f"{name:<16}{e['type']:<12}{e['checked']:>11}{e['discrepancies']:>14}")
+        acc = {True: "так", False: "ні"}.get(e.get("accepted"), "—")
+        print(f"{name:<16}{e['type']:<12}{e['checked']:>11}{e['discrepancies']:>14}  {acc}")
     for d in report["discrepancies"]:
         print(f"РОЗБІЖНІСТЬ {d['device']}: {d['parameter']}: очікувалось {d['expected']}, є {d['observed']}")
     return 1 if report["discrepancies"] else 0
@@ -139,5 +192,6 @@ if __name__ == "__main__":
     p.add_argument("model")
     p.add_argument("--out", help="JSON-звіт")
     p.add_argument("--wait", type=float, default=0, help="скільки секунд повторювати спроби досягти порту керування")
+    p.add_argument("--render", help="вихід orgc render: перевірити, що пристрої прийняли конфігурацію повністю")
     a = p.parse_args()
-    sys.exit(run(a.model, a.out, a.wait))
+    sys.exit(run(a.model, a.out, a.wait, a.render))

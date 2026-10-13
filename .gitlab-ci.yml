@@ -12,7 +12,7 @@ workflow:
 # runner-image/Dockerfile і мерджу збірки в main тег оновлюється тут
 # окремою правкою.
 variables:
-  IAC_RUNNER_IMAGE: "${CI_REGISTRY_IMAGE}/iac-runner:7e7cd281"
+  IAC_RUNNER_IMAGE: "${CI_REGISTRY_IMAGE}/iac-runner:87faade5"
 
 stages:
   - build      # збірка образу iac-runner (Kaniko) → Registry

@@ -10,6 +10,12 @@ collections:
   # (явно зафіксовано під вимогу cisco.ios 11.4.1).
   - name: ansible.netcommon
     version: 8.5.2
+  # Мережа — Arista EOS (network_cli): застосування .cfg на комутатори
+  # емуляції (cEOS) і живі EOS. 12.1.2 — остання, що працює з
+  # ansible.netcommon 8.5.2: з 12.2.0 колекція імпортує emit_warnings, якої
+  # немає до netcommon 8.6.0, хоча в метаданих заявлено >= 8.5.2.
+  - name: arista.eos
+    version: 12.1.2
   # Мережа — MikroTik RouterOS (HTTP/HTTPS API + network_cli). Ціль: RB750 v6.48.
   - name: community.routeros
     version: 3.20.0

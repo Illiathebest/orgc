@@ -33,12 +33,12 @@ func TestStandbyLinks(t *testing.T) {
 				`при відмові зʼєднання core-01:Ethernet3 – dist-02:Ethernet1 — "dist-02", "acc-03"`}},
 		{"резервне без vlans несе всі мережі",
 			[]string{mStandbyAcc01, strings.Replace(mStandbyAcc01, "vlans: [mgmt, servers], ", "", 1)}, "", nil},
-		// acc-01 gets no mgmt even now (E006), so W006 leaves it alone; the
-		// others, rerouted through acc-01, would cross that same link.
-		{"резервний шлях іде вгору через зʼєднання без mgmt",
-			[]string{mActiveAcc01, strings.Replace(mActiveAcc01, "[mgmt, servers]", "[servers]", 1)}, "E006 W006",
-			[]string{`"acc-01" недосяжний`,
-				`зʼєднання dist-01:Ethernet2 – acc-01:Ethernet1 на резервному шляху через dist-02:Ethernet3 – acc-01:Ethernet2 не пропускає mgmt-мережу "mgmt"`}},
+		// acc-01 gets no mgmt even now: E006 reports the link, and the
+		// failover paths of the others, which cross that same link, are the
+		// same defect — no W006 on top (one defect, one code).
+		{"резервний шлях іде вгору через зʼєднання без mgmt — лише E006",
+			[]string{mActiveAcc01, strings.Replace(mActiveAcc01, "[mgmt, servers]", "[servers]", 1)}, "E006",
+			[]string{`"acc-01" недосяжний`}},
 		{"два резервні між тією самою парою — E010",
 			[]string{mStandbyAcc01, mStandbyAcc01 + "      - { a: dist-02:Ethernet5, b: acc-01:Ethernet3, standby: true }\n"}, "E010",
 			[]string{"друге резервне між пристроями"}},

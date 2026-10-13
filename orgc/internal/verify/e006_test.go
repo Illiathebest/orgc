@@ -127,3 +127,14 @@ func TestReachable(t *testing.T) {
 		}
 	}
 }
+
+// A network named like another (E002) leaves it unknown which one a rule
+// means: E006 does not judge the management of devices in such a network,
+// so the one defect yields one code. Found by mutation testing (E2).
+func TestE006SkipsDuplicateNames(t *testing.T) {
+	m := variant(t, mprofile(), "      - vlan: 10\n        name: mgmt\n",
+		"      - { vlan: 99, name: mgmt-branch, role: users, cidr: 10.251.0.0/24 }\n      - vlan: 10\n        name: mgmt\n")
+	if ds := runChecks(t, m, Checks()); codes(ds) != "E002" {
+		t.Errorf("коди %q, want E002:\n%s", codes(ds), render(ds))
+	}
+}

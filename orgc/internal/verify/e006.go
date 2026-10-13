@@ -45,6 +45,17 @@ func checkE006(m *ir.Model, ps backend.Platforms) []diag.Diagnostic {
 	reach := reachable(m, nc)
 	controlNodeCut := controlNodeNotDelivered(m)
 
+	// A rule names a network by its name; with two networks of one name
+	// (E002) it is not known which one the rule meant, so whether it admits
+	// management is not judged.
+	named := map[string]int{}
+	for _, n := range m.Networks {
+		named[n.Name]++
+	}
+	if named[nc.Name] > 1 {
+		return nil
+	}
+
 	var out []diag.Diagnostic
 	for _, d := range m.Devices {
 		nm := mgmtNetworkOf(d)
@@ -58,7 +69,7 @@ func checkE006(m *ir.Model, ps backend.Platforms) []diag.Diagnostic {
 		if ok, _ := p.CheckVersion(d.OSVersion); !ok {
 			continue
 		}
-		if nm == nc {
+		if nm == nc || named[nm.Name] > 1 {
 			continue
 		}
 		ports := p.ManagementPorts(d.OSVersion)

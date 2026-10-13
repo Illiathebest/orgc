@@ -32,7 +32,9 @@ import (
 //
 // A warning: in normal operation management works. Sites with a broken
 // topology (E003, E010) and devices whose mgmt network is not carried even
-// now (E006) are skipped.
+// now (E006) are skipped, and so is a failover path that crosses a link
+// already missing the mgmt network in normal operation: E006 reports that
+// link, and it is one defect, not two.
 func checkW006(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 	var out []diag.Diagnostic
 	for _, s := range m.Sites {
@@ -40,6 +42,21 @@ func checkW006(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 			continue
 		}
 		t := s.L2
+		// Links that already lose a device's mgmt network in normal
+		// operation: E006 reports them, and a failover path crossing one
+		// is the same defect, not a second one.
+		type cut struct {
+			link *ir.Link
+			mgmt *ir.Network
+		}
+		broken := map[cut]bool{}
+		for _, d := range t.Order {
+			if nm := mgmtNetworkOf(d); nm != nil {
+				if b := t.Blocking(d, nm); b != nil {
+					broken[cut{b, nm}] = true
+				}
+			}
+		}
 		for _, sl := range t.Standby {
 			u, v := sl.A.Device, sl.B.Device
 			pu, pv := t.Path(u), t.Path(v)
@@ -55,14 +72,14 @@ func checkW006(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 			// One finding per link that lacks the mgmt network: the devices
 			// it would cut off, grouped by the active link whose failure
 			// does it.
-			type cut struct {
+			type failure struct {
 				failed  *ir.Link
 				devices []string
 			}
 			type finding struct {
 				blocking *ir.Link
 				mgmt     *ir.Network
-				cuts     []*cut
+				cuts     []*failure
 			}
 			var found []*finding
 			for _, d := range t.Order[1:] {
@@ -93,7 +110,7 @@ func checkW006(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 						break
 					}
 				}
-				if blocking == nil {
+				if blocking == nil || broken[cut{blocking, nm}] {
 					continue
 				}
 				var f *finding
@@ -106,14 +123,14 @@ func checkW006(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 					f = &finding{blocking: blocking, mgmt: nm}
 					found = append(found, f)
 				}
-				var c *cut
+				var c *failure
 				for _, x := range f.cuts {
 					if x.failed == failed {
 						c = x
 					}
 				}
 				if c == nil {
-					c = &cut{failed: failed}
+					c = &failure{failed: failed}
 					f.cuts = append(f.cuts, c)
 				}
 				c.devices = append(c.devices, fmt.Sprintf("%q", d.Name))

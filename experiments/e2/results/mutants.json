@@ -1,0 +1,8011 @@
+{
+ "seed": 2,
+ "per_class": 50,
+ "bases": [
+  "examples/organization.s-profile.yml",
+  "examples/organization.m-profile.yml",
+  "examples/organization.lab.yml",
+  "experiments/e4/models/minimal.yml",
+  "experiments/e4/models/eos-gateway.yml",
+  "experiments/e4/models/capacity.yml",
+  "synthetic-50",
+  "synthetic-200"
+ ],
+ "mutants": [
+  {
+   "class": "E001",
+   "id": "e001-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа сайту hq перетинається з mgmt-branch сайту branch",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "нова мережа в сайті lab перетинається з lan (192.168.1.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "нова мережа в сайті hq перетинається з servers (192.168.30.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-06.yml",
+   "base": "synthetic-50",
+   "change": "мережа сайту s003 перетинається з users-s001 сайту s001",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-07.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s013 перетинається з mgmt-s012 сайту s012",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з guest (192.168.40.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з guest (192.168.40.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-10.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "нова мережа в сайті lab перетинається з lan (192.168.1.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-11.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-12.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-13.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа сайту branch перетинається з mgmt сайту hq",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-14.yml",
+   "base": "synthetic-50",
+   "change": "мережа сайту s002 перетинається з mgmt-s003 сайту s003",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-15.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s013 перетинається з mgmt-s019 сайту s019",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-16.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з guest (192.168.40.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-17.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-18.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "нова мережа в сайті hq перетинається з servers (192.168.30.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-19.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з guest (192.168.40.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-20.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа сайту dc перетинається з mgmt-branch сайту branch",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-21.yml",
+   "base": "synthetic-50",
+   "change": "мережа сайту s004 перетинається з mgmt-s000 сайту s000",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-22.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s016 перетинається з mgmt-s008 сайту s008",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-23.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-24.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа сайту hq перетинається з users-branch сайту branch",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-25.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-26.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-27.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "нова мережа в сайті branch перетинається з mgmt-branch (192.168.110.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-28.yml",
+   "base": "synthetic-50",
+   "change": "нова мережа в сайті s004 перетинається з guest-s004 (10.4.3.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-29.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s016 перетинається з users-s010 сайту s010",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-30.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-31.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "нова мережа в сайті branch перетинається з mgmt-branch (192.168.110.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-32.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "нова мережа в сайті hq перетинається з mgmt (192.168.10.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-33.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з servers (192.168.30.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-34.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа сайту dc перетинається з users сайту hq",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-35.yml",
+   "base": "synthetic-50",
+   "change": "мережа сайту s003 перетинається з mgmt-s001 сайту s001",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-36.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s002 перетинається з users-s008 сайту s008",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-37.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з servers (192.168.30.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-38.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-39.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "нова мережа в сайті hq перетинається з servers (192.168.30.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-40.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-41.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "нова мережа в сайті dc перетинається з mgmt-dc (192.168.210.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-42.yml",
+   "base": "synthetic-50",
+   "change": "мережа сайту s003 перетинається з mgmt-s004 сайту s004",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-43.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s006 перетинається з mgmt-s004 сайту s004",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-44.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "нова мережа в сайті hq перетинається з users (192.168.20.0/25)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-45.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа сайту branch перетинається з mgmt сайту hq",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-46.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "нова мережа в сайті hq перетинається з servers (192.168.30.0/24)",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-47.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа сайту branch перетинається з users сайту hq",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-48.yml",
+   "base": "synthetic-50",
+   "change": "мережа сайту s001 перетинається з mgmt-s003 сайту s003",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E001",
+   "id": "e001-49.yml",
+   "base": "synthetic-200",
+   "change": "мережа сайту s007 перетинається з users-s008 сайту s008",
+   "codes": [
+    "E001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "VLAN 20 мережі users повторено в servers",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "порт dist-01:Ethernet2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "сервер з іменем пристрою rb750",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "VLAN 10 мережі mgmt повторено в servers",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "VLAN 20 мережі users повторено в servers",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "VLAN 30 мережі servers повторено в mgmt",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-06.yml",
+   "base": "synthetic-50",
+   "change": "сервер з іменем пристрою core-s003",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-07.yml",
+   "base": "synthetic-200",
+   "change": "мережа mgmt-s016 повторена в сайті s010",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "VLAN 40 мережі guest повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "VLAN 20 мережі users повторено в servers",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-10.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "VLAN 10 мережі mgmt повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-11.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "VLAN 10 мережі mgmt повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-12.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сервер з іменем пристрою gw-dc",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-13.yml",
+   "base": "synthetic-50",
+   "change": "порт dist2-s004:Ethernet6 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-14.yml",
+   "base": "synthetic-200",
+   "change": "мережа mgmt-s002 повторена в сайті s019",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-15.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "порт core-01:Ethernet2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-16.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "два канали сайту branch з одним імʼям",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-17.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "VLAN 30 мережі servers повторено в mgmt",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-18.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "VLAN 10 мережі mgmt повторено в servers",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-19.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "порт rb-branch:ether2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-20.yml",
+   "base": "synthetic-50",
+   "change": "порт dist2-s004:Ethernet2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-21.yml",
+   "base": "synthetic-200",
+   "change": "сервер з іменем пристрою dist1-s012",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-22.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "VLAN 30 мережі servers повторено в mgmt",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-23.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "VLAN 30 мережі servers повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-24.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "VLAN 20 мережі users повторено в servers",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-25.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "сервер з іменем пристрою gw-01",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-26.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сервер з іменем пристрою sw-dc-01",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-27.yml",
+   "base": "synthetic-50",
+   "change": "мережа mgmt-s000 повторена в сайті s002",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-28.yml",
+   "base": "synthetic-200",
+   "change": "VLAN 30 мережі servers-s018 повторено в mgmt-s018",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-29.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "VLAN 20 мережі users повторено в mgmt",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-30.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сервер з іменем пристрою dist-02",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-31.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "VLAN 30 мережі servers повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-32.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "VLAN 30 мережі servers повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-33.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "порт dist-01:Ethernet2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-34.yml",
+   "base": "synthetic-50",
+   "change": "VLAN 10 мережі mgmt-s001 повторено в servers-s001",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-35.yml",
+   "base": "synthetic-200",
+   "change": "порт dist2-s004:Ethernet2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-36.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "VLAN 10 мережі mgmt повторено в guest",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-37.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сервер з іменем пристрою dist-01",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-38.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "сервер з іменем пристрою sw-01",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-39.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "сервер з іменем пристрою sw-01",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-40.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа servers-dc повторена в сайті hq",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-41.yml",
+   "base": "synthetic-50",
+   "change": "порт dist1-s002:Ethernet3 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-42.yml",
+   "base": "synthetic-200",
+   "change": "VLAN 40 мережі guest-s010 повторено в mgmt-s010",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-43.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "сервер з іменем пристрою rb750",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-44.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сервер з іменем пристрою rb-branch",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-45.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "сервер з іменем пристрою rb750",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-46.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "VLAN 40 мережі guest повторено в users",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-47.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "порт dist-02:Ethernet2 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-48.yml",
+   "base": "synthetic-50",
+   "change": "порт dist2-s001:Ethernet6 зʼєднання ще й access-порт",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E002",
+   "id": "e002-49.yml",
+   "base": "synthetic-200",
+   "change": "мережа mgmt-s019 повторена в сайті s015",
+   "codes": [
+    "E002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило 2: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило 5: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "вузол керування в невідомій мережі",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило 1: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило 2: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання gw-dc:Ethernet3 – sw-dc-01:Ethernet2: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-06.yml",
+   "base": "synthetic-50",
+   "change": "access-порти acc3-s003: невідома мережа",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-07.yml",
+   "base": "synthetic-200",
+   "change": "access-порти acc4-s009: невідома мережа",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet3 – acc-02:Ethernet1: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "канал сайту hq на порту не-шлюзу core-01",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-10.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "вузол керування в невідомій мережі",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-11.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило 0: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-12.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання rb-branch:ether3 – acc-br-01:Ethernet2: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-13.yml",
+   "base": "synthetic-50",
+   "change": "access-порти acc2-s001: невідома мережа",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-14.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання core-s004:Ethernet3 – dist2-s004:Ethernet1: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-15.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "канал сайту hq на порту не-шлюзу acc-01",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-16.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило 0: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-17.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило 0: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-18.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання gw-01:Ethernet2 – sw-01:Ethernet1: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-19.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "канал сайту branch на порту не-шлюзу acc-br-01",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-20.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s001:Ethernet4 – acc6-s001:Ethernet1: невідома мережа у vlans",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-21.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s006:Ethernet4 – acc6-s006:Ethernet1: невідома мережа у vlans",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-22.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило 0: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-23.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-02:Ethernet2 – acc-03:Ethernet1: невідома мережа у vlans",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-24.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "access-порти sw-01: невідома мережа",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-25.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило 2: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-26.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "канал сайту hq на порту не-шлюзу acc-02",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-27.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s003:Ethernet6 – acc2-s003:Ethernet2: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-28.yml",
+   "base": "synthetic-200",
+   "change": "канал сайту s003 на порту не-шлюзу acc5-s003",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-29.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило 1: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-30.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "канал сайту hq на порту не-шлюзу acc-01",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-31.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "зʼєднання rb750:ether2 – sw-01:Ethernet1: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-32.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило 1: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-33.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило 5: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-34.yml",
+   "base": "synthetic-50",
+   "change": "канал сайту s001 на порту не-шлюзу acc3-s001",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-35.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s018:Ethernet4 – acc6-s018:Ethernet1: невідома мережа у vlans",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-36.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "канал сайту hq на порту не-шлюзу acc-02",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-37.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "access-порти sw-branch-01: невідома мережа",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-38.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "канал сайту hq на порту не-шлюзу sw-01",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-39.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "access-порти sw-01: невідома мережа",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-40.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "канал сайту hq на порту не-шлюзу dist-01",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-41.yml",
+   "base": "synthetic-50",
+   "change": "канал сайту s000 на порту не-шлюзу acc3-s000",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-42.yml",
+   "base": "synthetic-200",
+   "change": "канал сайту s006 на порту не-шлюзу acc2-s006",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-43.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "вузол керування в невідомій мережі",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-44.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило 2: to на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-45.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило 0: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-46.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило 3: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-47.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило 5: from на невідому мережу",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-48.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s001:Ethernet3 – acc2-s001:Ethernet1: невідома мережа у vlans",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E003",
+   "id": "e003-49.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s014:Ethernet5 – acc4-s014:Ethernet2: невідомий пристрій",
+   "codes": [
+    "E003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip core-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip dist-02 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-02.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "mgmt_ip sw-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-03.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "mgmt_ip sw-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-04.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip core-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-05.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip acc3-s004 у мережі servers-s004 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-06.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip acc4-s012 у мережі guest-s012 (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-07.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip core-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-08.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip sw-branch-01 у мережі users-branch (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-09.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "mgmt_ip sw-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-10.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "mgmt_ip sw-01 у мережі guest (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-11.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip core-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-12.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip dist1-s000 у мережі guest-s000 (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-13.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip acc6-s013 у мережі users-s013 (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-14.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip acc-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-15.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip dist-02 у мережі guest (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-16.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "mgmt_ip sw-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-17.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip core-br-01 у мережі servers-branch (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-18.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip acc1-s000 у мережі servers-s000 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-19.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip dist1-s006 у мережі users-s006 (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-20.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip core-01 у мережі guest (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-21.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip dist-02 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-22.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip dist-02 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-23.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip acc3-s000 у мережі guest-s000 (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-24.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip core-s013 у мережі guest-s013 (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-25.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip acc-02 у мережі guest (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-26.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip acc-02 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-27.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip acc-br-01 у мережі users-branch (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-28.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip acc2-s003 у мережі servers-s003 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-29.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip acc4-s009 у мережі users-s009 (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-30.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip acc-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-31.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip acc-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-32.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip sw-dc-01 у мережі servers-dc (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-33.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip dist2-s000 у мережі servers-s000 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-34.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip dist1-s013 у мережі guest-s013 (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-35.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip acc-01 у мережі guest (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-36.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip core-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-37.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip acc-01 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-38.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip dist2-s002 у мережі guest-s002 (guest)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-39.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip acc2-s011 у мережі servers-s011 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-40.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip acc-02 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-41.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip acc-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-42.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip acc-02 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-43.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip acc3-s001 у мережі servers-s001 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-44.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip dist1-s007 у мережі servers-s007 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-45.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt_ip acc-02 у мережі servers (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-46.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "mgmt_ip core-br-01 у мережі users-branch (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-47.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt_ip acc-01 у мережі users (users)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-48.yml",
+   "base": "synthetic-50",
+   "change": "mgmt_ip acc4-s001 у мережі servers-s001 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E004",
+   "id": "e004-49.yml",
+   "base": "synthetic-200",
+   "change": "mgmt_ip acc6-s004 у мережі servers-s004 (servers)",
+   "codes": [
+    "E004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило internet → guest на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило internet → servers-branch на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "правило internet → lan на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило any → any",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило any → any",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило internet → servers на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-06.yml",
+   "base": "synthetic-50",
+   "change": "правило internet → servers-s004 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-07.yml",
+   "base": "synthetic-200",
+   "change": "правило internet → guest-s009 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило any → any",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило internet → users-branch на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-10.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "правило any → any",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-11.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило internet → mgmt на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-12.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило internet → mgmt на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-13.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило internet → mgmt на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-14.yml",
+   "base": "synthetic-50",
+   "change": "правило internet → users-s000 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-15.yml",
+   "base": "synthetic-200",
+   "change": "правило internet → mgmt-s003 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-16.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило internet → users на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-17.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило internet → mgmt-branch на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-18.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "правило internet → lan на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-19.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило internet → users на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-20.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило internet → mgmt на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-21.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило internet → servers-dc на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-22.yml",
+   "base": "synthetic-50",
+   "change": "правило internet → users-s002 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-23.yml",
+   "base": "synthetic-200",
+   "change": "правило internet → users-s019 на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-24.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило internet → mgmt на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-25.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило internet → servers-branch на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-26.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило internet → servers на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-27.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило internet → users на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-28.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило internet → users на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-29.yml",
+   "base": "synthetic-50",
+   "change": "правило internet → users-s002 на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-30.yml",
+   "base": "synthetic-200",
+   "change": "правило internet → servers-s015 на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-31.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило internet → users на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-32.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило internet → users на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-33.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило internet → mgmt на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-34.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило internet → users на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-35.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило any → any",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-36.yml",
+   "base": "synthetic-50",
+   "change": "правило internet → users-s004 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-37.yml",
+   "base": "synthetic-200",
+   "change": "правило internet → users-s016 на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-38.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило internet → servers на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-39.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило any → any",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-40.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило internet → servers на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-41.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило internet → guest на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-42.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило internet → users-branch на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-43.yml",
+   "base": "synthetic-50",
+   "change": "правило internet → users-s003 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-44.yml",
+   "base": "synthetic-200",
+   "change": "правило internet → users-s013 на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-45.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило internet → servers на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-46.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило internet → servers на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-47.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило internet → users на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-48.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило internet → guest на 443",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E005",
+   "id": "e005-49.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило internet → mgmt-dc на 22",
+   "codes": [
+    "E005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання rb750:ether2 – core-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило керування servers → mgmt без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-02.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "mgmt-мережа mgmt без шлюзу",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-03.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило керування servers → mgmt без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-04.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання rb-hq:ether2 – core-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-05.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s001:Ethernet3 – acc5-s001:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-06.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання core-s019:Ethernet2 – dist1-s019:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-07.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило керування servers → mgmt видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-08.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило керування servers → mgmt видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-09.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило керування servers → mgmt без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-10.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання gw-01:Ethernet2 – sw-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-11.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt-мережа mgmt-dc без шлюзу",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-12.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s002:Ethernet2 – acc4-s002:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-13.yml",
+   "base": "synthetic-200",
+   "change": "mgmt-мережа mgmt-s012 без шлюзу",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-14.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "mgmt-мережа mgmt без шлюзу",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-15.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання rb750:ether2 – core-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-16.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "зʼєднання rb750:ether2 – sw-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-17.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило керування servers → mgmt видалено",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-18.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило керування servers → mgmt без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-19.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання core-s001:Ethernet3 – dist2-s001:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-20.yml",
+   "base": "synthetic-200",
+   "change": "правило керування servers-s000 → mgmt-s003 без порту платформи: [8728]",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-21.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet2 – acc-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-22.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило керування servers → mgmt-branch без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-23.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило керування servers → mgmt видалено",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-24.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "mgmt-мережа mgmt без шлюзу",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-25.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило керування servers → mgmt-dc без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-26.yml",
+   "base": "synthetic-50",
+   "change": "mgmt-мережа mgmt-s002 без шлюзу",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-27.yml",
+   "base": "synthetic-200",
+   "change": "правило керування servers-s000 → mgmt-s012 видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-28.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet3 – acc-02:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-29.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання rb-branch:ether2 – core-br-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-30.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання dist-02:Ethernet2 – acc-02:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-31.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s004:Ethernet4 – acc6-s004:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-32.yml",
+   "base": "synthetic-200",
+   "change": "mgmt-мережа mgmt-s019 без шлюзу",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-33.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило керування servers → mgmt без порту платформи: [443]",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-34.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-02:Ethernet2 – acc-03:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-35.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило керування servers → mgmt-branch видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-36.yml",
+   "base": "synthetic-50",
+   "change": "правило керування servers-s000 → mgmt-s004 видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-37.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s011:Ethernet2 – acc4-s011:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-38.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило керування servers → mgmt-branch видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-39.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило керування servers → mgmt-dc видалено",
+   "codes": [
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-40.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s002:Ethernet4 – acc3-s002:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-41.yml",
+   "base": "synthetic-200",
+   "change": "правило керування servers-s000 → mgmt-s004 видалено",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-42.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання core-br-01:Ethernet2 – sw-branch-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-43.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt-мережа mgmt-branch без шлюзу",
+   "codes": [
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-44.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s003:Ethernet2 – acc4-s003:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-45.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s008:Ethernet4 – acc6-s008:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-46.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-01:Ethernet2 – acc-01:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-47.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "mgmt-мережа mgmt без шлюзу",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-48.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання core-s001:Ethernet2 – dist1-s001:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006",
+    "E006",
+    "E006",
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E006",
+   "id": "e006-49.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s018:Ethernet3 – acc5-s018:Ethernet1 без mgmt-мережі",
+   "codes": [
+    "E006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "сервер з адресою 192.168.10.4 пристрою acc-02",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "шлюз guest поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "адреса вузла керування поза його мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "шлюз mgmt поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "сервер з адресою 192.168.10.2 пристрою sw-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "шлюз users-branch поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-06.yml",
+   "base": "synthetic-50",
+   "change": "сервер з адресою 10.4.0.9 пристрою acc5-s004",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-07.yml",
+   "base": "synthetic-200",
+   "change": "сервер з адресою 10.15.0.3 пристрою dist1-s015",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "шлюз guest поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "шлюз mgmt поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-10.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "сервер з адресою 192.168.1.220 пристрою rb750",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-11.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "шлюз users поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-12.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "шлюз servers поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-13.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "шлюз servers-dc поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-14.yml",
+   "base": "synthetic-50",
+   "change": "шлюз mgmt-s002 поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-15.yml",
+   "base": "synthetic-200",
+   "change": "шлюз guest-s008 у DHCP-пулі",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-16.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "шлюз users у DHCP-пулі",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-17.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "статична адреса сервера в пулі users",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-18.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "шлюз servers поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-19.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "кінець пулу users поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-20.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "адреса вузла керування поза його мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-21.yml",
+   "base": "synthetic-50",
+   "change": "статична адреса сервера в пулі users-s000",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-22.yml",
+   "base": "synthetic-200",
+   "change": "шлюз users-s016 у DHCP-пулі",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-23.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "статична адреса сервера в пулі users",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-24.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "статична адреса сервера в пулі users-branch",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-25.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "адреса вузла керування поза його мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-26.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "шлюз guest поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-27.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сервер з адресою 192.168.210.2 пристрою sw-dc-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-28.yml",
+   "base": "synthetic-50",
+   "change": "сервер з адресою 10.0.0.10 пристрою acc6-s000",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-29.yml",
+   "base": "synthetic-200",
+   "change": "статична адреса сервера в пулі users-s010",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-30.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "сервер з адресою 192.168.10.2 пристрою core-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-31.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сервер з адресою 192.168.10.3 пристрою dist-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-32.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "шлюз users у DHCP-пулі",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-33.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "статична адреса сервера в пулі guest",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-34.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сервер з адресою 192.168.10.2 пристрою core-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-35.yml",
+   "base": "synthetic-50",
+   "change": "сервер з адресою 10.1.0.10 пристрою acc6-s001",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-36.yml",
+   "base": "synthetic-200",
+   "change": "шлюз servers-s010 поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-37.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "статична адреса сервера в пулі guest",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-38.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сервер з адресою 192.168.10.5 пристрою acc-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-39.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "сервер з адресою 192.168.10.2 пристрою sw-01",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-40.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "шлюз users поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-41.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "шлюз users-branch у DHCP-пулі",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-42.yml",
+   "base": "synthetic-50",
+   "change": "кінець пулу users-s002 поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-43.yml",
+   "base": "synthetic-200",
+   "change": "шлюз users-s008 у DHCP-пулі",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-44.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "шлюз servers поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-45.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "шлюз users поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-46.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "статична адреса сервера в пулі users",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-47.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "шлюз mgmt поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-48.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "шлюз users поза мережею",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E007",
+   "id": "e007-49.yml",
+   "base": "synthetic-50",
+   "change": "сервер з адресою 10.0.0.7 пристрою acc3-s000",
+   "codes": [
+    "E007"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "мережа /28 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /28 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "мережа /31 у сайті lab замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "мережа /27 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "мережа /29 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /32 у сайті dc замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-06.yml",
+   "base": "synthetic-50",
+   "change": "мережа /27 у сайті s004 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-07.yml",
+   "base": "synthetic-200",
+   "change": "мережа /32 у сайті s007 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "мережа /31 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /29 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-10.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "мережа /32 у сайті lab замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-11.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "мережа /28 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-12.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "мережа /30 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-13.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /30 у сайті dc замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-14.yml",
+   "base": "synthetic-50",
+   "change": "мережа /28 у сайті s000 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-15.yml",
+   "base": "synthetic-200",
+   "change": "мережа /29 у сайті s013 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-16.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "мережа /32 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-17.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /30 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-18.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "мережа /30 у сайті lab замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-19.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "мережа /31 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-20.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "мережа /28 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-21.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /28 у сайті dc замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-22.yml",
+   "base": "synthetic-50",
+   "change": "мережа /27 у сайті s001 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-23.yml",
+   "base": "synthetic-200",
+   "change": "мережа /32 у сайті s016 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-24.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "мережа /27 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-25.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /32 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-26.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "мережа /28 у сайті lab замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-27.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "мережа /30 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-28.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "мережа /31 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-29.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /30 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-30.yml",
+   "base": "synthetic-50",
+   "change": "мережа /32 у сайті s003 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-31.yml",
+   "base": "synthetic-200",
+   "change": "мережа /32 у сайті s018 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-32.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "мережа /30 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-33.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /31 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-34.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "мережа /27 у сайті lab замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-35.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "мережа /29 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-36.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "мережа /32 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-37.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /29 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-38.yml",
+   "base": "synthetic-50",
+   "change": "мережа /32 у сайті s001 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-39.yml",
+   "base": "synthetic-200",
+   "change": "мережа /32 у сайті s014 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-40.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "мережа /29 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-41.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /28 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-42.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "мережа /29 у сайті lab замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-43.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "мережа /32 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-44.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "мережа /27 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-45.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /31 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-46.yml",
+   "base": "synthetic-50",
+   "change": "мережа /30 у сайті s003 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-47.yml",
+   "base": "synthetic-200",
+   "change": "мережа /31 у сайті s018 замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-48.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "мережа /30 у сайті branch замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E008",
+   "id": "e008-49.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "мережа /28 у сайті hq замала для шлюзу й пулу",
+   "codes": [
+    "E008"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання до acc-01 видалено",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання core-br-01:Ethernet2 – sw-branch-01:Ethernet1 не несе users-branch access-портів sw-branch-01",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-02.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "зʼєднання rb750:ether2 – sw-01:Ethernet1 не несе users access-портів sw-01",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-03.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання gw-01:Ethernet2 – sw-01:Ethernet1 не несе guest access-портів sw-01",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-04.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання core-br-01:Ethernet2 – acc-br-01:Ethernet1 не несе users-branch access-портів acc-br-01",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-05.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s004:Ethernet3 – acc2-s004:Ethernet1 не несе guest-s004 access-портів acc2-s004",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-06.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s009:Ethernet3 – acc2-s009:Ethernet1 не несе users-s009 access-портів acc2-s009",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-07.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet3 – acc-02:Ethernet1 не несе users access-портів acc-02",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-08.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання до sw-branch-01 видалено",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-09.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання gw-01:Ethernet2 – sw-01:Ethernet1 не несе users access-портів sw-01",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-10.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання dist-02:Ethernet2 – acc-02:Ethernet1 не несе users access-портів acc-02",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-11.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s003:Ethernet2 – acc1-s003:Ethernet1 не несе users-s003 access-портів acc1-s003",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-12.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s007:Ethernet3 – acc2-s007:Ethernet1 не несе users-s007 access-портів acc2-s007",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-13.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet3 – acc-02:Ethernet1 не несе guest access-портів acc-02",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-14.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-02:Ethernet2 – acc-03:Ethernet1 не несе guest access-портів acc-03",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-15.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s001:Ethernet2 – acc1-s001:Ethernet1 не несе guest-s001 access-портів acc1-s001",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-16.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s002:Ethernet4 – acc6-s002:Ethernet1 не несе users-s002 access-портів acc6-s002",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-17.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання до acc-02 видалено",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-18.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-02:Ethernet2 – acc-03:Ethernet1 не несе users access-портів acc-03",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-19.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s004:Ethernet4 – acc3-s004:Ethernet1 не несе guest-s004 access-портів acc3-s004",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-20.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s011:Ethernet3 – acc2-s011:Ethernet1 не несе users-s011 access-портів acc2-s011",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-21.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-01:Ethernet3 – acc-02:Ethernet1 не несе users access-портів acc-02",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-22.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s002:Ethernet2 – acc1-s002:Ethernet1 не несе guest-s002 access-портів acc1-s002",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-23.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s018:Ethernet2 – acc1-s018:Ethernet1 не несе guest-s018 access-портів acc1-s018",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-24.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s000:Ethernet4 – acc3-s000:Ethernet1 не несе users-s000 access-портів acc3-s000",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-25.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s001:Ethernet3 – acc5-s001:Ethernet1 не несе users-s001 access-портів acc5-s001",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-26.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s004:Ethernet2 – acc1-s004:Ethernet1 не несе users-s004 access-портів acc1-s004",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-27.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s011:Ethernet3 – acc5-s011:Ethernet1 не несе users-s011 access-портів acc5-s011",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-28.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s003:Ethernet4 – acc3-s003:Ethernet1 не несе users-s003 access-портів acc3-s003",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-29.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s015:Ethernet3 – acc2-s015:Ethernet1 не несе guest-s015 access-портів acc2-s015",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-30.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s001:Ethernet2 – acc1-s001:Ethernet1 не несе users-s001 access-портів acc1-s001",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-31.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s008:Ethernet4 – acc3-s008:Ethernet1 не несе users-s008 access-портів acc3-s008",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-32.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s000:Ethernet4 – acc6-s000:Ethernet1 не несе guest-s000 access-портів acc6-s000",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-33.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s010:Ethernet3 – acc2-s010:Ethernet1 не несе guest-s010 access-портів acc2-s010",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-34.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s002:Ethernet3 – acc2-s002:Ethernet1 не несе guest-s002 access-портів acc2-s002",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-35.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s008:Ethernet3 – acc5-s008:Ethernet1 не несе users-s008 access-портів acc5-s008",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-36.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s001:Ethernet2 – acc4-s001:Ethernet1 не несе users-s001 access-портів acc4-s001",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-37.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s012:Ethernet2 – acc1-s012:Ethernet1 не несе guest-s012 access-портів acc1-s012",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-38.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s001:Ethernet4 – acc3-s001:Ethernet1 не несе guest-s001 access-портів acc3-s001",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-39.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s009:Ethernet2 – acc1-s009:Ethernet1 не несе guest-s009 access-портів acc1-s009",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-40.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s000:Ethernet3 – acc2-s000:Ethernet1 не несе guest-s000 access-портів acc2-s000",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-41.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s019:Ethernet4 – acc6-s019:Ethernet1 не несе users-s019 access-портів acc6-s019",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-42.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s002:Ethernet4 – acc3-s002:Ethernet1 не несе guest-s002 access-портів acc3-s002",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-43.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s011:Ethernet2 – acc4-s011:Ethernet1 не несе guest-s011 access-портів acc4-s011",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-44.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s004:Ethernet4 – acc3-s004:Ethernet1 не несе users-s004 access-портів acc3-s004",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-45.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s000:Ethernet2 – acc4-s000:Ethernet1 не несе users-s000 access-портів acc4-s000",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-46.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s001:Ethernet3 – acc5-s001:Ethernet1 не несе users-s001 access-портів acc5-s001",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-47.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s000:Ethernet2 – acc1-s000:Ethernet1 не несе users-s000 access-портів acc1-s000",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-48.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s002:Ethernet4 – acc6-s002:Ethernet1 не несе guest-s002 access-портів acc6-s002",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E009",
+   "id": "e009-49.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist1-s013:Ethernet4 – acc3-s013:Ethernet1 не несе users-s013 access-портів acc3-s013",
+   "codes": [
+    "E009"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "друге активне зʼєднання rb750 – core-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-01 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-02.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "зʼєднання rb750 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-03.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання gw-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-04.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання acc-br-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-05.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc1-s001 – acc3-s001 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-06.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc3-s015 – gw-s015 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-07.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "друге активне зʼєднання core-01 – acc-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-08.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "друге активне зʼєднання rb-branch – core-br-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-09.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "друге активне зʼєднання rb750 – sw-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-10.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання sw-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-11.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "друге активне зʼєднання rb-branch – core-br-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-12.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc3-s001 – acc4-s001 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-13.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc1-s009 – acc6-s009 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-14.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання acc-02 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-15.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-02 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-16.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "зʼєднання sw-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-17.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "друге активне зʼєднання gw-01 – sw-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-18.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання acc-02 – rb-hq замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-19.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc3-s002 – acc4-s002 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-20.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc4-s009 – acc6-s009 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-21.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання rb750 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-22.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "друге активне зʼєднання dist-01 – acc-02",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-23.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання acc-01 – core-01 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-24.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc2-s003 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-25.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc2-s002 – acc4-s002 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-26.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання acc-01 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-27.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання acc-03 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-28.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання core-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-29.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc6-s001 – core-s001 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-30.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання core-s013 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-31.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання acc-02 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-32.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання acc-02 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-33.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "друге активне зʼєднання gw-dc – sw-dc-01",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-34.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc5-s002 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-35.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc1-s011 – acc6-s011 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-36.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-37.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-38.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "друге активне зʼєднання dist-02 – acc-02",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-39.yml",
+   "base": "synthetic-50",
+   "change": "друге активне зʼєднання core-s000 – dist1-s000",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-40.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc4-s014 – acc6-s014 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-41.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання acc-01 – acc-02 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-42.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання acc-01 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-43.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання acc-01 – rb-hq замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-44.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання acc2-s001 – gw-s001 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-45.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання acc2-s015 – acc3-s015 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-46.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "друге активне зʼєднання core-01 – acc-02",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-47.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання acc-01 – rb750 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-48.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання dist-02 сам із собою",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "E010",
+   "id": "e010-49.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s000 – dist2-s000 замикає петлю",
+   "codes": [
+    "E010"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило guest → users",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило guest → users-branch",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-02.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "guest guest без isolated",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-03.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s002 → users-s003",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-04.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s017 → servers-s011",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-05.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило guest → servers",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-06.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило guest → users",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-07.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило guest → users",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-08.yml",
+   "base": "synthetic-50",
+   "change": "guest guest-s003 без isolated",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-09.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s016 → servers-s002",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-10.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "guest guest без isolated",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-11.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило guest → servers",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-12.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило guest → servers",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-13.yml",
+   "base": "synthetic-50",
+   "change": "guest guest-s001 без isolated",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-14.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s014 → users-s003",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-15.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "guest guest без isolated",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-16.yml",
+   "base": "synthetic-50",
+   "change": "guest guest-s004 без isolated",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-17.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s015 → users-s013",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-18.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило guest → servers-branch",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-19.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s002 → users-s002",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-20.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s000 → users-s009",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-21.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → users-s000",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-22.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s006 → users-s011",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-23.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s000 → servers-s000",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-24.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s010 → servers-s005",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-25.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s003 → servers-s001",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-26.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s000 → users-s017",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-27.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s002 → users-s004",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-28.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s009 → users-s017",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-29.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s004 → servers-s004",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-30.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s001 → servers-s015",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-31.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s000 → servers-s002",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-32.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s011 → users-s007",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-33.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s002 → servers-s000",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-34.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s014 → servers-s010",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-35.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s000 → users-s003",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-36.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s009 → servers-s004",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-37.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → servers-s001",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-38.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s004 → users-s005",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-39.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → servers-s002",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-40.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s011 → servers-s010",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-41.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → users-s001",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-42.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s016 → servers-s018",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-43.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s004 → users-s000",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-44.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s007 → servers-s003",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-45.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s003 → users-s003",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-46.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s009 → users-s014",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-47.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → servers-s003",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-48.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s002 → users-s016",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W001",
+   "id": "w001-49.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s004 → users-s001",
+   "codes": [
+    "W001"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "acc-02: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "core-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-02.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "rb750: версія 5.0 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-03.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "sw-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-04.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "gw-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "rb-hq: версія 7.12 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-06.yml",
+   "base": "synthetic-50",
+   "change": "dist2-s003: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-07.yml",
+   "base": "synthetic-200",
+   "change": "acc6-s003: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-08.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "acc-02: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "acc-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-10.yml",
+   "base": "examples/organization.lab.yml",
+   "change": "rb750: версія 7.12 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-11.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "sw-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-12.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "зʼєднання gw-01:Ethernet2: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-13.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання core-01:Ethernet2: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-14.yml",
+   "base": "synthetic-50",
+   "change": "acc5-s001: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-15.yml",
+   "base": "synthetic-200",
+   "change": "core-s006: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-16.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "acc-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-17.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання core-01:Ethernet3: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-18.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "зʼєднання rb750:ether2: імʼя порту Ethernet40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-19.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "gw-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-20.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання rb-branch:ether2: імʼя порту Ethernet40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-21.yml",
+   "base": "synthetic-50",
+   "change": "dist1-s003: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-22.yml",
+   "base": "synthetic-200",
+   "change": "acc6-s013: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-23.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "core-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-24.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "sw-branch-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-25.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "rb750: версія 5.0 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-26.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "sw-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-27.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "acc-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-28.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist2-s000:Ethernet3: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-29.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s006:Ethernet3: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-30.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet3: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-31.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "rb-branch: версія 5.0 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-32.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "rb750: версія 7.12 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-33.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "sw-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-34.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "dist-02: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-35.yml",
+   "base": "synthetic-50",
+   "change": "acc6-s003: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-36.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s007:Ethernet6: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-37.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "зʼєднання core-01:Ethernet2: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-38.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "dist-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-39.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "acc-02: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-40.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s003:Ethernet7: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-41.yml",
+   "base": "synthetic-200",
+   "change": "core-s004: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-42.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "core-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-43.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "core-br-01: версія 3.20.1F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-44.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "core-01: версія 5.1.0F поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-45.yml",
+   "base": "synthetic-50",
+   "change": "зʼєднання dist1-s004:Ethernet6: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-46.yml",
+   "base": "synthetic-200",
+   "change": "зʼєднання dist2-s014:Ethernet3: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-47.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "rb750: версія 7.12 поза діапазоном",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-48.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "зʼєднання dist-02:Ethernet2: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W002",
+   "id": "w002-49.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "зʼєднання gw-dc:Ethernet2: імʼя порту eth40 неприпустиме",
+   "codes": [
+    "W002"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-00.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сайт branch без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-01.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сайт hq без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-02.yml",
+   "base": "synthetic-50",
+   "change": "сайт s001 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-03.yml",
+   "base": "synthetic-200",
+   "change": "сайт s008 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-04.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "сайт hq без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сайт branch без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-06.yml",
+   "base": "synthetic-50",
+   "change": "сайт s000 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-07.yml",
+   "base": "synthetic-200",
+   "change": "сайт s009 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-08.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "сайт dc без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-09.yml",
+   "base": "synthetic-50",
+   "change": "сайт s003 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-10.yml",
+   "base": "synthetic-200",
+   "change": "сайт s012 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-11.yml",
+   "base": "synthetic-50",
+   "change": "сайт s002 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-12.yml",
+   "base": "synthetic-200",
+   "change": "сайт s015 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-13.yml",
+   "base": "synthetic-50",
+   "change": "сайт s004 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-14.yml",
+   "base": "synthetic-200",
+   "change": "сайт s005 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-15.yml",
+   "base": "synthetic-200",
+   "change": "сайт s011 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-16.yml",
+   "base": "synthetic-200",
+   "change": "сайт s010 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-17.yml",
+   "base": "synthetic-200",
+   "change": "сайт s002 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-18.yml",
+   "base": "synthetic-200",
+   "change": "сайт s014 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-19.yml",
+   "base": "synthetic-200",
+   "change": "сайт s017 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-20.yml",
+   "base": "synthetic-200",
+   "change": "сайт s001 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-21.yml",
+   "base": "synthetic-200",
+   "change": "сайт s004 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-22.yml",
+   "base": "synthetic-200",
+   "change": "сайт s000 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-23.yml",
+   "base": "synthetic-200",
+   "change": "сайт s006 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-24.yml",
+   "base": "synthetic-200",
+   "change": "сайт s018 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-25.yml",
+   "base": "synthetic-200",
+   "change": "сайт s013 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-26.yml",
+   "base": "synthetic-200",
+   "change": "сайт s003 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-27.yml",
+   "base": "synthetic-200",
+   "change": "сайт s019 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-28.yml",
+   "base": "synthetic-200",
+   "change": "сайт s016 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W003",
+   "id": "w003-29.yml",
+   "base": "synthetic-200",
+   "change": "сайт s007 без резервного каналу",
+   "codes": [
+    "W003"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило users → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило users-branch → mgmt-branch на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-02.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило users → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-03.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило users → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-04.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-dc → mgmt-dc на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-05.yml",
+   "base": "synthetic-50",
+   "change": "правило servers-s002 → mgmt-s004 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-06.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s010 → mgmt-s006 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-07.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило users → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-08.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило users → mgmt-branch на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-09.yml",
+   "base": "experiments/e4/models/minimal.yml",
+   "change": "правило users → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-10.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило guest → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-11.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-branch → mgmt-branch на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-12.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → mgmt-s003 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-13.yml",
+   "base": "synthetic-200",
+   "change": "правило users-s004 → mgmt-s013 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-14.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило guest → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-15.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило users → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-16.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило users → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-17.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-dc → mgmt-dc на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-18.yml",
+   "base": "synthetic-50",
+   "change": "правило users-s002 → mgmt-s004 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-19.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s005 → mgmt-s007 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-20.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "правило guest → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-21.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило users-branch → mgmt-branch на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-22.yml",
+   "base": "experiments/e4/models/eos-gateway.yml",
+   "change": "правило guest → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-23.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-dc → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-24.yml",
+   "base": "synthetic-50",
+   "change": "правило servers-s002 → mgmt-s000 на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-25.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s006 → mgmt-s013 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-26.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило servers-branch → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-27.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-dc → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-28.yml",
+   "base": "synthetic-50",
+   "change": "правило users-s000 → mgmt-s001 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-29.yml",
+   "base": "synthetic-200",
+   "change": "правило users-s008 → mgmt-s015 на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-30.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило guest → mgmt-branch на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-31.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило users → mgmt-branch на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-32.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s001 → mgmt-s001 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-33.yml",
+   "base": "synthetic-200",
+   "change": "правило users-s005 → mgmt-s009 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-34.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило users-branch → mgmt на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-35.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-branch → mgmt-branch на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-36.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s003 → mgmt-s001 на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-37.yml",
+   "base": "synthetic-200",
+   "change": "правило guest-s002 → mgmt-s011 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-38.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило guest → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-39.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило servers-dc → mgmt-branch на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-40.yml",
+   "base": "synthetic-50",
+   "change": "правило users-s002 → mgmt-s002 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-41.yml",
+   "base": "synthetic-200",
+   "change": "правило users-s006 → mgmt-s013 на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-42.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило users-branch → mgmt на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-43.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило users-branch → mgmt-branch на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-44.yml",
+   "base": "synthetic-50",
+   "change": "правило guest-s004 → mgmt-s001 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-45.yml",
+   "base": "synthetic-200",
+   "change": "правило servers-s012 → mgmt-s000 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-46.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "правило servers-branch → mgmt-branch на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-47.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "правило users-branch → mgmt-dc на 22",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-48.yml",
+   "base": "synthetic-50",
+   "change": "правило users-s002 → mgmt-s003 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W004",
+   "id": "w004-49.yml",
+   "base": "synthetic-200",
+   "change": "правило servers-s012 → mgmt-s006 на 443",
+   "codes": [
+    "W004"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-00.yml",
+   "base": "examples/organization.s-profile.yml",
+   "change": "core-01: роль access_switch, а живить acc-01, acc-02",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-01.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "core-01: роль access_switch, а живить dist-01, dist-02",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-02.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "dist-02: роль access_switch, а живить acc-02",
+   "codes": [
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-03.yml",
+   "base": "synthetic-50",
+   "change": "dist1-s002: роль access_switch, а живить acc1-s002, acc2-s002, acc3-s002",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-04.yml",
+   "base": "synthetic-200",
+   "change": "core-s012: роль access_switch, а живить dist1-s012, dist2-s012",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-05.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "core-br-01: роль access_switch, а живить sw-branch-01",
+   "codes": [
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-06.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "dist-01: роль access_switch, а живить acc-01",
+   "codes": [
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-07.yml",
+   "base": "synthetic-50",
+   "change": "core-s004: роль distribution_switch, а живить dist1-s004, dist2-s004",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-08.yml",
+   "base": "synthetic-200",
+   "change": "dist1-s013: роль access_switch, а живить acc1-s013, acc2-s013, acc3-s013",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-09.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "core-01: роль distribution_switch, а живить dist-01, dist-02",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-10.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "core-01: роль access_switch, а живить dist-01, dist-02",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-11.yml",
+   "base": "synthetic-50",
+   "change": "core-s002: роль access_switch, а живить dist1-s002, dist2-s002",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-12.yml",
+   "base": "synthetic-200",
+   "change": "dist2-s017: роль access_switch, а живить acc4-s017, acc5-s017, acc6-s017",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-13.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "dist-01: роль access_switch, а живить acc-01, acc-02",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-14.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "core-01: роль distribution_switch, а живить dist-01, dist-02",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-15.yml",
+   "base": "synthetic-50",
+   "change": "core-s000: роль distribution_switch, а живить dist1-s000, dist2-s000",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-16.yml",
+   "base": "synthetic-200",
+   "change": "core-s000: роль access_switch, а живить dist1-s000, dist2-s000",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-17.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "dist-02: роль access_switch, а живить acc-03",
+   "codes": [
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-18.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "core-br-01: роль access_switch, а живить acc-br-01",
+   "codes": [
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-19.yml",
+   "base": "synthetic-50",
+   "change": "dist2-s001: роль access_switch, а живить acc4-s001, acc5-s001, acc6-s001",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-20.yml",
+   "base": "synthetic-200",
+   "change": "dist1-s002: роль access_switch, а живить acc1-s002, acc2-s002, acc3-s002",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-21.yml",
+   "base": "synthetic-50",
+   "change": "core-s000: роль access_switch, а живить dist1-s000, dist2-s000",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-22.yml",
+   "base": "synthetic-200",
+   "change": "core-s012: роль distribution_switch, а живить dist1-s012, dist2-s012",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-23.yml",
+   "base": "synthetic-50",
+   "change": "dist2-s002: роль access_switch, а живить acc4-s002, acc5-s002, acc6-s002",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-24.yml",
+   "base": "synthetic-200",
+   "change": "dist1-s010: роль access_switch, а живить acc1-s010, acc2-s010, acc3-s010",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-25.yml",
+   "base": "synthetic-50",
+   "change": "core-s001: роль access_switch, а живить dist1-s001, dist2-s001",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-26.yml",
+   "base": "synthetic-200",
+   "change": "dist2-s018: роль access_switch, а живить acc4-s018, acc5-s018, acc6-s018",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-27.yml",
+   "base": "synthetic-50",
+   "change": "dist1-s001: роль access_switch, а живить acc1-s001, acc2-s001, acc3-s001",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-28.yml",
+   "base": "synthetic-200",
+   "change": "core-s018: роль distribution_switch, а живить dist1-s018, dist2-s018",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-29.yml",
+   "base": "synthetic-50",
+   "change": "dist2-s000: роль access_switch, а живить acc4-s000, acc5-s000, acc6-s000",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-30.yml",
+   "base": "synthetic-200",
+   "change": "dist2-s003: роль access_switch, а живить acc4-s003, acc5-s003, acc6-s003",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-31.yml",
+   "base": "synthetic-50",
+   "change": "core-s003: роль access_switch, а живить dist1-s003, dist2-s003",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-32.yml",
+   "base": "synthetic-200",
+   "change": "core-s010: роль access_switch, а живить dist1-s010, dist2-s010",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-33.yml",
+   "base": "synthetic-50",
+   "change": "dist2-s003: роль access_switch, а живить acc4-s003, acc5-s003, acc6-s003",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-34.yml",
+   "base": "synthetic-200",
+   "change": "dist2-s012: роль access_switch, а живить acc4-s012, acc5-s012, acc6-s012",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-35.yml",
+   "base": "synthetic-50",
+   "change": "core-s001: роль distribution_switch, а живить dist1-s001, dist2-s001",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-36.yml",
+   "base": "synthetic-200",
+   "change": "core-s004: роль access_switch, а живить dist1-s004, dist2-s004",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-37.yml",
+   "base": "synthetic-50",
+   "change": "dist1-s000: роль access_switch, а живить acc1-s000, acc2-s000, acc3-s000",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-38.yml",
+   "base": "synthetic-200",
+   "change": "core-s019: роль access_switch, а живить dist1-s019, dist2-s019",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-39.yml",
+   "base": "synthetic-50",
+   "change": "core-s004: роль access_switch, а живить dist1-s004, dist2-s004",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-40.yml",
+   "base": "synthetic-200",
+   "change": "dist1-s000: роль access_switch, а живить acc1-s000, acc2-s000, acc3-s000",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-41.yml",
+   "base": "synthetic-50",
+   "change": "dist2-s004: роль access_switch, а живить acc4-s004, acc5-s004, acc6-s004",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-42.yml",
+   "base": "synthetic-200",
+   "change": "core-s013: роль access_switch, а живить dist1-s013, dist2-s013",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-43.yml",
+   "base": "synthetic-50",
+   "change": "dist1-s004: роль access_switch, а живить acc1-s004, acc2-s004, acc3-s004",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-44.yml",
+   "base": "synthetic-200",
+   "change": "core-s004: роль distribution_switch, а живить dist1-s004, dist2-s004",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-45.yml",
+   "base": "synthetic-50",
+   "change": "core-s002: роль distribution_switch, а живить dist1-s002, dist2-s002",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-46.yml",
+   "base": "synthetic-200",
+   "change": "core-s000: роль distribution_switch, а живить dist1-s000, dist2-s000",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-47.yml",
+   "base": "synthetic-50",
+   "change": "core-s003: роль distribution_switch, а живить dist1-s003, dist2-s003",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-48.yml",
+   "base": "synthetic-200",
+   "change": "core-s006: роль access_switch, а живить dist1-s006, dist2-s006",
+   "codes": [
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W005",
+   "id": "w005-49.yml",
+   "base": "synthetic-50",
+   "change": "dist1-s003: роль access_switch, а живить acc1-s003, acc2-s003, acc3-s003",
+   "codes": [
+    "W005",
+    "W005",
+    "W005"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-00.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "резервне зʼєднання dist-01:Ethernet4 – acc-03:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-01.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "резервне зʼєднання dist-02:Ethernet3 – acc-01:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-02.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s001:Ethernet5 – acc1-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-03.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s006:Ethernet6 – acc2-s006:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-04.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "резервне зʼєднання dist-02:Ethernet3 – acc-01:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-05.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "резервне зʼєднання dist-01:Ethernet3 – acc-02:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-06.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s003:Ethernet7 – acc6-s003:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-07.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s007:Ethernet6 – acc5-s007:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-08.yml",
+   "base": "examples/organization.m-profile.yml",
+   "change": "резервне зʼєднання dist-02:Ethernet4 – acc-02:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-09.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "резервне зʼєднання gw-dc:Ethernet3 – sw-dc-01:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-10.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s004:Ethernet7 – acc6-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-11.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s019:Ethernet5 – acc1-s019:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-12.yml",
+   "base": "experiments/e4/models/capacity.yml",
+   "change": "резервне зʼєднання rb-branch:ether3 – acc-br-01:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-13.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s002:Ethernet5 – acc4-s002:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-14.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s011:Ethernet5 – acc4-s011:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-15.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s004:Ethernet5 – acc1-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-16.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s012:Ethernet6 – acc5-s012:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-17.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s000:Ethernet5 – acc4-s000:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-18.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s008:Ethernet6 – acc5-s008:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-19.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s004:Ethernet6 – acc5-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-20.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s012:Ethernet6 – acc2-s012:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-21.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s003:Ethernet6 – acc5-s003:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-22.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s014:Ethernet5 – acc1-s014:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-23.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s003:Ethernet6 – acc2-s003:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-24.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s005:Ethernet6 – acc5-s005:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-25.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s004:Ethernet5 – acc4-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-26.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s017:Ethernet6 – acc5-s017:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-27.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s001:Ethernet5 – acc4-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-28.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s003:Ethernet5 – acc1-s003:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-29.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s002:Ethernet6 – acc5-s002:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-30.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s001:Ethernet5 – acc1-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-31.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s004:Ethernet6 – acc2-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-32.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s016:Ethernet5 – acc4-s016:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-33.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s000:Ethernet6 – acc2-s000:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-34.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s001:Ethernet6 – acc5-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-35.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s001:Ethernet7 – acc3-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-36.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s012:Ethernet7 – acc6-s012:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-37.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s000:Ethernet6 – acc5-s000:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-38.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s003:Ethernet5 – acc4-s003:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-39.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s001:Ethernet7 – acc6-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-40.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist1-s002:Ethernet5 – acc4-s002:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-41.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s000:Ethernet7 – acc6-s000:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-42.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s019:Ethernet7 – acc3-s019:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-43.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s003:Ethernet7 – acc3-s003:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-44.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s014:Ethernet7 – acc3-s014:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-45.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s004:Ethernet7 – acc3-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-46.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s004:Ethernet7 – acc3-s004:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-47.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist2-s002:Ethernet6 – acc2-s002:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-48.yml",
+   "base": "synthetic-200",
+   "change": "резервне зʼєднання dist2-s010:Ethernet7 – acc3-s010:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  },
+  {
+   "class": "W006",
+   "id": "w006-49.yml",
+   "base": "synthetic-50",
+   "change": "резервне зʼєднання dist1-s001:Ethernet6 – acc5-s001:Ethernet2 без mgmt-мережі",
+   "codes": [
+    "W006"
+   ],
+   "outcome": "exact"
+  }
+ ]
+}

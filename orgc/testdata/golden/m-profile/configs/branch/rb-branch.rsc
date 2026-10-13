@@ -32,6 +32,8 @@ add name=WAN comment=orgc
 add list=WAN interface=ether1
 add list=WAN interface=ether4
 /ip dhcp-client
+remove [find interface=ether1]
+remove [find interface=ether4]
 add interface=ether1 add-default-route=yes default-route-distance=1 use-peer-dns=no disabled=no comment="uplink isp-branch"
 add interface=ether4 add-default-route=yes default-route-distance=2 use-peer-dns=no disabled=no comment="uplink lte-branch"
 

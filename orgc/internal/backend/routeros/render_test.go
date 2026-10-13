@@ -74,6 +74,19 @@ func TestManagementAlwaysOpen(t *testing.T) {
 	}
 }
 
+// A DHCP client already on an uplink port — CHR has one on ether1 out of the
+// box — is removed before the uplink's own is added, so the import does not
+// stop halfway on "already exists".
+func TestUplinkReplacesExistingDHCPClient(t *testing.T) {
+	m := lowerVariant(t, testdata("valid", "s-profile.yml"))
+	s := rsc(t, m, "rb750")
+	remove := strings.Index(s, "remove [find interface=ether1]\n")
+	add := strings.Index(s, "add interface=ether1 add-default-route=yes")
+	if remove < 0 || add < 0 || remove > add {
+		t.Errorf("remove має стояти перед add у /ip dhcp-client:\n%s", s)
+	}
+}
+
 // A site without links follows the convention: ether1 uplink, ether2–ether4
 // trunk; ether5, the emergency WinBox port of RB750, is left alone.
 func TestStarConvention(t *testing.T) {

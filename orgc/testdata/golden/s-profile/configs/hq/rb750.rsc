@@ -34,6 +34,7 @@ add name=WAN comment=orgc
 /interface list member
 add list=WAN interface=ether1
 /ip dhcp-client
+remove [find interface=ether1]
 add interface=ether1 add-default-route=yes default-route-distance=1 use-peer-dns=no disabled=no comment="uplink isp-main"
 
 # DHCP servers.

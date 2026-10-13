@@ -292,7 +292,13 @@ func (r *script) uplinks() {
 	for _, p := range ups {
 		r.line(fmt.Sprintf("add list=WAN interface=%s", p.name))
 	}
+	// The uplink port belongs to the model: a DHCP client already on it — the
+	// factory default of CHR on ether1 — is replaced, not left to make the
+	// import fail with "dhcp-client on that interface already exists".
 	r.line("/ip dhcp-client")
+	for _, p := range ups {
+		r.line(fmt.Sprintf("remove [find interface=%s]", p.name))
+	}
 	for _, p := range ups {
 		distance := 1
 		if p.backup {

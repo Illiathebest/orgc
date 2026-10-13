@@ -25,7 +25,7 @@
 Зараз у `valid/` лежать три моделі (`minimal`, `s-profile`, `m-profile`), на
 яких проганяються тести `internal/model`, `internal/lower`, `internal/verify` і
 `cmd/orgc`; кожна з них має проходити всі інваріанти. У `broken/` —
-структурні дефекти `sNNN` і порушення кожного інваріанта E001–E010, W001–W006, по одному дефекту на файл. `golden/` — еталони виходу `orgc render`, по підкаталогу на модель (див. `golden/README.md`). Входом CI-стадії `validate` поки лишається `examples/`.
+структурні дефекти `sNNN` і порушення кожного інваріанта E001–E010, W001–W006, по одному дефекту на файл. `golden/` — еталони виходу `orgc render`, по підкаталогу на модель (див. `golden/README.md`). CI-стадія `validate` проганяє `orgc verify` на прикладах `examples/` і моделях експериментів `experiments/e4/models/`, а корпус `testdata` перевіряє `go test`.
 
 ## Інваріант → тест
 

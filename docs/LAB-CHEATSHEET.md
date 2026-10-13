@@ -10,7 +10,7 @@
 | ├ ctrl-01 (VM, 8 ГБ) | GitLab: `http://192.168.1.50` · SSH: `ssh -p 2222` · Registry: `192.168.1.50:5050` | Docker + GitLab CE + Runner. |
 | └ mon-01 (VM, 3 ГБ) | Grafana: `http://192.168.1.51:3000` · Prometheus: `:9090` | Prometheus + Alertmanager + Grafana + Loki + node-exporter. |
 | clab-01 (VM у Hyper-V на ноутбуці, 20 ГБ) | SSH: `ssh clab-01` (`10.99.0.10`, лише з ноутбука; далі — через Tailscale) | Docker + containerlab, образи `ceos:4.36.2F` і `vrnetlab/mikrotik_routeros:6.48`. Мережа керування емуляції `10.99.1.0/24` (ADR-010). |
-| RB750 (MikroTik) | `192.168.1.220` · RouterOS 6.48 · WinBox/SSH | Реальна мережева ціль. Read-only user `ansible-ro`. |
+| RB750 (MikroTik) | `192.168.1.220` · RouterOS 6.49.23 · WinBox/SSH | Реальна мережева ціль. Користувачі `ansible-ro` (читання) і `ansible-rw` (запис, для застосування конфігурації). |
 | Домашній роутер | `192.168.1.1`, LAN `192.168.1.0/24` | Gateway + DHCP. |
 | Репозиторій | `iac-infra` у GitLab | Каркас, `main` захищена. |
 

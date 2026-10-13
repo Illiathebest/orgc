@@ -1,9 +1,9 @@
 ---
 # yaml-language-server: $schema=../orgc/schema/organization.schema.json
 # Приклад моделі організації — профіль M (кілька сайтів).
-# HQ — ієрархія Access–Distribution–Core:
-#   rb750 → core-01 → dist-01 → acc-01, acc-02
-#                   → dist-02 → acc-03
+# HQ — ієрархія Access–Distribution–Core з резервними каналами:
+#   rb750 → core-01 → dist-01 → acc-01, acc-02   (резерв: dist-02)
+#                   → dist-02 → acc-03           (резерв: dist-01)
 # Філія — Access–Core: rb-branch → core-br-01 → sw-branch-01.
 # Сайти зʼєднані WireGuard-тунелем між L3-шлюзами
 # (docs/reports/hardware-2026-06-14.md §3); модель міжсайтових зʼєднань
@@ -99,6 +99,13 @@ sites:
       - { a: dist-01:Ethernet2, b: acc-01:Ethernet1, vlans: [mgmt, servers] }
       - { a: dist-01:Ethernet3, b: acc-02:Ethernet1, vlans: [mgmt, users] }
       - { a: dist-02:Ethernet2, b: acc-03:Ethernet1, vlans: [mgmt, users, guest] }
+      # Резервні зʼєднання: кожен access-комутатор має другий канал до
+      # іншого distribution. STP тримає їх заблокованими, доки не відмовить
+      # активний шлях; mgmt на них обовʼязковий, інакше відмова відріже
+      # комутатор від керування (W006).
+      - { a: dist-02:Ethernet3, b: acc-01:Ethernet2, vlans: [mgmt, servers], standby: true }
+      - { a: dist-02:Ethernet4, b: acc-02:Ethernet2, vlans: [mgmt, users], standby: true }
+      - { a: dist-01:Ethernet4, b: acc-03:Ethernet2, vlans: [mgmt, users, guest], standby: true }
 
   - name: branch
     uplinks:

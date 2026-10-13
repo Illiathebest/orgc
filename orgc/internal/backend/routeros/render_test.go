@@ -175,3 +175,21 @@ func TestRenderIsDeterministic(t *testing.T) {
 		}
 	}
 }
+
+// RSTP on every bridge: the gateway is the root, any other device keeps
+// the default priority, and a standby link's port carries the highest
+// cost, so that STP blocks it and the active topology is the verified tree.
+func TestRSTP(t *testing.T) {
+	m := lowerVariant(t, testdata("valid", "s-profile.yml"),
+		"      - { a: core-01:Ethernet3, b: acc-02:Ethernet1 }\n",
+		"      - { a: core-01:Ethernet3, b: acc-02:Ethernet1 }\n      - { a: rb750:ether3, b: acc-01:Ethernet2, standby: true }\n")
+	s := rsc(t, m, "rb750")
+	has(t, s, "add name=bridge vlan-filtering=no protocol-mode=rstp priority=0x1000 comment=orgc")
+	has(t, s, `add bridge=bridge interface=ether3 frame-types=admit-only-vlan-tagged ingress-filtering=yes path-cost=200000000 comment="standby trunk to acc-01:Ethernet2"`)
+	has(t, s, `add bridge=bridge interface=ether2 frame-types=admit-only-vlan-tagged ingress-filtering=yes comment="trunk to core-01:Ethernet1"`)
+
+	sw := rsc(t, lowerVariant(t, testdata("valid", "minimal.yml"),
+		"        mgmt_ip: 192.168.10.1\n",
+		"        mgmt_ip: 192.168.10.1\n      - { name: sw-01, type: mikrotik, os_version: \"6.48\", role: access_switch, mgmt_ip: 192.168.10.2 }\n"), "sw-01")
+	has(t, sw, "add name=bridge vlan-filtering=no protocol-mode=rstp priority=0x8000 comment=orgc")
+}

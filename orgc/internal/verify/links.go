@@ -186,9 +186,19 @@ func checkE010(m *ir.Model, _ backend.Platforms) []diag.Diagnostic {
 			case ir.FaultSelf:
 				msg = fmt.Sprintf("зʼєднання %s – %s зʼєднує пристрій %q сам із собою", l.A.String(), l.B.String(), l.A.DeviceName)
 			case ir.FaultParallel:
-				msg = fmt.Sprintf("зʼєднання %s – %s — друге між пристроями %q і %q; без STP це петля", l.A.String(), l.B.String(), l.A.DeviceName, l.B.DeviceName)
+				if l.Standby {
+					msg = fmt.Sprintf("резервне зʼєднання %s – %s — друге резервне між пристроями %q і %q", l.A.String(), l.B.String(), l.A.DeviceName, l.B.DeviceName)
+				} else {
+					msg = fmt.Sprintf("зʼєднання %s – %s — друге між пристроями %q і %q; без STP це петля, а резервне зʼєднання позначають standby: true", l.A.String(), l.B.String(), l.A.DeviceName, l.B.DeviceName)
+				}
+			case ir.FaultStandbyOpen:
+				out := l.A.DeviceName
+				if s.L2.Reached(l.A.Device) {
+					out = l.B.DeviceName
+				}
+				msg = fmt.Sprintf("резервне зʼєднання %s – %s не замикає циклу з деревом активних зʼєднань: пристрій %q не має активного шляху до шлюзу %q, тож STP не заблокує це зʼєднання", l.A.String(), l.B.String(), out, s.L2.Root.Name)
 			default:
-				msg = fmt.Sprintf("зʼєднання %s – %s замикає петлю в топології сайту %q; топологія має бути деревом з коренем у L3-шлюзі", l.A.String(), l.B.String(), s.Name)
+				msg = fmt.Sprintf("зʼєднання %s – %s замикає петлю в топології сайту %q; активні зʼєднання мають утворювати дерево з коренем у L3-шлюзі, а резервне позначають standby: true", l.A.String(), l.B.String(), s.Name)
 			}
 			out = append(out, report(m, diag.E010, diag.Error, l.Path, msg))
 		}

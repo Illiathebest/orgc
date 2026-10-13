@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=../orgc/schema/organization.schema.json
 # Зведений семантично зламаний приклад. Модель проходить JSON Schema
 # (check-jsonschema у CI), але порушує кожен інваріант E001–E010 і
-# W001–W005 рівно одним незалежним дефектом. `orgc verify` має назвати
+# W001–W006 рівно одним незалежним дефектом. `orgc verify` має назвати
 # саме ці пʼятнадцять кодів, кожен один раз.
 organization: "Навчальна лабораторія"
 profile: M
@@ -106,6 +106,8 @@ sites:
       - { a: rb-branch:ether2, b: sw-branch-01:Ethernet1 }
       # W005: core-комутатор підключено через access-комутатор.
       - { a: sw-branch-01:Ethernet2, b: core-br-01:Ethernet1 }
+      # W006: резервне зʼєднання без mgmt — відмова rb-branch – sw-branch-01 відріже обидва комутатори.
+      - { a: rb-branch:ether3, b: core-br-01:Ethernet2, vlans: [users-branch], standby: true }
 
   - name: dc
     uplinks:

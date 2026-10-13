@@ -59,6 +59,7 @@ type port struct {
 	kind    portKind
 	nets    []*ir.Network // trunk: carried networks; access: its one network
 	backup  bool          // uplink of a backup link
+	standby bool          // trunk of a standby link: STP keeps it blocked
 	comment string
 }
 
@@ -112,7 +113,11 @@ func (r *script) plan() {
 		for _, l := range r.site.Links {
 			for _, end := range []struct{ here, there *ir.PortRef }{{&l.A, &l.B}, {&l.B, &l.A}} {
 				if end.here.Device == r.d {
-					add(port{name: end.here.Port, kind: trunk, nets: carried(l, r.site), comment: "trunk to " + end.there.String()})
+					comment := "trunk to " + end.there.String()
+					if l.Standby {
+						comment = "standby trunk to " + end.there.String()
+					}
+					add(port{name: end.here.Port, kind: trunk, nets: carried(l, r.site), standby: l.Standby, comment: comment})
 				}
 			}
 		}
@@ -173,9 +178,23 @@ func (r *script) header() {
 
 func ifname(n *ir.Network) string { return "vlan" + strconv.Itoa(n.VLAN) + "-" + n.Name }
 
+// RSTP on every bridge (docs/adr/ADR-009, amendment 2026-10-14): the site's
+// gateway is the root, and a standby link's ports carry the highest cost,
+// so that once STP converges the active topology is the tree verify
+// judged. One instance for all VLANs.
+const (
+	rootPriority    = "0x1000"
+	defaultPriority = "0x8000"
+	standbyCost     = 200000000
+)
+
 func (r *script) bridge() {
-	r.section("Bridge with VLAN filtering; filtering is switched on at the end.", "/interface bridge")
-	r.line("add name=bridge vlan-filtering=no comment=orgc")
+	r.section("Bridge with VLAN filtering and RSTP; filtering is switched on at the end.", "/interface bridge")
+	priority := defaultPriority
+	if r.gateway {
+		priority = rootPriority
+	}
+	r.line("add name=bridge vlan-filtering=no protocol-mode=rstp priority=" + priority + " comment=orgc")
 
 	var bridged []port
 	for _, p := range r.ports {
@@ -189,7 +208,11 @@ func (r *script) bridge() {
 	for _, p := range bridged {
 		switch p.kind {
 		case trunk:
-			r.line(fmt.Sprintf("add bridge=bridge interface=%s frame-types=admit-only-vlan-tagged ingress-filtering=yes comment=\"%s\"", p.name, p.comment))
+			cost := ""
+			if p.standby {
+				cost = " path-cost=" + strconv.Itoa(standbyCost)
+			}
+			r.line(fmt.Sprintf("add bridge=bridge interface=%s frame-types=admit-only-vlan-tagged ingress-filtering=yes%s comment=\"%s\"", p.name, cost, p.comment))
 		case access:
 			n := p.nets[0]
 			horizon := ""

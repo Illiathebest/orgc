@@ -1,4 +1,4 @@
-// Package verify implements the invariants E001-E010 and W001-W005 over the
+// Package verify implements the invariants E001-E010 and W001-W006 over the
 // intermediate representation. E006, reachability of management, is the core
 // check of the work.
 //
@@ -38,7 +38,7 @@ type Check struct {
 // then the address plan, roles and policies, platforms; E006 once both
 // addresses and platforms are known; warnings last.
 //
-//	E002 E003 E001 E007 E008 E010 E009 E004 E005 W002 E006 W001 W003 W004 W005
+//	E002 E003 E001 E007 E008 E010 E009 E004 E005 W002 E006 W001 W003 W004 W005 W006
 //
 // Entries are added as the invariants are implemented.
 func Checks() []Check {
@@ -58,6 +58,7 @@ func Checks() []Check {
 		{Code: diag.W003, Run: checkW003},
 		{Code: diag.W004, Run: checkW004},
 		{Code: diag.W005, Run: checkW005},
+		{Code: diag.W006, Run: checkW006},
 	}
 }
 

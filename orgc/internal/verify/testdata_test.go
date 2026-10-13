@@ -106,6 +106,7 @@ var expected = map[string]struct {
 	"e010-loop.yml":                         {diag.E010, 75},
 	"w002-port-name.yml":                    {diag.W002, 66},
 	"w005-access-feeds-access.yml":          {diag.W005, 74},
+	"w006-standby-no-mgmt.yml":              {diag.W006, 101},
 	"e003-control-network-other-site.yml":   {diag.E003, 9},
 	"e003-no-l3-gateway.yml":                {diag.E003, 15},
 	"e003-two-l3-gateways.yml":              {diag.E003, 26},

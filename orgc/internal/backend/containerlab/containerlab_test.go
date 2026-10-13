@@ -164,3 +164,12 @@ func TestShape(t *testing.T) {
 		}
 	}
 }
+
+// A standby link is in the topology like any other — STP blocks it, not
+// containerlab — and is marked, so a failover test knows which link to
+// leave up.
+func TestStandbyLinkMarked(t *testing.T) {
+	topo := topology(t, "m-profile.yml")
+	has(t, topo, `    - endpoints: ["dist-02:eth3", "acc-01:eth2"] # резервне`+"\n")
+	has(t, topo, `    - endpoints: ["dist-01:eth2", "acc-01:eth1"]`+"\n")
+}

@@ -52,6 +52,10 @@ type Link struct {
 	// VLANs names the networks of the site the trunk carries; absent means
 	// all of them.
 	VLANs []string `yaml:"vlans,omitempty"`
+
+	// Standby marks a redundant link: it closes one cycle with the tree of
+	// active links and STP keeps it blocked until a link of that cycle fails.
+	Standby bool `yaml:"standby,omitempty"`
 }
 
 // Network is one VLAN segment. Name is unique across the whole model, not

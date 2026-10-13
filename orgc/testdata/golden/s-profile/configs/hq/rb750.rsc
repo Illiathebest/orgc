@@ -5,9 +5,9 @@
 /system identity
 set name=rb750
 
-# Bridge with VLAN filtering; filtering is switched on at the end.
+# Bridge with VLAN filtering and RSTP; filtering is switched on at the end.
 /interface bridge
-add name=bridge vlan-filtering=no comment=orgc
+add name=bridge vlan-filtering=no protocol-mode=rstp priority=0x1000 comment=orgc
 /interface bridge port
 add bridge=bridge interface=ether2 frame-types=admit-only-vlan-tagged ingress-filtering=yes comment="trunk to core-01:Ethernet1"
 /interface bridge vlan

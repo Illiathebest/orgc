@@ -185,10 +185,11 @@ func (l *lowerer) connections(s *model.Site, path string, site *ir.Site) {
 	for i, lk := range s.Links {
 		p := path + ".links[" + strconv.Itoa(i) + "]"
 		link := &ir.Link{
-			A:      *port(lk.A, p+".a"),
-			B:      *port(lk.B, p+".b"),
-			Site:   site,
-			Origin: ir.Origin{Path: p},
+			A:       *port(lk.A, p+".a"),
+			B:       *port(lk.B, p+".b"),
+			Standby: lk.Standby,
+			Site:    site,
+			Origin:  ir.Origin{Path: p},
 		}
 		if lk.VLANs != nil {
 			link.VLANs = make([]ir.NetRef, len(lk.VLANs))

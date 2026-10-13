@@ -28,6 +28,10 @@ type Link struct {
 	// the site; a name that does not resolve keeps a nil Net (E003).
 	VLANs []NetRef
 
+	// Standby is a redundant link: not part of the tree, blocked by STP
+	// until an active link of the cycle it closes fails.
+	Standby bool
+
 	Site *Site
 	Origin
 }
@@ -69,9 +73,10 @@ type AccessPorts struct {
 type LinkFault int
 
 const (
-	FaultCycle    LinkFault = iota // closes a cycle with links earlier in the file
-	FaultSelf                      // both ends on one device
-	FaultParallel                  // a second link between the same two devices
+	FaultCycle       LinkFault = iota // closes a cycle with links earlier in the file
+	FaultSelf                         // both ends on one device
+	FaultParallel                     // a second link between the same two devices
+	FaultStandbyOpen                  // a standby link with an end outside the tree
 )
 
 // ExtraLink is a link the tree cannot contain.
@@ -88,6 +93,11 @@ type ExtraLink struct {
 // Extra, in file order: the link that closes a cycle is the later one. The
 // remaining links form a forest, and the tree is the part of it reachable
 // from the gateway, so the path from the gateway to a device is unique.
+//
+// Standby links stay out of the tree: STP keeps them blocked, so the paths
+// the checks judge are those of the active links. A standby link is kept in
+// Standby when both its ends are in the tree — it then closes exactly one
+// cycle with it; otherwise it is set aside in Extra.
 type L2Tree struct {
 	// Root is the site's gateway; nil when the site has none or several
 	// (E003), in which case nothing is reached.
@@ -100,6 +110,10 @@ type L2Tree struct {
 	Up map[*Device]*Link
 
 	Extra []ExtraLink
+
+	// Standby lists the standby links that close a cycle with the tree, in
+	// file order.
+	Standby []*Link
 
 	// Incomplete is set when some link has an end or a VLAN name that did
 	// not resolve. The tree is built from what resolved, but checks that
@@ -193,6 +207,7 @@ func BuildL2(s *Site) *L2Tree {
 	type pair struct{ a, b *Device }
 	seen := map[pair]bool{}
 	adj := map[*Device][]*Link{}
+	var standby []*Link
 	for _, l := range s.Links {
 		for _, v := range l.VLANs {
 			if v.Net == nil {
@@ -201,6 +216,10 @@ func BuildL2(s *Site) *L2Tree {
 		}
 		if !l.Resolved() {
 			t.Incomplete = true
+			continue
+		}
+		if l.Standby {
+			standby = append(standby, l)
 			continue
 		}
 		a, b := l.A.Device, l.B.Device
@@ -251,6 +270,25 @@ func BuildL2(s *Site) *L2Tree {
 			t.carried[w] = set
 			t.Up[w] = l
 			t.Order = append(t.Order, w)
+		}
+	}
+
+	// A second standby link between the same two devices adds nothing a
+	// first one does not; a standby link next to an active one is a second
+	// cable that STP blocks, which is fine.
+	seenStandby := map[pair]bool{}
+	for _, l := range standby {
+		a, b := l.A.Device, l.B.Device
+		switch {
+		case a == b:
+			t.Extra = append(t.Extra, ExtraLink{l, FaultSelf})
+		case seenStandby[pair{a, b}]:
+			t.Extra = append(t.Extra, ExtraLink{l, FaultParallel})
+		case !t.Reached(a) || !t.Reached(b):
+			t.Extra = append(t.Extra, ExtraLink{l, FaultStandbyOpen})
+		default:
+			seenStandby[pair{a, b}], seenStandby[pair{b, a}] = true, true
+			t.Standby = append(t.Standby, l)
 		}
 	}
 	return t

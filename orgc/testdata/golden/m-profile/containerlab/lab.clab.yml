@@ -84,6 +84,9 @@ topology:
     - endpoints: ["dist-01:eth2", "acc-01:eth1"]
     - endpoints: ["dist-01:eth3", "acc-02:eth1"]
     - endpoints: ["dist-02:eth2", "acc-03:eth1"]
+    - endpoints: ["dist-02:eth3", "acc-01:eth2"] # резервне
+    - endpoints: ["dist-02:eth4", "acc-02:eth2"] # резервне
+    - endpoints: ["dist-01:eth4", "acc-03:eth2"] # резервне
     - endpoints: ["rb-branch:eth1", "core-br-01:eth1"]
     - endpoints: ["core-br-01:eth2", "sw-branch-01:eth1"]
     - endpoints: ["acc-01:eth5", "ctrl-01:eth1"]

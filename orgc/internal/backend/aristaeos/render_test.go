@@ -129,3 +129,21 @@ func TestShapeAndDeterminism(t *testing.T) {
 		}
 	}
 }
+
+// RSTP on every switch in place of the MSTP EOS starts with: the gateway
+// is the root, and a standby link's port carries the highest cost, so that
+// STP blocks it and the active topology is the verified tree.
+func TestRSTP(t *testing.T) {
+	m := lowerVariant(t, testdata("valid", "m-profile.yml"))
+	acc := cfg(t, m, "acc-01")
+	has(t, acc, "hostname acc-01\n!\nspanning-tree mode rstp\n!\n")
+	has(t, acc, "interface Ethernet2\n   description standby trunk to dist-02:Ethernet3\n   switchport mode trunk\n   switchport trunk allowed vlan 10,30\n   spanning-tree cost 200000000\n!\n")
+	has(t, acc, "interface Ethernet1\n   description trunk to dist-01:Ethernet2\n   switchport mode trunk\n   switchport trunk allowed vlan 10,30\n!\n")
+	if strings.Contains(acc, "spanning-tree priority") {
+		t.Error("пріоритет кореня — лише на шлюзі")
+	}
+	has(t, cfg(t, m, "dist-02"), "   description standby trunk to acc-01:Ethernet2\n   switchport mode trunk\n   switchport trunk allowed vlan 10,30\n   spanning-tree cost 200000000\n")
+
+	gw := cfg(t, lowerVariant(t, testdata("broken", "w002-capability-missing.yml")), "eos-01")
+	has(t, gw, "spanning-tree mode rstp\nspanning-tree priority 4096\n!\n")
+}

@@ -1,0 +1,169 @@
+---
+# yaml-language-server: $schema=../orgc/schema/organization.schema.json
+# Негативний приклад W006: резервне зʼєднання acc-01 не несе mgmt-мережу. У звичайному режимі
+# керування працює, але відмова core-01 – dist-01 чи core-01 – dist-02 відріже комутатори циклу.
+# Рівно одне порушення — решта моделі коректна.
+organization: "Навчальна лабораторія"
+profile: M
+
+control_node:
+  site: hq
+  network: servers
+  ip: 192.168.30.10
+
+sites:
+  - name: hq
+    uplinks:
+      - { name: isp-main, kind: primary, port: rb750:ether1 }
+      - { name: lte-backup, kind: backup, port: rb750:ether4 }
+    networks:
+      - vlan: 10
+        name: mgmt
+        role: mgmt
+        cidr: 192.168.10.0/24
+        gateway: 192.168.10.1
+      - vlan: 20
+        name: users
+        role: users
+        cidr: 192.168.20.0/24
+        gateway: 192.168.20.1
+        dhcp_pool: { from: 192.168.20.100, to: 192.168.20.200 }
+      - vlan: 30
+        name: servers
+        role: servers
+        cidr: 192.168.30.0/24
+        gateway: 192.168.30.1
+      - vlan: 40
+        name: guest
+        role: guest
+        cidr: 192.168.40.0/24
+        gateway: 192.168.40.1
+        dhcp_pool: { from: 192.168.40.100, to: 192.168.40.200 }
+        isolated: true
+    devices:
+      - name: rb750
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.10.1
+      - name: core-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: core_switch
+        mgmt_ip: 192.168.10.2
+      - name: dist-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: distribution_switch
+        mgmt_ip: 192.168.10.3
+      - name: dist-02
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: distribution_switch
+        mgmt_ip: 192.168.10.4
+      - name: acc-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.5
+      - name: acc-02
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.6
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4, Ethernet5], network: users }
+      - name: acc-03
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: access_switch
+        mgmt_ip: 192.168.10.7
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4], network: users }
+          - { ports: [Ethernet6], network: guest }
+    servers:
+      - { name: ctrl-01, role: [docker_host], ip: 192.168.30.10, port: acc-01:Ethernet5 }
+      - { name: mon-01, role: [docker_host, monitoring], ip: 192.168.30.11, port: acc-01:Ethernet6 }
+    # Без vlans зʼєднання несе всі мережі сайту. Від distribution до access
+    # VLAN обрізано до потрібних; mgmt є на кожному trunk, інакше
+    # комутатор за ним втратить керування (E006).
+    links:
+      - { a: rb750:ether2, b: core-01:Ethernet1 }
+      - { a: core-01:Ethernet2, b: dist-01:Ethernet1 }
+      - { a: core-01:Ethernet3, b: dist-02:Ethernet1 }
+      - { a: dist-01:Ethernet2, b: acc-01:Ethernet1, vlans: [mgmt, servers] }
+      - { a: dist-01:Ethernet3, b: acc-02:Ethernet1, vlans: [mgmt, users] }
+      - { a: dist-02:Ethernet2, b: acc-03:Ethernet1, vlans: [mgmt, users, guest] }
+      # Резервні зʼєднання: кожен access-комутатор має другий канал до
+      # іншого distribution. STP тримає їх заблокованими, доки не відмовить
+      # активний шлях; mgmt на них обовʼязковий, інакше відмова відріже
+      # комутатор від керування (W006).
+      - { a: dist-02:Ethernet3, b: acc-01:Ethernet2, vlans: [servers], standby: true }
+      - { a: dist-02:Ethernet4, b: acc-02:Ethernet2, vlans: [mgmt, users], standby: true }
+      - { a: dist-01:Ethernet4, b: acc-03:Ethernet2, vlans: [mgmt, users, guest], standby: true }
+
+  - name: branch
+    uplinks:
+      - { name: isp-branch, kind: primary, port: rb-branch:ether1 }
+      - { name: lte-branch, kind: backup, port: rb-branch:ether4 }
+    networks:
+      - vlan: 110
+        name: mgmt-branch
+        role: mgmt
+        cidr: 192.168.110.0/24
+        gateway: 192.168.110.1
+      - vlan: 120
+        name: users-branch
+        role: users
+        cidr: 192.168.120.0/24
+        gateway: 192.168.120.1
+        dhcp_pool: { from: 192.168.120.100, to: 192.168.120.200 }
+      - vlan: 130
+        name: servers-branch
+        role: servers
+        cidr: 192.168.130.0/24
+        gateway: 192.168.130.1
+    devices:
+      # Рівно один edge_router/firewall на сайт — L3-шлюз усіх його мереж.
+      - name: rb-branch
+        type: mikrotik
+        os_version: "6.48"
+        role: edge_router
+        mgmt_ip: 192.168.110.1
+      - name: core-br-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: core_switch
+        mgmt_ip: 192.168.110.3
+      - name: sw-branch-01
+        type: arista_eos
+        os_version: "4.36.2F"
+        role: access_switch
+        mgmt_ip: 192.168.110.2
+        access_ports:
+          - { ports: [Ethernet3, Ethernet4], network: users-branch }
+    servers:
+      - { name: app-branch-01, role: [docker_host, app], ip: 192.168.130.10, port: sw-branch-01:Ethernet5 }
+    links:
+      - { a: rb-branch:ether2, b: core-br-01:Ethernet1 }
+      - { a: core-br-01:Ethernet2, b: sw-branch-01:Ethernet1 }
+
+# Між сегментами діє default-deny: усе, чого нема нижче, заборонено.
+# Зокрема guest не має жодного правила до внутрішніх сегментів —
+# саме відсутність правила і є забороною, окремий deny не потрібен.
+# Імена сегментів унікальні в межах усієї моделі, тому мережі філії
+# названо mgmt-branch/users-branch/servers-branch — посилання в правилі
+# йде голим імʼям, без указання сайту.
+#
+# Порти керування: 8728 — RouterOS API (rb750, rb-branch), 22 — SSH
+# для arista.eos через network_cli (комутатори). Обидва сайти мають
+# mgmt-мережу з пристроями обох платформ, тому в правилі обидва порти.
+policies:
+  inter_vlan:
+    - { from: servers, to: mgmt, ports: [22, 8728], action: allow }
+    - { from: servers, to: mgmt-branch, ports: [22, 8728], action: allow }
+    - { from: users, to: servers, ports: [443, 22], action: allow }
+    - { from: users-branch, to: servers-branch, ports: [443, 22], action: allow }
+    - { from: users, to: internet, action: allow }
+    - { from: users-branch, to: internet, action: allow }
+    - { from: guest, to: internet, action: allow }

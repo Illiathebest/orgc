@@ -129,11 +129,16 @@ func (Generator) Generate(m *ir.Model, ps backend.Platforms) []backend.File {
 	}
 
 	var links [][2]endpoint
+	// standby marks the links STP keeps blocked: the ones to leave up when
+	// a failover is tested.
+	standby := map[[2]endpoint]bool{}
 	for _, s := range m.Sites {
 		if len(s.Links) > 0 {
 			for _, l := range s.Links {
 				if l.Resolved() {
-					links = append(links, [2]endpoint{{l.A.Device, l.A.Port}, {l.B.Device, l.B.Port}})
+					e := [2]endpoint{{l.A.Device, l.A.Port}, {l.B.Device, l.B.Port}}
+					links = append(links, e)
+					standby[e] = l.Standby
 				}
 			}
 			continue
@@ -168,7 +173,11 @@ func (Generator) Generate(m *ir.Model, ps backend.Platforms) []backend.File {
 			skipped = append(skipped, l[0].device.Name+":"+l[0].port+" – "+l[1].device.Name+":"+l[1].port)
 			continue
 		}
-		lines = append(lines, fmt.Sprintf("    - endpoints: [\"%s:%s\", \"%s:%s\"]\n", l[0].device.Name, a, l[1].device.Name, z))
+		mark := ""
+		if standby[l] {
+			mark = " # резервне"
+		}
+		lines = append(lines, fmt.Sprintf("    - endpoints: [\"%s:%s\", \"%s:%s\"]%s\n", l[0].device.Name, a, l[1].device.Name, z, mark))
 	}
 	for _, sv := range hosts {
 		p := sv.Port

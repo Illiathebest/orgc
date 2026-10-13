@@ -25,6 +25,7 @@ func (p Platform) Render(m *ir.Model, d *ir.Device) []backend.File {
 	c := &config{p: p, m: m, d: d, site: d.Site, gateway: d.Site.Gateway == d}
 	c.plan()
 	c.header()
+	c.spanningTree()
 	c.vlans()
 	c.interfaces()
 	if c.gateway {
@@ -53,6 +54,7 @@ type port struct {
 	name    string
 	kind    portKind
 	nets    []*ir.Network
+	standby bool // trunk of a standby link: STP keeps it blocked
 	comment string
 }
 
@@ -95,7 +97,11 @@ func (c *config) plan() {
 		for _, l := range c.site.Links {
 			for _, end := range []struct{ here, there *ir.PortRef }{{&l.A, &l.B}, {&l.B, &l.A}} {
 				if end.here.Device == c.d {
-					add(port{name: end.here.Port, kind: trunk, nets: carried(l, c.site), comment: "trunk to " + end.there.String()})
+					comment := "trunk to " + end.there.String()
+					if l.Standby {
+						comment = "standby trunk to " + end.there.String()
+					}
+					add(port{name: end.here.Port, kind: trunk, nets: carried(l, c.site), standby: l.Standby, comment: comment})
 				}
 			}
 		}
@@ -169,6 +175,23 @@ func (c *config) present() []*ir.Network {
 	return out
 }
 
+// RSTP on every switch (docs/adr/ADR-009, amendment 2026-10-14): the
+// site's gateway is the root, and a standby link's ports carry the highest
+// cost, so that once STP converges the active topology is the tree verify
+// judged. One instance for all VLANs, in place of the MSTP EOS starts with.
+const (
+	rootPriority = 4096
+	standbyCost  = 200000000
+)
+
+func (c *config) spanningTree() {
+	c.line("spanning-tree mode rstp")
+	if c.gateway {
+		c.line("spanning-tree priority " + strconv.Itoa(rootPriority))
+	}
+	c.line("!")
+}
+
 func (c *config) vlans() {
 	for _, n := range c.present() {
 		c.line("vlan " + strconv.Itoa(n.VLAN))
@@ -237,6 +260,9 @@ func (c *config) interfaces() {
 		case trunk:
 			c.line("   switchport mode trunk")
 			c.line("   switchport trunk allowed vlan " + vlanList(p.nets))
+			if p.standby {
+				c.line("   spanning-tree cost " + strconv.Itoa(standbyCost))
+			}
 		case access:
 			n := p.nets[0]
 			c.line("   switchport access vlan " + strconv.Itoa(n.VLAN))

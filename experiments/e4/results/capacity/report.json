@@ -1,0 +1,452 @@
+{
+  "devices": {
+    "acc-01": {
+      "accepted": true,
+      "checked": 8,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.5",
+      "observed": {
+        "addresses": [
+          "10.99.1.15/24",
+          "192.168.10.5/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              30
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              30
+            ]
+          },
+          "Ethernet5": {
+            "mode": "access",
+            "vlan": 30
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "30": "servers"
+        }
+      },
+      "seconds": 5.9,
+      "type": "arista_eos"
+    },
+    "acc-02": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.6",
+      "observed": {
+        "addresses": [
+          "10.99.1.16/24",
+          "192.168.10.6/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20
+            ]
+          },
+          "Ethernet3": {
+            "mode": "access",
+            "vlan": 20
+          },
+          "Ethernet4": {
+            "mode": "access",
+            "vlan": 20
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "acc-br-01": {
+      "accepted": true,
+      "checked": 10,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.110.3",
+      "observed": {
+        "addresses": [
+          "10.99.1.19/24",
+          "192.168.110.3/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              110,
+              120,
+              130
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              110,
+              120,
+              130
+            ]
+          },
+          "Ethernet3": {
+            "mode": "access",
+            "vlan": 120
+          },
+          "Ethernet5": {
+            "mode": "access",
+            "vlan": 130
+          }
+        },
+        "vlans": {
+          "110": "mgmt-branch",
+          "120": "users-branch",
+          "130": "servers-branch"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "core-01": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.2",
+      "observed": {
+        "addresses": [
+          "10.99.1.12/24",
+          "192.168.10.2/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          },
+          "Ethernet3": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "core-br-01": {
+      "accepted": true,
+      "checked": 8,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.110.2",
+      "observed": {
+        "addresses": [
+          "10.99.1.18/24",
+          "192.168.110.2/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              110,
+              120,
+              130
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              110,
+              120,
+              130
+            ]
+          }
+        },
+        "vlans": {
+          "110": "mgmt-branch",
+          "120": "users-branch",
+          "130": "servers-branch"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "dist-01": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.3",
+      "observed": {
+        "addresses": [
+          "10.99.1.13/24",
+          "192.168.10.3/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              30
+            ]
+          },
+          "Ethernet3": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20
+            ]
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "dist-02": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.4",
+      "observed": {
+        "addresses": [
+          "10.99.1.14/24",
+          "192.168.10.4/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20
+            ]
+          },
+          "Ethernet3": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              30
+            ]
+          }
+        },
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "gw-dc": {
+      "accepted": true,
+      "checked": 8,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.210.1",
+      "observed": {
+        "addresses": [
+          "10.99.1.20/24",
+          "10.99.2.10/30",
+          "10.99.2.6/30",
+          "192.168.210.1/24",
+          "192.168.230.1/24"
+        ],
+        "ports": {
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              210,
+              230
+            ]
+          },
+          "Ethernet3": {
+            "mode": "trunk",
+            "vlans": [
+              210,
+              230
+            ]
+          }
+        },
+        "vlans": {
+          "210": "mgmt-dc",
+          "230": "servers-dc"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    },
+    "rb-branch": {
+      "accepted": true,
+      "checked": 10,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.110.1",
+      "observed": {
+        "addresses": [
+          "10.99.2.2/30",
+          "10.99.2.9/30",
+          "172.31.255.30/30",
+          "192.168.110.1/24",
+          "192.168.120.1/24",
+          "192.168.130.1/24"
+        ],
+        "ports": {
+          "ether2": {
+            "mode": "trunk",
+            "vlans": [
+              110,
+              120,
+              130
+            ]
+          },
+          "ether3": {
+            "mode": "trunk",
+            "vlans": [
+              110,
+              120,
+              130
+            ]
+          }
+        },
+        "script_errors": [],
+        "vlan_filtering": true,
+        "vlans": {
+          "110": "mgmt-branch",
+          "120": "users-branch",
+          "130": "servers-branch"
+        }
+      },
+      "seconds": 0.1,
+      "type": "mikrotik"
+    },
+    "rb-hq": {
+      "accepted": true,
+      "checked": 9,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.10.1",
+      "observed": {
+        "addresses": [
+          "10.99.2.1/30",
+          "10.99.2.5/30",
+          "172.31.255.30/30",
+          "192.168.10.1/24",
+          "192.168.20.1/24",
+          "192.168.30.1/24"
+        ],
+        "ports": {
+          "ether2": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              30
+            ]
+          }
+        },
+        "script_errors": [],
+        "vlan_filtering": true,
+        "vlans": {
+          "10": "mgmt",
+          "20": "users",
+          "30": "servers"
+        }
+      },
+      "seconds": 0.0,
+      "type": "mikrotik"
+    },
+    "sw-dc-01": {
+      "accepted": true,
+      "checked": 8,
+      "discrepancies": 0,
+      "mgmt_ip": "192.168.210.2",
+      "observed": {
+        "addresses": [
+          "10.99.1.21/24",
+          "192.168.210.2/24"
+        ],
+        "ports": {
+          "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              210,
+              230
+            ]
+          },
+          "Ethernet2": {
+            "mode": "trunk",
+            "vlans": [
+              210,
+              230
+            ]
+          },
+          "Ethernet5": {
+            "mode": "access",
+            "vlan": 230
+          }
+        },
+        "vlans": {
+          "210": "mgmt-dc",
+          "230": "servers-dc"
+        }
+      },
+      "seconds": 0.9,
+      "type": "arista_eos"
+    }
+  },
+  "discrepancies": [],
+  "model": "capacity.yml"
+}

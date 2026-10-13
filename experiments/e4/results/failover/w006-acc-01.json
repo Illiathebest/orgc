@@ -1,0 +1,17 @@
+{
+  "192.168.10.5:22": {
+    "down_total_s": 40.52,
+    "events": [
+      [
+        5.82,
+        "down"
+      ],
+      [
+        46.34,
+        "up"
+      ]
+    ],
+    "longest_outage_s": 40.52,
+    "up_at_end": true
+  }
+}

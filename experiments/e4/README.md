@@ -32,6 +32,7 @@ experiments/e4/run.sh experiments/e4/models/minimal.yml --keep   # лишити 
 | `compare.py` | досяжність портів керування, звірка, звіт |
 | `intersite.py` | міжсайтовий канал, який модель припускає, але не описує |
 | `run.sh` | render → канал між сайтами → deploy → обліковий запис на cEOS → звірка → destroy |
+| `failover.sh`, `failover.py` | перемикання STP: вимкнути активне зʼєднання й опитувати порти керування з вузла керування |
 | `models/` | моделі, на яких проганяється перевірка, крім прикладів з `examples/` |
 | `results/` | звіти й час прогонів, з яких складено таблицю |
 
@@ -62,7 +63,20 @@ experiments/e4/run.sh experiments/e4/models/minimal.yml --keep   # лишити 
 | `examples/organization.s-profile.yml` | CHR + 3 cEOS + 2 сервери | ієрархія Access–Core |
 | `models/eos-gateway.yml` | 2 cEOS + сервер | EOS як шлюз: SVI, DHCP-сервер, ACL з кількома портами, ізоляція гостьової мережі |
 | `examples/organization.m-profile.yml` | 2 CHR + 8 cEOS + 3 сервери | Access–Distribution–Core, два сайти |
+| `models/capacity.yml` | 2 CHR + 9 cEOS + 3 сервери | найбільша топологія на межі ємності стенда: три сайти, повна ієрархія, резервні зʼєднання на кожній платформі, EOS-шлюз у dc |
 | `examples/organization.lab.yml` | живий RB750 | конфігурація стенда на справжньому залізі (розділ нижче) |
+
+## Перемикання STP
+
+Резервне зʼєднання (`standby: true`) STP тримає заблокованим, доки не відмовить активне зʼєднання циклу. Перевірка на розгорнутій топології (`run.sh … --keep`):
+
+```
+WATCH=acc-01 experiments/e4/failover.sh hq-acc-01 ctrl-01 dist-01 Ethernet2 192.168.10.5:22
+```
+
+`failover.sh` вимикає інтерфейс cEOS на 40 с, а `failover.py` з мережевого простору вузла керування кожні 0,25 с пробує порти керування пристроїв за ним. Результат — сумарний і найдовший час недосяжності для кожної цілі (`results/failover/`). `WATCH` показує ролі портів STP посеред відмови: резервний порт має стати `root`/`forwarding`.
+
+`incident/capacity-w006.yml` — та сама найбільша топологія, але резервне зʼєднання acc-01 не несе mgmt-мережу. `orgc verify` попереджає W006. На емуляції після відмови активного зʼєднання резервний порт переходить у `forwarding`, але mgmt-VLAN через нього не йде, і acc-01 недосяжний увесь час відмови.
 
 ## Живий RB750
 

@@ -1,0 +1,37 @@
+{
+  "192.168.10.3:22": {
+    "down_total_s": 0.04,
+    "events": [
+      [
+        5.51,
+        "down"
+      ],
+      [
+        5.53,
+        "up"
+      ],
+      [
+        48.31,
+        "down"
+      ],
+      [
+        48.33,
+        "up"
+      ]
+    ],
+    "longest_outage_s": 0.02,
+    "up_at_end": true
+  },
+  "192.168.10.5:22": {
+    "down_total_s": 0.0,
+    "events": [],
+    "longest_outage_s": 0.0,
+    "up_at_end": true
+  },
+  "192.168.10.6:22": {
+    "down_total_s": 0.0,
+    "events": [],
+    "longest_outage_s": 0.0,
+    "up_at_end": true
+  }
+}

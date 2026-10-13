@@ -46,17 +46,17 @@ sites:
         mgmt_ip: 192.168.10.1
       - name: core-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: core_switch
         mgmt_ip: 192.168.10.2
       - name: acc-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.10.3
       - name: acc-02
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.10.4
         access_ports:

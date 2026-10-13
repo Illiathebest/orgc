@@ -17,7 +17,7 @@ sites:
     devices:
       - name: eos-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: edge_router
         mgmt_ip: 192.168.10.1
 

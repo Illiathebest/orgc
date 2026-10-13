@@ -61,7 +61,7 @@ func has(t *testing.T, topo, s string) {
 func TestNodesAndLinksFromModel(t *testing.T) {
 	topo := topology(t, "s-profile.yml")
 	has(t, topo, "    rb750:\n      kind: mikrotik_ros\n      image: vrnetlab/mikrotik_routeros:6.48\n      startup-config: ../configs/hq/rb750.rsc\n")
-	has(t, topo, "    core-01:\n      kind: arista_ceos\n      image: ceos:4.29.2F\n      startup-config: ../configs/hq/core-01.cfg\n")
+	has(t, topo, "    core-01:\n      kind: arista_ceos\n      image: ceos:4.36.2F\n      startup-config: ../configs/hq/core-01.cfg\n")
 	has(t, topo, `    - endpoints: ["rb750:eth1", "core-01:eth1"]`+"\n")
 	has(t, topo, `    - endpoints: ["core-01:eth3", "acc-02:eth1"]`+"\n")
 	for _, srv := range []string{"ctrl-01", "mon-01"} {
@@ -77,7 +77,7 @@ func TestStarConvention(t *testing.T) {
 	topo := topology(t, "minimal.yml",
 		"        mgmt_ip: 192.168.10.1\n",
 		"        mgmt_ip: 192.168.10.1\n"+
-			"      - { name: sw-01, type: arista_eos, os_version: \"4.29.2F\", role: access_switch, mgmt_ip: 192.168.10.2 }\n"+
+			"      - { name: sw-01, type: arista_eos, os_version: \"4.36.2F\", role: access_switch, mgmt_ip: 192.168.10.2 }\n"+
 			"      - { name: sw-02, type: mikrotik, os_version: \"6.48\", role: access_switch, mgmt_ip: 192.168.10.3 }\n")
 	has(t, topo, `    - endpoints: ["rb750:eth1", "sw-01:eth1"]`+"\n")
 	// ether1 of a RouterOS switch is containerlab's management port, so

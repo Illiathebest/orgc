@@ -47,34 +47,34 @@ sites:
         mgmt_ip: 192.168.10.1
       - name: core-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: core_switch
         mgmt_ip: 192.168.10.2
       - name: dist-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: distribution_switch
         mgmt_ip: 192.168.10.3
       - name: dist-02
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: distribution_switch
         mgmt_ip: 192.168.10.4
       - name: acc-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.10.5
       - name: acc-02
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.10.6
         access_ports:
           - { ports: [Ethernet3, Ethernet4, Ethernet5], network: users }
       - name: acc-03
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.10.7
         access_ports:
@@ -124,12 +124,12 @@ sites:
         mgmt_ip: 192.168.110.1
       - name: core-br-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: core_switch
         mgmt_ip: 192.168.110.3
       - name: sw-branch-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.110.2
         access_ports:

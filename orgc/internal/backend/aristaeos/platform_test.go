@@ -12,7 +12,8 @@ func TestCheckVersion(t *testing.T) {
 		v  string
 		ok bool
 	}{
-		{"4.29.2F", true}, // the m-profile switch
+		{"4.29.2F", true},
+		{"4.36.2F", true}, // the m-profile switch, cEOS on the lab stand
 		{"4.30.1M", true},
 		{"4.28.10.1M", true},
 		{"4.29.2", true},

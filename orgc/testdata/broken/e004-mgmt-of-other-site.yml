@@ -24,7 +24,7 @@ sites:
     networks:
       - { vlan: 110, name: mgmt-branch, role: mgmt, cidr: 192.168.110.0/24 }
     devices:
-      - { name: sw-01, type: arista_eos, os_version: "4.29.2F", role: access_switch, mgmt_ip: 192.168.10.2 }
+      - { name: sw-01, type: arista_eos, os_version: "4.36.2F", role: access_switch, mgmt_ip: 192.168.10.2 }
 
 policies:
   inter_vlan:

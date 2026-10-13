@@ -90,7 +90,7 @@ func TestE007Exceptions(t *testing.T) {
 
 	t.Run("не-шлюз на адресі шлюзу mgmt — колізія", func(t *testing.T) {
 		m := variant(t, minimal(), minimalDevEnd, minimalDevEnd+
-			"      - { name: sw-01, type: arista_eos, os_version: \"4.29.2F\", role: access_switch, mgmt_ip: 192.168.10.1 }\n")
+			"      - { name: sw-01, type: arista_eos, os_version: \"4.36.2F\", role: access_switch, mgmt_ip: 192.168.10.1 }\n")
 		if ds := runChecks(t, m, e007); codes(ds) != "E007" || ds[0].Path != "sites[0].devices[1].mgmt_ip" {
 			t.Errorf("отримано:\n%s", render(ds))
 		}

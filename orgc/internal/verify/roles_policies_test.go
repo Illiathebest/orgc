@@ -28,7 +28,7 @@ func TestE004(t *testing.T) {
 	t.Run("друга mgmt-мережа сайту теж годиться", func(t *testing.T) {
 		m := variant(t, minimal(),
 			minimalServers, minimalServers+"      - { vlan: 11, name: mgmt-2, role: mgmt, cidr: 192.168.11.0/24 }\n",
-			minimalDevEnd, minimalDevEnd+"      - { name: sw-01, type: arista_eos, os_version: \"4.29.2F\", role: access_switch, mgmt_ip: 192.168.11.2 }\n")
+			minimalDevEnd, minimalDevEnd+"      - { name: sw-01, type: arista_eos, os_version: \"4.36.2F\", role: access_switch, mgmt_ip: 192.168.11.2 }\n")
 		if ds := runChecks(t, m, e004); len(ds) != 0 {
 			t.Errorf("отримано:\n%s", render(ds))
 		}

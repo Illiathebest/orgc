@@ -55,7 +55,7 @@ sites:
       # E004: mgmt_ip лежить у мережі users, а не в mgmt.
       - name: sw-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.20.5
       # W002 (рівень помилки): RouterOS 7 поза діапазоном бекенда.
@@ -88,18 +88,18 @@ sites:
         mgmt_ip: 192.168.110.1
       - name: sw-branch-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.110.2
       - name: core-br-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: core_switch
         mgmt_ip: 192.168.110.3
       # E009: комутатора немає в жодному зʼєднанні — L2-шляху до шлюзу немає.
       - name: acc-br-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.110.4
     links:
@@ -121,12 +121,12 @@ sites:
         mgmt_ip: 192.168.210.1
       - name: sw-dc-01
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.210.2
       - name: sw-dc-02
         type: arista_eos
-        os_version: "4.29.2F"
+        os_version: "4.36.2F"
         role: access_switch
         mgmt_ip: 192.168.210.3
     links:

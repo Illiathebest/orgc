@@ -1,0 +1,352 @@
+{
+  "e4-capacity": {
+    "model_canonical": 244,
+    "model_lines": 96,
+    "model_raw": 111,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 46,
+        "raw": 54
+      },
+      "EOS .cfg": {
+        "files": 9,
+        "lines": 237,
+        "raw": 350
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 155,
+        "raw": 155
+      },
+      "RouterOS .rsc": {
+        "files": 2,
+        "lines": 125,
+        "raw": 167
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 112,
+        "raw": 114
+      }
+    },
+    "output_lines": 675,
+    "ratio": 7.03,
+    "ratio_canonical": 2.77
+  },
+  "e4-eos-gateway": {
+    "model_canonical": 88,
+    "model_lines": 46,
+    "model_raw": 56,
+    "output": {
+      "Ansible": {
+        "files": 3,
+        "lines": 19,
+        "raw": 25
+      },
+      "EOS .cfg": {
+        "files": 2,
+        "lines": 91,
+        "raw": 124
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 36,
+        "raw": 36
+      },
+      "RouterOS .rsc": {
+        "files": 0,
+        "lines": 0,
+        "raw": 0
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 34,
+        "raw": 36
+      }
+    },
+    "output_lines": 180,
+    "ratio": 3.91,
+    "ratio_canonical": 2.05
+  },
+  "e4-minimal": {
+    "model_canonical": 66,
+    "model_lines": 36,
+    "model_raw": 44,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 24,
+        "raw": 32
+      },
+      "EOS .cfg": {
+        "files": 1,
+        "lines": 23,
+        "raw": 35
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 36,
+        "raw": 36
+      },
+      "RouterOS .rsc": {
+        "files": 1,
+        "lines": 51,
+        "raw": 72
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 28,
+        "raw": 30
+      }
+    },
+    "output_lines": 162,
+    "ratio": 4.5,
+    "ratio_canonical": 2.45
+  },
+  "lab": {
+    "model_canonical": 29,
+    "model_lines": 22,
+    "model_raw": 31,
+    "output": {
+      "Ansible": {
+        "files": 3,
+        "lines": 16,
+        "raw": 22
+      },
+      "EOS .cfg": {
+        "files": 0,
+        "lines": 0,
+        "raw": 0
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 35,
+        "raw": 35
+      },
+      "RouterOS .rsc": {
+        "files": 1,
+        "lines": 33,
+        "raw": 50
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 11,
+        "raw": 13
+      }
+    },
+    "output_lines": 95,
+    "ratio": 4.32,
+    "ratio_canonical": 3.28
+  },
+  "m-profile": {
+    "model_canonical": 242,
+    "model_lines": 142,
+    "model_raw": 174,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 44,
+        "raw": 52
+      },
+      "EOS .cfg": {
+        "files": 8,
+        "lines": 231,
+        "raw": 335
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 144,
+        "raw": 144
+      },
+      "RouterOS .rsc": {
+        "files": 2,
+        "lines": 130,
+        "raw": 172
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 112,
+        "raw": 114
+      }
+    },
+    "output_lines": 661,
+    "ratio": 4.65,
+    "ratio_canonical": 2.73
+  },
+  "s-profile": {
+    "model_canonical": 112,
+    "model_lines": 71,
+    "model_raw": 91,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 30,
+        "raw": 38
+      },
+      "EOS .cfg": {
+        "files": 3,
+        "lines": 85,
+        "raw": 124
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 68,
+        "raw": 68
+      },
+      "RouterOS .rsc": {
+        "files": 1,
+        "lines": 63,
+        "raw": 84
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 54,
+        "raw": 56
+      }
+    },
+    "output_lines": 300,
+    "ratio": 4.23,
+    "ratio_canonical": 2.68
+  },
+  "synthetic-0010": {
+    "model_canonical": 264,
+    "model_lines": 48,
+    "model_raw": 53,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 40,
+        "raw": 48
+      },
+      "EOS .cfg": {
+        "files": 9,
+        "lines": 356,
+        "raw": 491
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 124,
+        "raw": 124
+      },
+      "RouterOS .rsc": {
+        "files": 1,
+        "lines": 66,
+        "raw": 87
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 118,
+        "raw": 120
+      }
+    },
+    "output_lines": 704,
+    "ratio": 14.67,
+    "ratio_canonical": 2.67
+  },
+  "synthetic-0050": {
+    "model_canonical": 1304,
+    "model_lines": 220,
+    "model_raw": 225,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 128,
+        "raw": 136
+      },
+      "EOS .cfg": {
+        "files": 47,
+        "lines": 1896,
+        "raw": 2609
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 604,
+        "raw": 604
+      },
+      "RouterOS .rsc": {
+        "files": 3,
+        "lines": 260,
+        "raw": 323
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 566,
+        "raw": 568
+      }
+    },
+    "output_lines": 3454,
+    "ratio": 15.7,
+    "ratio_canonical": 2.65
+  },
+  "synthetic-0200": {
+    "model_canonical": 5204,
+    "model_lines": 865,
+    "model_raw": 870,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 458,
+        "raw": 466
+      },
+      "EOS .cfg": {
+        "files": 190,
+        "lines": 7700,
+        "raw": 10590
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 2404,
+        "raw": 2404
+      },
+      "RouterOS .rsc": {
+        "files": 10,
+        "lines": 1486,
+        "raw": 1696
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 2247,
+        "raw": 2249
+      }
+    },
+    "output_lines": 14295,
+    "ratio": 16.53,
+    "ratio_canonical": 2.75
+  },
+  "synthetic-1000": {
+    "model_canonical": 26004,
+    "model_lines": 4305,
+    "model_raw": 4310,
+    "output": {
+      "Ansible": {
+        "files": 4,
+        "lines": 2218,
+        "raw": 2226
+      },
+      "EOS .cfg": {
+        "files": 950,
+        "lines": 38500,
+        "raw": 52950
+      },
+      "Prometheus": {
+        "files": 2,
+        "lines": 12004,
+        "raw": 12004
+      },
+      "RouterOS .rsc": {
+        "files": 50,
+        "lines": 23446,
+        "raw": 24496
+      },
+      "containerlab": {
+        "files": 1,
+        "lines": 10351,
+        "raw": 11209
+      }
+    },
+    "output_lines": 86519,
+    "ratio": 20.1,
+    "ratio_canonical": 3.33
+  }
+}

@@ -1,4 +1,4 @@
-render 0.6 s
-deploy 55.6 s
-ready 36.6 s
-check 9.6 s
+render 1.2 s
+deploy 78.0 s
+ready 15.8 s
+check 40.1 s

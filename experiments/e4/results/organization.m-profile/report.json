@@ -2,7 +2,7 @@
   "devices": {
     "acc-01": {
       "accepted": true,
-      "checked": 8,
+      "checked": 9,
       "discrepancies": 0,
       "mgmt_ip": "192.168.10.5",
       "observed": {
@@ -12,6 +12,13 @@
         ],
         "ports": {
           "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              30
+            ]
+          },
+          "Ethernet2": {
             "mode": "trunk",
             "vlans": [
               10,
@@ -32,12 +39,12 @@
           "30": "servers"
         }
       },
-      "seconds": 1.0,
+      "seconds": 21.6,
       "type": "arista_eos"
     },
     "acc-02": {
       "accepted": true,
-      "checked": 9,
+      "checked": 10,
       "discrepancies": 0,
       "mgmt_ip": "192.168.10.6",
       "observed": {
@@ -47,6 +54,13 @@
         ],
         "ports": {
           "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20
+            ]
+          },
+          "Ethernet2": {
             "mode": "trunk",
             "vlans": [
               10,
@@ -71,12 +85,12 @@
           "20": "users"
         }
       },
-      "seconds": 1.0,
+      "seconds": 1.5,
       "type": "arista_eos"
     },
     "acc-03": {
       "accepted": true,
-      "checked": 10,
+      "checked": 11,
       "discrepancies": 0,
       "mgmt_ip": "192.168.10.7",
       "observed": {
@@ -86,6 +100,14 @@
         ],
         "ports": {
           "Ethernet1": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              40
+            ]
+          },
+          "Ethernet2": {
             "mode": "trunk",
             "vlans": [
               10,
@@ -112,7 +134,7 @@
           "40": "guest"
         }
       },
-      "seconds": 0.9,
+      "seconds": 1.7,
       "type": "arista_eos"
     },
     "core-01": {
@@ -161,7 +183,7 @@
           "40": "guest"
         }
       },
-      "seconds": 0.9,
+      "seconds": 1.5,
       "type": "arista_eos"
     },
     "core-br-01": {
@@ -198,12 +220,12 @@
           "130": "servers-branch"
         }
       },
-      "seconds": 0.9,
+      "seconds": 1.6,
       "type": "arista_eos"
     },
     "dist-01": {
       "accepted": true,
-      "checked": 10,
+      "checked": 11,
       "discrepancies": 0,
       "mgmt_ip": "192.168.10.3",
       "observed": {
@@ -234,6 +256,14 @@
               10,
               20
             ]
+          },
+          "Ethernet4": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20,
+              40
+            ]
           }
         },
         "vlans": {
@@ -243,12 +273,12 @@
           "40": "guest"
         }
       },
-      "seconds": 0.9,
+      "seconds": 1.6,
       "type": "arista_eos"
     },
     "dist-02": {
       "accepted": true,
-      "checked": 9,
+      "checked": 11,
       "discrepancies": 0,
       "mgmt_ip": "192.168.10.4",
       "observed": {
@@ -273,6 +303,20 @@
               20,
               40
             ]
+          },
+          "Ethernet3": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              30
+            ]
+          },
+          "Ethernet4": {
+            "mode": "trunk",
+            "vlans": [
+              10,
+              20
+            ]
           }
         },
         "vlans": {
@@ -282,7 +326,7 @@
           "40": "guest"
         }
       },
-      "seconds": 0.9,
+      "seconds": 1.6,
       "type": "arista_eos"
     },
     "rb-branch": {
@@ -316,7 +360,7 @@
           "130": "servers-branch"
         }
       },
-      "seconds": 0.0,
+      "seconds": 0.1,
       "type": "mikrotik"
     },
     "rb750": {
@@ -353,7 +397,7 @@
           "40": "guest"
         }
       },
-      "seconds": 0.0,
+      "seconds": 0.1,
       "type": "mikrotik"
     },
     "sw-branch-01": {
@@ -394,7 +438,7 @@
           "130": "servers-branch"
         }
       },
-      "seconds": 0.9,
+      "seconds": 1.6,
       "type": "arista_eos"
     }
   },

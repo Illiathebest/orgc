@@ -86,9 +86,10 @@ E006 — головна перевірка. Вона стверджує, що п
 ├── orgc/                 компілятор (Go)
 │   ├── cmd/orgc/         CLI
 │   ├── internal/         model, lower, ir, verify, diag, backend
+│   ├── schema/           JSON Schema моделі організації (go:embed)
 │   └── testdata/         valid, broken, golden
-├── schema/               JSON Schema моделі організації
 ├── examples/             приклади organization.yml
+├── experiments/          експерименти E1–E5: скрипти, методика, сирі дані
 ├── docs/                 концепція, архітектура, ADR, звіти
 ├── ci/                   конвеєр CI, по файлу на стадію
 ├── ansible/              інвентарі та плейбуки розгортання
@@ -128,8 +129,15 @@ Golden-тести бекендів виконуються в `go test`, тож �
 Компілятор працює від моделі до конфігурацій: `orgc verify` перевіряє схему й
 інваріанти E001–E010, W001–W006, `orgc render` генерує конфігурації RouterOS і
 Arista EOS, інвентар Ansible, цілі Prometheus і топологію containerlab. Вихід
-побайтово детермінований і покритий golden-тестами. Далі: застосування на живому
-обладнанні й в емуляторі та експерименти.
+побайтово детермінований і покритий golden-тестами.
+
+Згенеровані конфігурації застосовано в емуляції (containerlab: Arista cEOS і
+MikroTik CHR, до 9 cEOS і 2 CHR у трьох сайтах з резервними зʼєднаннями) і на
+живому MikroTik RB750. Стан обладнання, прочитаний NAPALM, збігається з
+моделлю. Пʼять експериментів — масштабування, повнота виявлення дефектів,
+коефіцієнт абстракції, наскрізна валідність, локальність змін — зведено в
+[experiments/README.md](experiments/README.md) і відтворюються однією командою
+`experiments/run.sh`.
 
 ## Правила роботи
 
@@ -145,3 +153,4 @@ Arista EOS, інвентар Ansible, цілі Prometheus і топологію 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — конвеєр, компоненти, формалізація E006
 - [docs/data-model.md](docs/data-model.md) — модель даних `organization.yml` та інваріанти
 - [docs/adr/](docs/adr/) — рішення щодо вибору технологій
+- [experiments/README.md](experiments/README.md) — експерименти E1–E5 і їхні результати

@@ -93,6 +93,14 @@ func TestDummyAccessPorts(t *testing.T) {
 	if strings.Contains(topo, "endpoint: { node: acc-01, interface: eth5 }") {
 		t.Error("порт сервера ctrl-01 уже зайнятий вузлом сервера")
 	}
+
+	// The backup uplink port of RouterOS exists too; ether1 is
+	// containerlab's management port and is there anyway.
+	topo = topology(t, "m-profile.yml")
+	has(t, topo, "    - type: dummy\n      endpoint: { node: rb750, interface: eth3 }\n")
+	if strings.Contains(topo, "node: rb750, interface: eth0") {
+		t.Error("ether1 — порт керування vrnetlab, лінк йому не потрібен")
+	}
 }
 
 func TestManagementNetwork(t *testing.T) {

@@ -105,3 +105,7 @@ topology:
       endpoint: { node: sw-branch-01, interface: eth3 }
     - type: dummy
       endpoint: { node: sw-branch-01, interface: eth4 }
+    - type: dummy
+      endpoint: { node: rb750, interface: eth3 }
+    - type: dummy
+      endpoint: { node: rb-branch, interface: eth3 }

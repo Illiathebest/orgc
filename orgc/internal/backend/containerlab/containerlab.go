@@ -180,9 +180,10 @@ func (Generator) Generate(m *ir.Model, ps backend.Platforms) []backend.File {
 		lines = append(lines, fmt.Sprintf("    - endpoints: [\"%s:%s\", \"%s:eth1\"]\n", p.Device.Name, ifc, sv.Name))
 	}
 
-	// An access port with nothing plugged in gets a dummy link: cEOS and
-	// vrnetlab create a port only for an interface the container has, and
-	// a port that does not exist cannot carry its VLAN for the check.
+	// An access or uplink port with nothing plugged in gets a dummy link:
+	// cEOS and vrnetlab create a port only for an interface the container
+	// has. A missing access port cannot carry its VLAN for the check, and a
+	// RouterOS script naming a missing uplink port stops at that line.
 	plugged := map[endpoint]bool{}
 	for _, l := range links {
 		plugged[l[0]], plugged[l[1]] = true, true
@@ -210,6 +211,13 @@ func (Generator) Generate(m *ir.Model, ps backend.Platforms) []backend.File {
 	for _, sv := range m.Servers {
 		if sv.Port.Resolved() {
 			dummy(sv.Port.Device, sv.Port.Port)
+		}
+	}
+	for _, s := range m.Sites {
+		for _, u := range s.Uplinks {
+			if u.Port.Resolved() {
+				dummy(u.Port.Device, u.Port.Port)
+			}
 		}
 	}
 	if len(lines) > 0 {

@@ -415,9 +415,20 @@ func comment(rule *ir.Rule) string {
 func (r *script) firewall(p Platform) {
 	rules := r.relevant()
 
-	r.section("Networks of the model: what any means in a rule.", "/ip firewall address-list")
-	for _, n := range r.m.Networks {
-		r.line(fmt.Sprintf("add list=orgc-networks address=%s comment=%s", n.Prefix.Masked(), n.Name))
+	// The list says what any means; a gateway with no rule naming any does
+	// not need it. Adjacent and nested prefixes are merged, so the list
+	// stays short however many networks the model has — it would otherwise
+	// grow with the model on every gateway (docs/adr/ADR-009, amendment
+	// 2026-10-14b).
+	usesAny := false
+	for _, rule := range rules {
+		usesAny = usesAny || rule.From.Kind == ir.EndpointAny || rule.To.Kind == ir.EndpointAny
+	}
+	if usesAny {
+		r.section("Networks of the model: what any means in a rule.", "/ip firewall address-list")
+		for _, a := range aggregate(r.m.Networks) {
+			r.line(fmt.Sprintf("add list=orgc-networks address=%s comment=%s", a.prefix, a.comment))
+		}
 	}
 
 	r.section("Input: traffic to the gateway itself. Default deny.", "/ip firewall filter")
@@ -504,4 +515,65 @@ func (r *script) route() {
 			return
 		}
 	}
+}
+
+type aggregated struct {
+	prefix  netip.Prefix
+	comment string
+}
+
+// aggregate merges the networks' prefixes into the fewest that cover
+// exactly the same addresses: a prefix inside another is dropped, two
+// halves of one prefix become that prefix. The comment names the network
+// when an entry is one network, and counts them otherwise. Sorted by
+// address.
+func aggregate(nets []*ir.Network) []aggregated {
+	type entry struct {
+		p     netip.Prefix
+		names []string
+	}
+	var es []entry
+	for _, n := range nets {
+		es = append(es, entry{n.Prefix.Masked(), []string{n.Name}})
+	}
+	less := func(a, b netip.Prefix) bool {
+		if c := a.Addr().Compare(b.Addr()); c != 0 {
+			return c < 0
+		}
+		return a.Bits() < b.Bits()
+	}
+	for changed := true; changed; {
+		changed = false
+		sort.Slice(es, func(i, j int) bool { return less(es[i].p, es[j].p) })
+		var out []entry
+		for _, e := range es {
+			if k := len(out) - 1; k >= 0 {
+				last := &out[k]
+				switch {
+				case last.p.Contains(e.p.Addr()) && last.p.Bits() <= e.p.Bits():
+					last.names = append(last.names, e.names...)
+					changed = true
+					continue
+				case last.p.Bits() == e.p.Bits() && last.p.Bits() > 0:
+					parent, _ := last.p.Addr().Prefix(last.p.Bits() - 1)
+					if parent.Addr() == last.p.Addr() && parent.Contains(e.p.Addr()) {
+						*last = entry{parent, append(last.names, e.names...)}
+						changed = true
+						continue
+					}
+				}
+			}
+			out = append(out, e)
+		}
+		es = out
+	}
+	res := make([]aggregated, len(es))
+	for i, e := range es {
+		c := e.names[0]
+		if len(e.names) > 1 {
+			c = fmt.Sprintf("\"%d networks\"", len(e.names))
+		}
+		res[i] = aggregated{e.p, c}
+	}
+	return res
 }

@@ -45,16 +45,6 @@ add name=dhcp-users-branch interface=vlan120-users-branch address-pool=pool-user
 /ip dhcp-server network
 add address=192.168.120.0/24 gateway=192.168.120.1 comment=users-branch
 
-# Networks of the model: what any means in a rule.
-/ip firewall address-list
-add list=orgc-networks address=192.168.10.0/24 comment=mgmt
-add list=orgc-networks address=192.168.20.0/24 comment=users
-add list=orgc-networks address=192.168.30.0/24 comment=servers
-add list=orgc-networks address=192.168.40.0/24 comment=guest
-add list=orgc-networks address=192.168.110.0/24 comment=mgmt-branch
-add list=orgc-networks address=192.168.120.0/24 comment=users-branch
-add list=orgc-networks address=192.168.130.0/24 comment=servers-branch
-
 # Input: traffic to the gateway itself. Default deny.
 /ip firewall filter
 add chain=input action=accept connection-state=established,related comment="established, related"

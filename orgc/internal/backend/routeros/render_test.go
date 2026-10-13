@@ -1,6 +1,7 @@
 package routeros
 
 import (
+	"net/netip"
 	"os"
 	"path/filepath"
 	"strings"
@@ -192,4 +193,35 @@ func TestRSTP(t *testing.T) {
 		"        mgmt_ip: 192.168.10.1\n",
 		"        mgmt_ip: 192.168.10.1\n      - { name: sw-01, type: mikrotik, os_version: \"6.48\", role: access_switch, mgmt_ip: 192.168.10.2 }\n"), "sw-01")
 	has(t, sw, "add name=bridge vlan-filtering=no protocol-mode=rstp priority=0x8000 comment=orgc")
+}
+
+// The address list of the model's networks is there only for rules that
+// name any, and it is aggregated: it must not grow with the model on every
+// gateway.
+func TestAddressListOnlyForAny(t *testing.T) {
+	s := rsc(t, lowerVariant(t, testdata("valid", "s-profile.yml")), "rb750")
+	if strings.Contains(s, "orgc-networks") {
+		t.Errorf("без правил з any списку мереж моделі не треба:\n%s", s)
+	}
+}
+
+func TestAggregate(t *testing.T) {
+	n := func(name, cidr string) *ir.Network {
+		return &ir.Network{Name: name, Prefix: netip.MustParsePrefix(cidr)}
+	}
+	got := aggregate([]*ir.Network{
+		n("b", "10.0.1.0/24"), n("a", "10.0.0.0/24"), // halves of 10.0.0.0/23
+		n("c", "10.0.2.0/24"), n("d", "10.0.3.0/24"), // and with them 10.0.0.0/22
+		n("lab", "192.168.40.0/24"),
+		n("inner", "192.168.40.128/25"), // nested: dropped
+		n("e", "172.16.5.0/24"),
+	})
+	var lines []string
+	for _, a := range got {
+		lines = append(lines, a.prefix.String()+" "+a.comment)
+	}
+	want := `10.0.0.0/22 "4 networks"|172.16.5.0/24 e|192.168.40.0/24 "2 networks"`
+	if strings.Join(lines, "|") != want {
+		t.Errorf("aggregate = %s, want %s", strings.Join(lines, "|"), want)
+	}
 }

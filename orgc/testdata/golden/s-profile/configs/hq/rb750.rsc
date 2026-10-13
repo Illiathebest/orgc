@@ -48,13 +48,6 @@ add name=dhcp-guest interface=vlan40-guest address-pool=pool-guest disabled=no
 add address=192.168.20.0/24 gateway=192.168.20.1 comment=users
 add address=192.168.40.0/24 gateway=192.168.40.1 comment=guest
 
-# Networks of the model: what any means in a rule.
-/ip firewall address-list
-add list=orgc-networks address=192.168.10.0/24 comment=mgmt
-add list=orgc-networks address=192.168.20.0/24 comment=users
-add list=orgc-networks address=192.168.30.0/24 comment=servers
-add list=orgc-networks address=192.168.40.0/24 comment=guest
-
 # Input: traffic to the gateway itself. Default deny.
 /ip firewall filter
 add chain=input action=accept connection-state=established,related comment="established, related"

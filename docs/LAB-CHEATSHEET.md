@@ -1,6 +1,6 @@
 # Стенд — шпаргалка (стан на 2026-06-15, після M1; емуляція — 2026-10-13)
 
-> Що є на стенді і як з ним працювати. Деталі — у `docs/milestones/*-report.md`.
+> Тут зібрано, що є на стенді і як з ним працювати. Деталі наведено в `docs/milestones/*-report.md`.
 
 ## Що де живе
 
@@ -27,21 +27,21 @@
 | RB750 (WinBox/SSH) | `admin` | повний (RouterOS дефолт) | твій запис |
 | RB750 автоматизація | `ansible-ro` | лише читання (група `read`) | env `ROUTEROS_PASSWORD` = GitLab CI masked variable |
 
-> Реальні паролі тримай у менеджері секретів, не в репозиторії. Забув пароль GitLab-root: `docker exec -it gitlab gitlab-rake "gitlab:password:reset[root]"` на ctrl-01.
+> Реальні паролі зберігаються в менеджері секретів. У репозиторії їх немає. Якщо пароль GitLab-root втрачено, його скидають на ctrl-01 командою `docker exec -it gitlab gitlab-rake "gitlab:password:reset[root]"`.
 
 ## Увімкнути / вимкнути
 
-- pve-a з вимкненого: коротко замкнути power-on пади на матплаті, далі WoL (`tools/wake-pve-a.bat`). Тримати на AC (батарея = UPS).
-- VM на pve-a: через Proxmox web або `qm start <VMID>` / `qm stop <VMID>` по SSH.
-- clab-01: запустити VM у Hyper-V на ноутбуці на час експериментів; топологія — `containerlab deploy -t containerlab/lab.clab.yml` у каталозі виходу `orgc render`, прибрати — `containerlab destroy -t … --cleanup`.
+- pve-a з вимкненого стану вмикаємо коротким замиканням power-on падів на материнській платі. Далі працює WoL (`tools/wake-pve-a.bat`). Вузол тримаємо на AC, батарея служить як UPS.
+- VM на pve-a запускаємо і зупиняємо через Proxmox web або командами `qm start <VMID>` / `qm stop <VMID>` через SSH.
+- clab-01 запускаємо у Hyper-V на ноутбуці на час експериментів. Топологію розгортає команда `containerlab deploy -t containerlab/lab.clab.yml` у каталозі виходу `orgc render`. Прибирає її команда `containerlab destroy -t … --cleanup`.
 
 ## Робочий цикл (як вносити зміни)
 
-1. `git checkout -b <feature>` → правки в `iac-infra`.
-2. `git push` → відкрити Merge Request у GitLab.
-3. CI сам ганяє lint (yamllint, ansible-lint) + validate (`organization.yml` проти JSON Schema). Мають бути зелені.
-4. Review → merge у `main`.
-5. Ручні дії (напр. мережевий smoke) — manual job у пайплайні на `main`.
+1. Створюємо гілку `git checkout -b <feature>` і вносимо правки в `iac-infra`.
+2. Виконуємо `git push` і відкриваємо Merge Request у GitLab.
+3. CI сам запускає lint (yamllint, ansible-lint) і validate (`organization.yml` проти JSON Schema). Обидві стадії мають пройти.
+4. Після review виконуємо merge у `main`.
+5. Ручні дії (наприклад, мережевий smoke) запускаються як manual job у пайплайні на `main`.
 
 ## Часті команди (з ctrl-01 / iac-runner)
 
@@ -57,10 +57,10 @@ ansible-playbook -i ansible/inventories/staging/hosts.yml ansible/playbooks/smok
 
 ## Пастки (з M1, щоб не наступити знову)
 
-- GitLab Registry без TLS → Docker/Kaniko з `--insecure` / `insecure-registries`.
-- Диск pve-a лише 128 ГБ, thin-pool over-commit → періодично `lvs` / `df -h`.
-- Секрети — у GitLab CI variables (masked+protected), напр. `ROUTEROS_PASSWORD`. НЕ в репозиторії.
-- Тулінг MikroTik — під RouterOS v6 (RB750 має 32 МБ RAM, v7 не тягне).
+- GitLab Registry працює без TLS. Тому Docker і Kaniko запускаються з `--insecure` / `insecure-registries`.
+- Диск pve-a має лише 128 ГБ, а thin-pool працює з over-commit. Заповнення періодично перевіряємо командами `lvs` / `df -h`.
+- Секрети зберігаються в GitLab CI variables (masked+protected), наприклад `ROUTEROS_PASSWORD`. У репозиторій вони не потрапляють.
+- Інструменти для MikroTik написано під RouterOS v6. RB750 має 32 МБ RAM, і v7 на ньому не працює.
 
 ## Поточний фокус
 
